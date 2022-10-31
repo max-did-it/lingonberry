@@ -1,6 +1,6 @@
 module Roarm
   module Types
-    class List
+    class List < AbstractType
       # @param length [Hash<:gt, :lt, :gteq, :lteq, :eq>] bashlike comparsion keywords to limit array size
       # @return [Roarm::Types::Array] the instance of Array type
       def initialize(length: {})

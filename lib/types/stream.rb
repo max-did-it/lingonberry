@@ -1,6 +1,6 @@
 module Roarm
   module Types
-    class Stream < Base
+    class Stream < AbstractType
     end
   end
 end

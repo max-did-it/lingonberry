@@ -16,7 +16,7 @@ module Roarm
       end
 
       # Preload class instance variables for descendants when model inherited from Roarm::AbstractModel or from any descendants
-      # @param [Roarm::AbstractModel]
+      # @param subclass [Roarm::AbstractModel]
       def inherited(subclass)
         subclass.instance_variable_set(:@fields, [])
         subclass.instance_variable_set(:@sub_fields, [])

@@ -1,6 +1,6 @@
 module Roarm
   module Types
-    class String < Base
+    class String < AbstractType
       extend Helpers::Types::ArrayOf
       # @param length [Hash<:gt, :lt, :gteq, :lteq, :eq>] bashlike comparsion keywords to limit array size
       # @return [Roarm::Types::Array] the instance of Array type

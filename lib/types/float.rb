@@ -1,6 +1,6 @@
 module Roarm
   module Types
-    class Float < Base
+    class Float < AbstractType
       extend Helpers::Types::ArrayOf
       # @param precision [Integer] define numbers after the decimal point
       def initialize(precision: -1)

@@ -15,7 +15,7 @@ module Roarm
     #   example: [false, ["isn't integer"]]
     #   where first element is result of validation, second is array of errors
     # @param kwargs [Hash] the hash of options
-    #   @see Roarm::Types::AbstractType#initialize
+    #   {Roarm::Types::AbstractType#initialize For options more look in subclusses of Roarm::Types::AbstractType}
     # @return [Roarm::Field] the instance of Roarm::Field
     def initialize(name, type, null: true, index: false, expire: nil, validator: nil, **kwargs)
       @name = name
@@ -29,7 +29,7 @@ module Roarm
     # Create a instance of given type with the given options
     # @param type [Roarm::Types::AbstractType] the type of the field
     # @param kwargs [Hash] the hash of options
-    #   @see Roarm::Types::AbstractType#available_options
+    #  {Roarm::Types::AbstractType#initialize For options more look in subclusses of Roarm::Types::AbstractType}
     def construct_type(type, kwargs)
       case type
       when ::Array
