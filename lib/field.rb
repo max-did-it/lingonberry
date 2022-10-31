@@ -2,6 +2,9 @@ require_relative "helpers"
 require_relative "types"
 
 module Roarm
+  # Class for fields of {Roarm::AbstractModel models}.
+  # Responsible for serialization/deserialization, validation, 
+  # store and fetch values from the storage.
   class Field
     include Helpers
     attr_reader :name, :type, :keys, :index, :expire, :null

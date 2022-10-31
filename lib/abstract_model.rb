@@ -1,4 +1,18 @@
 module Roarm
+  # Base class to create a Models  
+  # Usage example:
+  # ```ruby
+  # class User < AbstractModel
+  #   field :name, String, length: { gteq: 3, lteq: 50 }
+  #   field :age, Integer
+  #   field :email, String
+  #   field :phone, String, length: { eq: 10 }, validator: ->(phone) { phone.match? /^\([0-9]{3}\)[0-9]{3}-[0-9]{4}$/ }
+  #
+  #   field :created_at, Timestamp
+  # end
+  # user = User.find(123)
+  # users = User.where(age: { gteq: 18, lteq: 30}, created_at: { gt: 3.days.ago })
+  # ```
   class AbstractModel
     # Can't be initialized by itself, must been inherited
     # @return [Class<Roarm::AbstractModel>] the instance of descendant class
@@ -50,6 +64,11 @@ module Roarm
 
         nil
       end
+
+      # Find the data which matches the conditions
+      # @param kwargs [Hash] conditions to filter the data
+      # @return [Relation] the instance of relation
+      def where(**kwargs); end
 
       # Making a key according to given field in the model
       # @param field [#to_s] the name of the field

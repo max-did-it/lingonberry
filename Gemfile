@@ -9,3 +9,5 @@ group :test do
   gem "factory_bot", "~> 6.0"
   gem "rspec", "~> 3.11"
 end
+
+gem "redcarpet", "~> 3.5"
