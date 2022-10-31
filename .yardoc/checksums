@@ -1,5 +1,4 @@
-lib/field.rb bf55c8172ee7bda3ade22c5241a431c3f15028fa
-lib/model.rb deae6d7d0b90aed534103d9a564163d57b5e06c5
+lib/field.rb aae786af2af0d5b8c66735dc904c56b62b1a409e
 lib/query.rb 69a746810d2a3f201fcba1ede7316738644a8b93
 lib/types.rb 9ab2f541af52a79c9bef847edf910eaca0e2aff3
 lib/errors.rb 5e1288e34c0fb0cbd98b08a06114fbfda0150477
@@ -18,6 +17,7 @@ lib/types/string.rb a0a3b9ef630beeac3fe227d9834e2479d44ab3d1
 lib/helpers/types.rb 6252fa9141593f75b9c898bfb3308c568efc5325
 lib/types/decimal.rb 16ba30eb60d9ef115418b6f16fc46bca3b2df98a
 lib/types/integer.rb 06c5feb33163b4fb0a121977af2e2e8334aee060
+lib/abstract_model.rb 03c98f2b0ecc773a9ca6cf3cdb8a99b890a6507b
 lib/helpers/fields.rb 4f80d9ffe5a2f3e84f0b0b7e4c8b91b9417e360c
 lib/types/timestamp.rb a2477b4bafae816ce6470f4c5b60dd7e7684044d
 lib/types/abstract_type.rb ef6d446c2459d04a33201016459a222744d57364
