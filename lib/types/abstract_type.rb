@@ -2,16 +2,25 @@ module Roarm
   module Types
     # Abstract class for all Roarm Types
     class AbstractType
+      extend Helpers::Types::DefaultOptions[:null]
       class << self
-        def new
+        def new(*args, **kwargs)
           raise Errors::AbstractClass if superclass == Object
 
-          super
+          super(*args, **kwargs)
+        end
+
+        def ===(klass)
+          Helpers.descendants(self).include?(klass)
         end
       end
 
       # For options see in constructor of subclasses
-      def initialize; end
+      def initialize(*args, **kwargs)
+        @null = kwargs[:null] || self.class.instance_variable_get(:@null) || true
+      end
+
+      attr_reader :null
 
       # prepare value for storage
       # @param value [Object] the value which must be serialized

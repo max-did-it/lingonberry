@@ -1,3 +1,5 @@
+require_relative "abstract_type"
+
 module Roarm
   module Types
     def Array(type)
@@ -15,8 +17,18 @@ module Roarm
         @gt = length[:gt] || -1
         @gt = length[:gt] || -1
         @eq = length[:gt] || -1
-        @gt, @gteq, @lt, @lteq = [-1, -1, -1, -1] if @eq.posititve?
+        @gt, @gteq, @lt, @lteq = [-1, -1, -1, -1] if @eq.positive?
         super
+      end
+
+      class << self
+        def new(type = nil, length: {})
+          super(type || @subclass, length: length)
+        end
+
+        def [](klass)
+          dup.set_instance_variable(:@subclass, klass)
+        end
       end
 
       private

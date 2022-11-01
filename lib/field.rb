@@ -3,7 +3,7 @@ require_relative "types"
 
 module Roarm
   # Class for fields of {Roarm::AbstractModel models}.
-  # Responsible for serialization/deserialization, validation, 
+  # Responsible for serialization/deserialization, validation,
   # store and fetch values from the storage.
   class Field
     include Helpers
@@ -13,6 +13,7 @@ module Roarm
     # @param type [Roarm::Types::AbstractType] the type of the field
     # @param null [true, false] the parameter responded might field accepts nil values
     # @param index [true, false] the parameter used to create secondary indexes in Redis for your model
+    # @param uniq [true, false] the parameter used to prevent duplication of the value, all records will have unique values in this field
     # @param validator [#call] the validator which accepts value as parameter
     #   should return result as array with 2 elements
     #   example: [false, ["isn't integer"]]
@@ -20,13 +21,14 @@ module Roarm
     # @param kwargs [Hash] the hash of options
     #   {Roarm::Types::AbstractType#initialize For options more look in subclusses of Roarm::Types::AbstractType}
     # @return [Roarm::Field] the instance of Roarm::Field
-    def initialize(name, type, null: true, index: false, expire: nil, validator: nil, **kwargs)
+    def initialize(name, type, null: true, index: false, expire: nil, validator: nil, uniq: false, **kwargs)
       @name = name
-      @null = null
+      @type = construct_type(type, kwargs)
       @index = index
       @expire = expire
       @validator = validator
-      @type = construct_type(type, kwargs)
+      @uniq = uniq
+      @null = null || @type.null
     end
 
     # Create a instance of given type with the given options
@@ -38,13 +40,13 @@ module Roarm
       when ::Array
         raise InvalidTypeArrayOf if type.count > 1
 
-        Types::Array.new(type, **kwargs)
+        Types::Array.new(type.first, **kwargs)
       when Types::Array
         raise InvalidTypeArrayOf, "Example definition Array Of is: field :array_field_name, [Integer]"
-      when *Helpers.descendants(Types::Base)
-        type.new
+      when Types::AbstractType
+        type.new(**kwargs)
       else
-        raise UnknownType
+        raise UnknownType, "#{type} unknown"
       end
     end
 
@@ -64,12 +66,20 @@ module Roarm
       end
     end
 
+    def valid?
+      true
+    end
+
     def inspect
       name
     end
 
     def to_s
       name
+    end
+
+    def to_sym
+      name.to_sym
     end
 
     class UnknownType < StandardError; end

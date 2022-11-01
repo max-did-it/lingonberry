@@ -5,6 +5,8 @@ GEM
       i18n (>= 1.6, < 2)
       minitest (>= 5.1)
       tzinfo (~> 2.0)
+    byebug (11.1.3)
+    coderay (1.1.3)
     concurrent-ruby (1.1.10)
     connection_pool (2.3.0)
     diff-lcs (1.5.0)
@@ -12,7 +14,14 @@ GEM
       activesupport (>= 5.0.0)
     i18n (1.12.0)
       concurrent-ruby (~> 1.0)
+    method_source (1.0.0)
     minitest (5.16.3)
+    pry (0.13.1)
+      coderay (~> 1.1)
+      method_source (~> 1.0)
+    pry-byebug (3.9.0)
+      byebug (~> 11.0)
+      pry (~> 0.13.0)
     redcarpet (3.5.1)
     redis (5.0.5)
       redis-client (>= 0.9.0)
@@ -41,8 +50,11 @@ PLATFORMS
   x86_64-linux
 
 DEPENDENCIES
+  byebug
   connection_pool (~> 2.3)
   factory_bot (~> 6.0)
+  pry
+  pry-byebug
   redcarpet (~> 3.5)
   redis
   rspec (~> 3.11)

@@ -1,5 +1,5 @@
 module Roarm
-  # Base class to create a Models  
+  # Base class to create a Models
   # Usage example:
   # ```ruby
   # class User < AbstractModel
@@ -17,7 +17,7 @@ module Roarm
     # Can't be initialized by itself, must been inherited
     # @return [Class<Roarm::AbstractModel>] the instance of descendant class
     def initialize
-      @fields = self.class.fields.to_h.with_indifferent_access
+      @fields = self.class.fields
     end
 
     class << self
@@ -36,7 +36,7 @@ module Roarm
         subclass.instance_variable_set(:@sub_fields, [])
         subclass.instance_variable_set(:@enums, [])
         subclass.instance_variable_set(:@relations, [])
-        subclass.instance_variable_set(:@pk, nil)
+        subclass.instance_variable_set(:@primary_key, nil)
         super
       end
 
@@ -48,16 +48,14 @@ module Roarm
       #   For available options look in Roarm::Field documentations.
       # @return [nil]
       def field(*args, **kwargs)
-        field_name, field_instance = Field.new(*args, **kwargs)
-        field_instance.set_key field_key(field_instance.name)
+        field_instance = Field.new(*args, **kwargs)
+        @fields.push(field_instance) if field_instance.valid?
 
-        @fields.push([field_name.to_sym, field_instance]) if field_instance.valid?
-
-        define_method(field_name) do
+        define_method(field_instance.to_sym) do
           fields[__method__].fetch field_key(__method__)
         end
 
-        define_method("#{field_name}=") do |*jargs, **jkwargs|
+        define_method("#{field_instance}=") do |*jargs, **jkwargs|
           field_name = __method__.to_s.delete("=")
           fields[field_name].set(field_key(field_name), *jargs, **jkwargs)
         end
@@ -65,10 +63,19 @@ module Roarm
         nil
       end
 
+      # @param name [String, Symbol] name of the field
+      # @param type [Roarm::Types::AbstractType] type of field
+      # @return [nil] nil
+      def primary_key(name, type)
+        @primary_key = name
+        field(name, type, index: true, uniq: true)
+      end
+
       # Find the data which matches the conditions
       # @param kwargs [Hash] conditions to filter the data
       # @return [Relation] the instance of relation
-      def where(**kwargs); end
+      def where(**kwargs)
+      end
 
       # Making a key according to given field in the model
       # @param field [#to_s] the name of the field
