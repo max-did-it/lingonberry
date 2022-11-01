@@ -11,14 +11,9 @@ module Roarm
       # @param type [String, Boolean, Numeric, Symbol] the type of an elements
       # @param length [Hash<:gt, :lt, :gteq, :lteq, :eq>] bashlike comparsion keywords to limit array size
       # @return [Roarm::Types::Array] the instance of Array type
-      def initialize(type, length: {})
+      def initialize(type, *args, **kwargs)
         @inner_type = type
-        @gt = length[:gt] || -1
-        @gt = length[:gt] || -1
-        @gt = length[:gt] || -1
-        @eq = length[:gt] || -1
-        @gt, @gteq, @lt, @lteq = [-1, -1, -1, -1] if @eq.positive?
-        super
+        super(*args, **kwargs)
       end
 
       class << self

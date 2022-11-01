@@ -15,12 +15,10 @@ module Roarm
         end
       end
 
-      # For options see in constructor of subclasses
       def initialize(*args, **kwargs)
-        @null = kwargs[:null] || self.class.instance_variable_get(:@null) || true
+      ensure
+        set_default_options(*args, **kwargs)
       end
-
-      attr_reader :null
 
       # prepare value for storage
       # @param value [Object] the value which must be serialized
@@ -50,7 +48,7 @@ module Roarm
       # @param value [String] the value must be stored
       # @return [true, false] true if result set is successfully and false if something goes wrong
       def set(conn, key, value)
-        conn.set(key, value) == "OK"
+        conn.set(key, serialize(value)) == "OK"
       end
 
       # get the value from Redis by the given key
@@ -58,7 +56,15 @@ module Roarm
       # @param key [String] the key for store the value
       # @return [String] value coerced to string
       def get(conn, key, *_args, **_kwargs)
-        conn.get(key)
+        deserialize conn.get(key)
+      end
+
+      private
+
+      def set_default_options(*_args, **kwargs)
+        self.class.default_options&.each do |option, value|
+          instance_variable_set("@#{option}", kwargs[:option] || value)
+        end
       end
     end
   end

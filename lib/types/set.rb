@@ -3,16 +3,12 @@ require_relative "abstract_type"
 module Roarm
   module Types
     class Set < AbstractType
-      # @param length [Hash<:gt, :lt, :gteq, :lteq, :eq>] bashlike comparsion keywords to limit set size
+      extend Helpers::Types::DefaultOptions[:length]
       # @param sorted [true, false] should elements in set be sorted or not
       # @return [Roarm::Types::Set] the instance of Set type
-      def initialize(length: {}, sorted: false)
-        @gt = length[:gt] || -1
-        @gt = length[:gt] || -1
-        @gt = length[:gt] || -1
-        @eq = length[:gt] || -1
-        @gt, @gteq, @lt, @lteq = [-1, -1, -1, -1] if @eq.positive?
-        super
+      def initialize(*args, sorted: false, **kwargs)
+        @sorted = sorted
+        super(*args, **kwargs)
       end
     end
   end

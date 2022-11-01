@@ -5,9 +5,9 @@ module Roarm
     class Float < AbstractType
       extend Helpers::Types::ArrayOf
       # @param precision [Integer] define numbers after the decimal point
-      def initialize(precision: -1)
+      def initialize(*args, precision: -1, **kwargs)
         @precision = precision
-        super
+        super(*args, **kwargs)
       end
     end
   end
