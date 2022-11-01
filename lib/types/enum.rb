@@ -3,6 +3,7 @@ require_relative "abstract_type"
 module Roarm
   module Types
     class Enum < AbstractType
+      # {Helpers::Types::DefaultOptions#extended}
       extend Helpers::Types::DefaultOptions[:keys]
       extend Helpers::Types::ArrayOf
       # @param store_as_string [true, false] must field enum stored as string or as number in storage

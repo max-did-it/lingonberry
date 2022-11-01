@@ -101,7 +101,7 @@
 
 <h2>Overview</h2><div class="docstring">
   <div class="discussion">
-    <p>Base class to create a Models<br>
+    <p>Base class to create a Models
 Usage example:</p>
 
 <pre class="code ruby"><code class="ruby"><span class='kw'>class</span> <span class='const'>User</span> <span class='op'>&lt;</span> <span class='const'>AbstractModel</span>
@@ -288,6 +288,29 @@ Usage example:</p>
         <li class="public ">
   <span class="summary_signature">
     
+      <a href="#primary_key-class_method" title="primary_key (class method)">.<strong>primary_key</strong>(name, type)  &#x21d2; nil </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Nil.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
       <a href="#where-class_method" title="where (class method)">.<strong>where</strong>(**kwargs)  &#x21d2; Relation </a>
     
 
@@ -342,6 +365,50 @@ Usage example:</p>
 </li>
 
       
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#save-instance_method" title="#save (instance method)">#<strong>save</strong>(validate: false)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#save!-instance_method" title="#save! (instance method)">#<strong>save!</strong>  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
     </ul>
   
 
@@ -381,7 +448,7 @@ Usage example:</p>
       <pre class="code"><span class="info file"># File 'lib/abstract_model.rb', line 19</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_initialize'>initialize</span>
-  <span class='ivar'>@fields</span> <span class='op'>=</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_class'>class</span><span class='period'>.</span><span class='id identifier rubyid_fields'>fields</span><span class='period'>.</span><span class='id identifier rubyid_to_h'>to_h</span><span class='period'>.</span><span class='id identifier rubyid_with_indifferent_access'>with_indifferent_access</span>
+  <span class='ivar'>@fields</span> <span class='op'>=</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_class'>class</span><span class='period'>.</span><span class='id identifier rubyid_fields'>fields</span><span class='period'>.</span><span class='id identifier rubyid_map'>map</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_f'>f</span><span class='op'>|</span> <span class='lbracket'>[</span><span class='id identifier rubyid_f'>f</span><span class='period'>.</span><span class='id identifier rubyid_to_sym'>to_sym</span><span class='comma'>,</span> <span class='id identifier rubyid_f'>f</span><span class='rbracket'>]</span> <span class='rbrace'>}</span><span class='period'>.</span><span class='id identifier rubyid_to_h'>to_h</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -573,25 +640,21 @@ For available options look in Roarm::Field documentations.</p>
 61
 62
 63
-64
-65
-66</pre>
+64</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'lib/abstract_model.rb', line 50</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_field'>field</span><span class='lparen'>(</span><span class='op'>*</span><span class='id identifier rubyid_args'>args</span><span class='comma'>,</span> <span class='op'>**</span><span class='id identifier rubyid_kwargs'>kwargs</span><span class='rparen'>)</span>
-  <span class='id identifier rubyid_field_name'>field_name</span><span class='comma'>,</span> <span class='id identifier rubyid_field_instance'>field_instance</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="Field.html" title="Roarm::Field (class)">Field</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="Field.html#initialize-instance_method" title="Roarm::Field#initialize (method)">new</a></span></span><span class='lparen'>(</span><span class='op'>*</span><span class='id identifier rubyid_args'>args</span><span class='comma'>,</span> <span class='op'>**</span><span class='id identifier rubyid_kwargs'>kwargs</span><span class='rparen'>)</span>
-  <span class='id identifier rubyid_field_instance'>field_instance</span><span class='period'>.</span><span class='id identifier rubyid_set_key'>set_key</span> <span class='id identifier rubyid_field_key'>field_key</span><span class='lparen'>(</span><span class='id identifier rubyid_field_instance'>field_instance</span><span class='period'>.</span><span class='id identifier rubyid_name'>name</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_field_instance'>field_instance</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="Field.html" title="Roarm::Field (class)">Field</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="Field.html#initialize-instance_method" title="Roarm::Field#initialize (method)">new</a></span></span><span class='lparen'>(</span><span class='op'>*</span><span class='id identifier rubyid_args'>args</span><span class='comma'>,</span> <span class='op'>**</span><span class='id identifier rubyid_kwargs'>kwargs</span><span class='rparen'>)</span>
+  <span class='ivar'>@fields</span><span class='period'>.</span><span class='id identifier rubyid_push'>push</span><span class='lparen'>(</span><span class='id identifier rubyid_field_instance'>field_instance</span><span class='rparen'>)</span> <span class='kw'>if</span> <span class='id identifier rubyid_field_instance'>field_instance</span><span class='period'>.</span><span class='id identifier rubyid_valid?'>valid?</span>
 
-  <span class='ivar'>@fields</span><span class='period'>.</span><span class='id identifier rubyid_push'>push</span><span class='lparen'>(</span><span class='lbracket'>[</span><span class='id identifier rubyid_field_name'>field_name</span><span class='period'>.</span><span class='id identifier rubyid_to_sym'>to_sym</span><span class='comma'>,</span> <span class='id identifier rubyid_field_instance'>field_instance</span><span class='rbracket'>]</span><span class='rparen'>)</span> <span class='kw'>if</span> <span class='id identifier rubyid_field_instance'>field_instance</span><span class='period'>.</span><span class='id identifier rubyid_valid?'>valid?</span>
-
-  <span class='id identifier rubyid_define_method'>define_method</span><span class='lparen'>(</span><span class='id identifier rubyid_field_name'>field_name</span><span class='rparen'>)</span> <span class='kw'>do</span>
+  <span class='id identifier rubyid_define_method'>define_method</span><span class='lparen'>(</span><span class='id identifier rubyid_field_instance'>field_instance</span><span class='period'>.</span><span class='id identifier rubyid_to_sym'>to_sym</span><span class='rparen'>)</span> <span class='kw'>do</span>
     <span class='id identifier rubyid_fields'>fields</span><span class='lbracket'>[</span><span class='id identifier rubyid___method__'>__method__</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_fetch'>fetch</span> <span class='id identifier rubyid_field_key'>field_key</span><span class='lparen'>(</span><span class='id identifier rubyid___method__'>__method__</span><span class='rparen'>)</span>
   <span class='kw'>end</span>
 
-  <span class='id identifier rubyid_define_method'>define_method</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_field_name'>field_name</span><span class='embexpr_end'>}</span><span class='tstring_content'>=</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span> <span class='kw'>do</span> <span class='op'>|</span><span class='op'>*</span><span class='id identifier rubyid_jargs'>jargs</span><span class='comma'>,</span> <span class='op'>**</span><span class='id identifier rubyid_jkwargs'>jkwargs</span><span class='op'>|</span>
-    <span class='id identifier rubyid_field_name'>field_name</span> <span class='op'>=</span> <span class='id identifier rubyid___method__'>__method__</span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span><span class='period'>.</span><span class='id identifier rubyid_delete'>delete</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>=</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_define_method'>define_method</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_field_instance'>field_instance</span><span class='embexpr_end'>}</span><span class='tstring_content'>=</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span> <span class='kw'>do</span> <span class='op'>|</span><span class='op'>*</span><span class='id identifier rubyid_jargs'>jargs</span><span class='comma'>,</span> <span class='op'>**</span><span class='id identifier rubyid_jkwargs'>jkwargs</span><span class='op'>|</span>
+    <span class='id identifier rubyid_field_name'>field_name</span> <span class='op'>=</span> <span class='id identifier rubyid___method__'>__method__</span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span><span class='period'>.</span><span class='id identifier rubyid_delete'>delete</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>=</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_to_sym'>to_sym</span>
     <span class='id identifier rubyid_fields'>fields</span><span class='lbracket'>[</span><span class='id identifier rubyid_field_name'>field_name</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_set'>set</span><span class='lparen'>(</span><span class='id identifier rubyid_field_key'>field_key</span><span class='lparen'>(</span><span class='id identifier rubyid_field_name'>field_name</span><span class='rparen'>)</span><span class='comma'>,</span> <span class='op'>*</span><span class='id identifier rubyid_jargs'>jargs</span><span class='comma'>,</span> <span class='op'>**</span><span class='id identifier rubyid_jkwargs'>jkwargs</span><span class='rparen'>)</span>
   <span class='kw'>end</span>
 
@@ -663,12 +726,12 @@ For available options look in Roarm::Field documentations.</p>
       <pre class="lines">
 
 
-76
-77
-78</pre>
+83
+84
+85</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/abstract_model.rb', line 76</span>
+      <pre class="code"><span class="info file"># File 'lib/abstract_model.rb', line 83</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_field_key'>field_key</span><span class='lparen'>(</span><span class='id identifier rubyid_field'>field</span><span class='rparen'>)</span>
   <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>roarm:</span><span class='embexpr_beg'>#{</span><span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_class'>class</span><span class='period'>.</span><span class='id identifier rubyid_name'>name</span><span class='period'>.</span><span class='id identifier rubyid_demodulize'>demodulize</span><span class='period'>.</span><span class='id identifier rubyid_downcase'>downcase</span><span class='embexpr_end'>}</span><span class='tstring_content'>:</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_field'>field</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span>
@@ -735,7 +798,7 @@ For available options look in Roarm::Field documentations.</p>
   <span class='id identifier rubyid_subclass'>subclass</span><span class='period'>.</span><span class='id identifier rubyid_instance_variable_set'>instance_variable_set</span><span class='lparen'>(</span><span class='symbol'>:@sub_fields</span><span class='comma'>,</span> <span class='lbracket'>[</span><span class='rbracket'>]</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_subclass'>subclass</span><span class='period'>.</span><span class='id identifier rubyid_instance_variable_set'>instance_variable_set</span><span class='lparen'>(</span><span class='symbol'>:@enums</span><span class='comma'>,</span> <span class='lbracket'>[</span><span class='rbracket'>]</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_subclass'>subclass</span><span class='period'>.</span><span class='id identifier rubyid_instance_variable_set'>instance_variable_set</span><span class='lparen'>(</span><span class='symbol'>:@relations</span><span class='comma'>,</span> <span class='lbracket'>[</span><span class='rbracket'>]</span><span class='rparen'>)</span>
-  <span class='id identifier rubyid_subclass'>subclass</span><span class='period'>.</span><span class='id identifier rubyid_instance_variable_set'>instance_variable_set</span><span class='lparen'>(</span><span class='symbol'>:@pk</span><span class='comma'>,</span> <span class='kw'>nil</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_subclass'>subclass</span><span class='period'>.</span><span class='id identifier rubyid_instance_variable_set'>instance_variable_set</span><span class='lparen'>(</span><span class='symbol'>:@primary_key</span><span class='comma'>,</span> <span class='kw'>nil</span><span class='rparen'>)</span>
   <span class='kw'>super</span>
 <span class='kw'>end</span></pre>
     </td>
@@ -793,6 +856,99 @@ For available options look in Roarm::Field documentations.</p>
   <span class='id identifier rubyid_raise'>raise</span> <span class='const'><span class='object_link'><a href="Errors.html" title="Roarm::Errors (module)">Errors</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Errors/AbstractClass.html" title="Roarm::Errors::AbstractClass (class)">AbstractClass</a></span></span> <span class='kw'>if</span> <span class='id identifier rubyid_superclass'>superclass</span> <span class='op'>==</span> <span class='const'>Object</span>
 
   <span class='kw'>super</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="primary_key-class_method">
+  
+    .<strong>primary_key</strong>(name, type)  &#x21d2; <tt>nil</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p>Returns nil.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>name</span>
+      
+      
+        <span class='type'>(<tt>String</tt>, <tt>Symbol</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>name of the field</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>type</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="Types/AbstractType.html" title="Roarm::Types::AbstractType (class)">Roarm::Types::AbstractType</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>type of field</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>nil</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>nil</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+69
+70
+71
+72</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/abstract_model.rb', line 69</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_primary_key'>primary_key</span><span class='lparen'>(</span><span class='id identifier rubyid_name'>name</span><span class='comma'>,</span> <span class='id identifier rubyid_type'>type</span><span class='rparen'>)</span>
+  <span class='ivar'>@primary_key</span> <span class='op'>=</span> <span class='id identifier rubyid_name'>name</span>
+  <span class='id identifier rubyid_field'>field</span><span class='lparen'>(</span><span class='id identifier rubyid_name'>name</span><span class='comma'>,</span> <span class='id identifier rubyid_type'>type</span><span class='comma'>,</span> <span class='label'>index:</span> <span class='kw'>true</span><span class='comma'>,</span> <span class='label'>uniq:</span> <span class='kw'>true</span><span class='rparen'>)</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -860,12 +1016,88 @@ For available options look in Roarm::Field documentations.</p>
       <pre class="lines">
 
 
-71</pre>
+77
+78</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/abstract_model.rb', line 71</span>
+      <pre class="code"><span class="info file"># File 'lib/abstract_model.rb', line 77</span>
 
-<span class='kw'>def</span> <span class='id identifier rubyid_where'>where</span><span class='lparen'>(</span><span class='op'>**</span><span class='id identifier rubyid_kwargs'>kwargs</span><span class='rparen'>)</span><span class='semicolon'>;</span> <span class='kw'>end</span></pre>
+<span class='kw'>def</span> <span class='id identifier rubyid_where'>where</span><span class='lparen'>(</span><span class='op'>**</span><span class='id identifier rubyid_kwargs'>kwargs</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
+
+  <div id="instance_method_details" class="method_details_list">
+    <h2>Instance Method Details</h2>
+
+    
+      <div class="method_details first">
+  <h3 class="signature first" id="save-instance_method">
+  
+    #<strong>save</strong>(validate: false)  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+93
+94
+95
+96
+97
+98
+99</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/abstract_model.rb', line 93</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_save'>save</span><span class='lparen'>(</span><span class='label'>validate:</span> <span class='kw'>false</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_fields'>fields</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_field_name'>field_name</span><span class='comma'>,</span> <span class='id identifier rubyid_field'>field</span><span class='op'>|</span>
+    <span class='kw'>next</span> <span class='kw'>unless</span> <span class='id identifier rubyid_field'>field</span><span class='period'>.</span><span class='id identifier rubyid_unsaved'>unsaved</span>
+
+    <span class='id identifier rubyid_field'>field</span><span class='period'>.</span><span class='id identifier rubyid_store_unsaved'>store_unsaved</span><span class='lparen'>(</span><span class='label'>validate:</span> <span class='id identifier rubyid_validate'>validate</span><span class='rparen'>)</span>
+  <span class='kw'>end</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="save!-instance_method">
+  
+    #<strong>save!</strong>  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+89
+90
+91</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/abstract_model.rb', line 89</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_save!'>save!</span>
+  <span class='id identifier rubyid_save'>save</span><span class='lparen'>(</span><span class='label'>validate:</span> <span class='kw'>true</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
     </td>
   </tr>
 </table>
@@ -876,7 +1108,7 @@ For available options look in Roarm::Field documentations.</p>
 </div>
 
       <div id="footer">
-  Generated on Tue Nov  1 00:21:47 2022 by
+  Generated on Tue Nov  1 18:49:05 2022 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.27 (ruby-2.7.3).
 </div>

@@ -55,7 +55,7 @@ module Roarm
           fields[__method__].fetch field_key(__method__)
         end
 
-        define_method("#{field_instance.to_s}=") do |*jargs, **jkwargs|
+        define_method("#{field_instance}=") do |*jargs, **jkwargs|
           field_name = __method__.to_s.delete("=").to_sym
           fields[field_name].set(field_key(field_name), *jargs, **jkwargs)
         end
@@ -103,7 +103,7 @@ module Roarm
     attr_reader :fields
 
     def field_key(field)
-      "#{self.class.name.downcase}:#{field.to_s}"
+      "#{self.class.name.downcase}:#{field}"
     end
   end
 end

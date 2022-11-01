@@ -2,6 +2,7 @@ module Roarm
   module Types
     # Abstract class for all Roarm Types
     class AbstractType
+      # {Helpers::Types::DefaultOptions#extended}
       extend Helpers::Types::DefaultOptions[:null]
       class << self
         def new(*args, **kwargs)

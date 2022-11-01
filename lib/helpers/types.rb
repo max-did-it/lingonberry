@@ -45,7 +45,6 @@ module Roarm
 
             if @methods_to_inherit.include?(:uniq)
               klass.class_eval do
-
               end
             end
 
@@ -68,12 +67,12 @@ module Roarm
                 class << self
                   def keys(*args, **kwargs)
                     default_options[:keys] = if args
-                                              args.map!(&:to_sym)
-                                            elsif kwargs
-                                              kwargs.transform_keys!(&:to_sym)
-                                            else
-                                              raise Error::NoArgsGiven, "Need pass Array or Hash as arguments for #{self.class}#keys"
-                                            end
+                      args.map!(&:to_sym)
+                    elsif kwargs
+                      kwargs.transform_keys!(&:to_sym)
+                    else
+                      raise Error::NoArgsGiven, "Need pass Array or Hash as arguments for #{self.class}#keys"
+                    end
                   end
                 end
               end

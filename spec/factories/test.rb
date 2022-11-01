@@ -22,7 +22,7 @@ class TestModel < Base
 end
 
 FactoryBot.define do
-  factory :user, class: TestModel do
+  factory :test_model, class: TestModel do
     string { "John" }
     array { [:key1, :key2] }
     enum1 { :key3 }

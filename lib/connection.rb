@@ -1,5 +1,5 @@
-require 'connection_pool'
-require 'redis'
+require "connection_pool"
+require "redis"
 module Roarm
   def self.connection
     CONNECTION_POOL.with do |conn|
@@ -9,5 +9,5 @@ module Roarm
 
   private
 
-  CONNECTION_POOL = ::ConnectionPool.new(size: @config.redis_pool_size, timeout: @config.redis_conn_timeout) { ::Redis.new(url: @config.redis_url ) }
+  CONNECTION_POOL = ::ConnectionPool.new(size: @config.redis_pool_size, timeout: @config.redis_conn_timeout) { ::Redis.new(url: @config.redis_url) }
 end

@@ -1,8 +1,10 @@
+require "time"
 require_relative "abstract_type"
 
 module Roarm
   module Types
     class Timestamp < Integer
+      # {Helpers::Types::DefaultOptions#extended}
       extend Helpers::Types::DefaultOptions[:length]
       extend Helpers::Types::ArrayOf
 
@@ -20,11 +22,11 @@ module Roarm
       # @return [Integer] timestamp to store
       def serialize(value)
         case value
-        when Time
+        when ::Time
           value.to_i
-        when String
+        when ::String
           Time.parse(value).to_i
-        when Integer
+        when ::Integer
           value
         else
           raise InvalidValueType

@@ -6,5 +6,15 @@ module Roarm
 
     # Used to raise a error when noone argument is given
     class NoArgsGiven < StandardError; end
+
+    class UnknownType < StandardError; end
+
+    class InvalidaValue < StandardError; end
+
+    class InvalidTypeArrayOf < StandardError; end
+
+    class BaseClassDefinitionError < StandardError; end
+
+    class DirectMethodCall < StandardError; end
   end
 end

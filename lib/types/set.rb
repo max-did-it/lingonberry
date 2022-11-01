@@ -3,6 +3,7 @@ require_relative "abstract_type"
 module Roarm
   module Types
     class Set < AbstractType
+      # {Helpers::Types::DefaultOptions#extended}
       extend Helpers::Types::DefaultOptions[:length]
       # @param sorted [true, false] should elements in set be sorted or not
       # @return [Roarm::Types::Set] the instance of Set type

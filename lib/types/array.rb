@@ -9,7 +9,6 @@ module Roarm
     # Array of elements with specified type
     class Array < AbstractType
       # @param type [String, Boolean, Numeric, Symbol] the type of an elements
-      # @param length [Hash<:gt, :lt, :gteq, :lteq, :eq>] bashlike comparsion keywords to limit array size
       # @return [Roarm::Types::Array] the instance of Array type
       def initialize(type, *args, **kwargs)
         @inner_type = type

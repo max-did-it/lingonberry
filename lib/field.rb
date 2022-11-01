@@ -39,15 +39,15 @@ module Roarm
     def construct_type(type, kwargs)
       case type
       when ::Array
-        raise InvalidTypeArrayOf if type.count > 1
+        raise Errors::InvalidTypeArrayOf if type.count > 1
 
         Types::Array.new(type.first, **kwargs)
       when Types::Array
-        raise InvalidTypeArrayOf, "Example definition Array Of is: field :array_field_name, [Integer]"
+        raise Errors::InvalidTypeArrayOf, "Example definition Array Of is: field :array_field_name, [Integer]"
       when Types::AbstractType
         type.new(**kwargs)
       else
-        raise UnknownType, "#{type} unknown"
+        raise Errors::UnknownType, "#{type} unknown"
       end
     end
 
@@ -83,8 +83,8 @@ module Roarm
     end
 
     def store_unsaved(validate:)
-      raise InvalidaValue if validate && !valid?
- 
+      raise Errors::InvalidaValue if validate && !valid?
+
       store(@temp_key, *@temp_args, **@temp_kwargs)
       @unsaved = false
       @temp_key = nil
@@ -118,10 +118,5 @@ module Roarm
     def to_sym
       name.to_sym
     end
-
-    class UnknownType < StandardError; end
-    class InvalidaValue < StandardError; end
-
-    class InvalidTypeArrayOf < StandardError; end
   end
 end
