@@ -7,9 +7,9 @@ lib/relation.rb 643198f0339b556a70abe2c436150ae3176bd46a
 lib/migration.rb cadaadd37c37443636e3935af5a9f2dc183f2a5c
 lib/types/set.rb 27f043cb69d5de350cb3061d0819f5f0a440728c
 lib/connection.rb d2c336090d35db3fe70a0585f78eed9e1956fae0
-lib/types/enum.rb 70dc667d39b6cdce7a07687d1a6918029f46fedf
+lib/types/enum.rb e747346ba8587ba5eceb42950f417d40df9498c3
 lib/types/hash.rb 3ccffde021a27fbec881e7776265105503763b57
-lib/types/list.rb 0d071c02c8c14cedb0b29f92b0fe6a333e00a4fe
+lib/types/list.rb d2ae2ed008ad220a5eaa527163085d8f10311144
 lib/types/uuid.rb 7408589011a5d0761bc4fc4ba9e35e90603c9553
 lib/types/array.rb 98122667d898ecf3030c1c78c4689e41d3be78da
 lib/types/float.rb 7be6238240d1864eb805e1d5be02cb1709c9508d
