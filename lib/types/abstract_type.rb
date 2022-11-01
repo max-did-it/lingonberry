@@ -57,8 +57,8 @@ module Roarm
       # @param conn [Redis] the connection to the redis
       # @param key [String] the key for store the value
       # @return [String] value coerced to string
-      def get(conn, key)
-        conn.get(key, value)
+      def get(conn, key, *_args, **_kwargs)
+        conn.get(key)
       end
     end
   end

@@ -7,7 +7,7 @@ module Roarm
   # store and fetch values from the storage.
   class Field
     include Helpers
-    attr_reader :name, :type, :keys, :index, :expire, :null
+    attr_reader :name, :type, :unsaved, :keys, :index, :expire, :null
 
     # @param name [String] the name of the field
     # @param type [Roarm::Types::AbstractType] the type of the field
@@ -55,14 +55,40 @@ module Roarm
     end
 
     def set(key, *args, **kwargs)
-      Roarm::Connection.with do |conn|
-        type.set(key, conn, *args, **kwargs)
+      if Roarm.config.safe_mode
+        @temp_key = key
+        @temp_args = args
+        @temp_kwargs = kwargs
+        @unsaved = true
+      else
+        store(key, *args, **kwargs)
       end
     end
 
-    def fetch(key)
-      Roarm::Connection.with do |conn|
-        type.fetch(key, conn)
+    def store(key, *args, **kwargs)
+      Roarm.connection do |conn|
+        type.set(conn, key, *args, **kwargs)
+        @value = nil
+      end
+    end
+
+    def store_unsaved(validate:)
+      raise InvalidaValue unless valid? 
+      store(@temp_key, *@temp_args, **@temp_kwargs)
+      @unsaved = false
+      @temp_key = nil
+      @temp_args = nil
+      @temp_kwargs = nil
+    end
+
+    def fetch(key, *args, **kwargs)
+      Roarm.connection do |conn|
+        if Roarm.config.safe_mode
+          @value ||= type.get(conn, key, *args, **kwargs)
+          @value
+        else
+          type.get(conn, key, *args, **kwargs)
+        end
       end
     end
 
@@ -83,6 +109,7 @@ module Roarm
     end
 
     class UnknownType < StandardError; end
+    class InvalidaValue < StandardError; end
 
     class InvalidTypeArrayOf < StandardError; end
   end

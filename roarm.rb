@@ -4,5 +4,10 @@ require_relative "lib/query"
 require_relative "lib/abstract_model"
 require_relative "lib/relation"
 require_relative "lib/migration"
+require_relative "lib/configuration"
+
+Roarm.configure
+require_relative "lib/connection"
+
 module Roarm
 end

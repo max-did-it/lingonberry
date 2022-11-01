@@ -17,7 +17,7 @@ module Roarm
     # Can't be initialized by itself, must been inherited
     # @return [Class<Roarm::AbstractModel>] the instance of descendant class
     def initialize
-      @fields = self.class.fields
+      @fields = self.class.fields.map { |f| [f.to_sym, f] }.to_h
     end
 
     class << self
@@ -55,8 +55,8 @@ module Roarm
           fields[__method__].fetch field_key(__method__)
         end
 
-        define_method("#{field_instance}=") do |*jargs, **jkwargs|
-          field_name = __method__.to_s.delete("=")
+        define_method("#{field_instance.to_s}=") do |*jargs, **jkwargs|
+          field_name = __method__.to_s.delete("=").to_sym
           fields[field_name].set(field_key(field_name), *jargs, **jkwargs)
         end
 
@@ -84,6 +84,26 @@ module Roarm
         "roarm:#{self.class.name.demodulize.downcase}:#{field}"
       end
       # end class << self
+    end
+
+    def save!
+      save(validate: true)
+    end
+
+    def save(validate: false)
+      fields.each do |field_name, field|
+        next unless field.unsaved
+
+        field.store_unsaved(validate: validate)
+      end
+    end
+
+    private
+
+    attr_reader :fields
+
+    def field_key(field)
+      "#{self.class.name.downcase}:#{field.to_s}"
     end
   end
 end

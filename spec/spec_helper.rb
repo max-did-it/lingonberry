@@ -101,3 +101,9 @@ RSpec.configure do |config|
   #   # as the one that triggered the failure.
   #   Kernel.srand config.seed
 end
+
+Roarm.configure do |config|
+  config.redis_url = 'redis://localhost/0'
+  config.redis_conn_timeout = 4
+  config.redis_pool_size = 100
+end

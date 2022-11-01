@@ -12,6 +12,7 @@ group :development, :test do
 end
 
 group :test do
+  gem "mock_redis"
   gem "factory_bot", "~> 6.0"
   gem "rspec", "~> 3.11"
 end
