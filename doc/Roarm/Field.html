@@ -1457,7 +1457,7 @@ where first element is result of validation, second is array of errors</p>
     <li>
       
       
-        <span class='type'>(<tt><span class='object_link'><a href="Errors/InvalidaValue.html" title="Roarm::Errors::InvalidaValue (class)">Errors::InvalidaValue</a></span></tt>)</span>
+        <span class='type'>(<tt>Errors::InvalidaValue</tt>)</span>
       
       
       
@@ -1485,7 +1485,7 @@ where first element is result of validation, second is array of errors</p>
       <pre class="code"><span class="info file"># File 'lib/field.rb', line 85</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_store_unsaved'>store_unsaved</span><span class='lparen'>(</span><span class='label'>validate:</span><span class='rparen'>)</span>
-  <span class='id identifier rubyid_raise'>raise</span> <span class='const'><span class='object_link'><a href="Errors.html" title="Roarm::Errors (module)">Errors</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Errors/InvalidaValue.html" title="Roarm::Errors::InvalidaValue (class)">InvalidaValue</a></span></span> <span class='kw'>if</span> <span class='id identifier rubyid_validate'>validate</span> <span class='op'>&amp;&amp;</span> <span class='op'>!</span><span class='id identifier rubyid_valid?'>valid?</span>
+  <span class='id identifier rubyid_raise'>raise</span> <span class='const'><span class='object_link'><a href="Errors.html" title="Roarm::Errors (module)">Errors</a></span></span><span class='op'>::</span><span class='const'>InvalidaValue</span> <span class='kw'>if</span> <span class='id identifier rubyid_validate'>validate</span> <span class='op'>&amp;&amp;</span> <span class='op'>!</span><span class='id identifier rubyid_valid?'>valid?</span>
 
   <span class='id identifier rubyid_store'>store</span><span class='lparen'>(</span><span class='ivar'>@temp_key</span><span class='comma'>,</span> <span class='op'>*</span><span class='ivar'>@temp_args</span><span class='comma'>,</span> <span class='op'>**</span><span class='ivar'>@temp_kwargs</span><span class='rparen'>)</span>
   <span class='ivar'>@unsaved</span> <span class='op'>=</span> <span class='kw'>false</span>
@@ -1521,7 +1521,7 @@ where first element is result of validation, second is array of errors</p>
       <pre class="code"><span class="info file"># File 'lib/field.rb', line 114</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_to_s'>to_s</span>
-  <span class='id identifier rubyid_name'>name</span>
+  <span class='id identifier rubyid_name'>name</span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -1615,7 +1615,7 @@ where first element is result of validation, second is array of errors</p>
 </div>
 
       <div id="footer">
-  Generated on Tue Nov  1 18:49:05 2022 by
+  Generated on Tue Nov  1 19:52:28 2022 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.27 (ruby-2.7.3).
 </div>

@@ -69,12 +69,14 @@
   <dl>
     <dt>Inherits:</dt>
     <dd>
-      <span class="inheritName"><span class='object_link'><a href="AbstractType.html" title="Roarm::Types::AbstractType (class)">AbstractType</a></span></span>
+      <span class="inheritName"><span class='object_link'><a href="List.html" title="Roarm::Types::List (class)">List</a></span></span>
       
         <ul class="fullTree">
           <li>Object</li>
           
             <li class="next"><span class='object_link'><a href="AbstractType.html" title="Roarm::Types::AbstractType (class)">AbstractType</a></span></li>
+          
+            <li class="next"><span class='object_link'><a href="List.html" title="Roarm::Types::List (class)">List</a></span></li>
           
             <li class="next">Roarm::Types::Array</li>
           
@@ -103,7 +105,9 @@
 
 <h2>Overview</h2><div class="docstring">
   <div class="discussion">
-    <p>Array of elements with specified type</p>
+    <p>Array of elements with specified type
+Based on Redis::List - sorted by insertion order
+Values will coerced to source Type after extraction</p>
 
 
   </div>
@@ -148,10 +152,19 @@
 </li>
 
       
+    </ul>
+  
+    <h2>
+      Instance Method Summary
+      <small><a href="#" class="summary_toggle">collapse</a></small>
+    </h2>
+
+    <ul class="summary">
+      
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#new-class_method" title="new (class method)">.<strong>new</strong>(type = nil, length: {})  &#x21d2; Object </a>
+      <a href="#deserialize-instance_method" title="#deserialize (instance method)">#<strong>deserialize</strong>(values)  &#x21d2; Object </a>
     
 
     
@@ -169,15 +182,6 @@
   
 </li>
 
-      
-    </ul>
-  
-    <h2>
-      Instance Method Summary
-      <small><a href="#" class="summary_toggle">collapse</a></small>
-    </h2>
-
-    <ul class="summary">
       
         <li class="public ">
   <span class="summary_signature">
@@ -204,6 +208,28 @@
 </li>
 
       
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#serialize-instance_method" title="#serialize (instance method)">#<strong>serialize</strong>(values)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
     </ul>
   
 
@@ -216,8 +242,14 @@
   
   
   
+  
+  
+  
+  
+  
+  
   <h3 class="inherited">Methods inherited from <span class='object_link'><a href="AbstractType.html" title="Roarm::Types::AbstractType (class)">AbstractType</a></span></h3>
-  <p class="inherited"><span class='object_link'><a href="AbstractType.html#===-class_method" title="Roarm::Types::AbstractType.=== (method)">===</a></span>, <span class='object_link'><a href="AbstractType.html#deserialize-instance_method" title="Roarm::Types::AbstractType#deserialize (method)">#deserialize</a></span>, <span class='object_link'><a href="AbstractType.html#get-instance_method" title="Roarm::Types::AbstractType#get (method)">#get</a></span>, <span class='object_link'><a href="AbstractType.html#serialize-instance_method" title="Roarm::Types::AbstractType#serialize (method)">#serialize</a></span>, <span class='object_link'><a href="AbstractType.html#set-instance_method" title="Roarm::Types::AbstractType#set (method)">#set</a></span>, <span class='object_link'><a href="AbstractType.html#validate-instance_method" title="Roarm::Types::AbstractType#validate (method)">#validate</a></span></p>
+  <p class="inherited"><span class='object_link'><a href="AbstractType.html#===-class_method" title="Roarm::Types::AbstractType.=== (method)">===</a></span>, <span class='object_link'><a href="AbstractType.html#get-instance_method" title="Roarm::Types::AbstractType#get (method)">#get</a></span>, <span class='object_link'><a href="AbstractType.html#new-class_method" title="Roarm::Types::AbstractType.new (method)">new</a></span>, <span class='object_link'><a href="AbstractType.html#set-instance_method" title="Roarm::Types::AbstractType#set (method)">#set</a></span>, <span class='object_link'><a href="AbstractType.html#validate-instance_method" title="Roarm::Types::AbstractType#validate (method)">#validate</a></span></p>
 <div id="constructor_details" class="method_details_list">
   <h2>Constructor Details</h2>
   
@@ -265,16 +297,16 @@
       <pre class="lines">
 
 
-13
-14
-15
-16</pre>
+16
+17
+18
+19</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/types/array.rb', line 13</span>
+      <pre class="code"><span class="info file"># File 'lib/types/array.rb', line 16</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_initialize'>initialize</span><span class='lparen'>(</span><span class='id identifier rubyid_type'>type</span><span class='comma'>,</span> <span class='op'>*</span><span class='id identifier rubyid_args'>args</span><span class='comma'>,</span> <span class='op'>**</span><span class='id identifier rubyid_kwargs'>kwargs</span><span class='rparen'>)</span>
-  <span class='ivar'>@inner_type</span> <span class='op'>=</span> <span class='id identifier rubyid_type'>type</span>
+  <span class='ivar'>@inner_type</span> <span class='op'>=</span> <span class='id identifier rubyid_type'>type</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span> <span class='op'>||</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_class'>class</span><span class='period'>.</span><span class='id identifier rubyid_instance_variable_get'>instance_variable_get</span><span class='lparen'>(</span><span class='symbol'>:@subclass</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span>
   <span class='kw'>super</span><span class='lparen'>(</span><span class='op'>*</span><span class='id identifier rubyid_args'>args</span><span class='comma'>,</span> <span class='op'>**</span><span class='id identifier rubyid_kwargs'>kwargs</span><span class='rparen'>)</span>
 <span class='kw'>end</span></pre>
     </td>
@@ -304,12 +336,12 @@
       <pre class="lines">
 
 
+22
 23
-24
-25</pre>
+24</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/types/array.rb', line 23</span>
+      <pre class="code"><span class="info file"># File 'lib/types/array.rb', line 22</span>
 
 <span class='kw'>def</span> <span class='op'>[]</span><span class='lparen'>(</span><span class='id identifier rubyid_klass'>klass</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_dup'>dup</span><span class='period'>.</span><span class='id identifier rubyid_set_instance_variable'>set_instance_variable</span><span class='lparen'>(</span><span class='symbol'>:@subclass</span><span class='comma'>,</span> <span class='id identifier rubyid_klass'>klass</span><span class='rparen'>)</span>
@@ -319,10 +351,16 @@
 </table>
 </div>
     
-      <div class="method_details ">
-  <h3 class="signature " id="new-class_method">
+  </div>
+
+  <div id="instance_method_details" class="method_details_list">
+    <h2>Instance Method Details</h2>
+
+    
+      <div class="method_details first">
+  <h3 class="signature first" id="deserialize-instance_method">
   
-    .<strong>new</strong>(type = nil, length: {})  &#x21d2; <tt>Object</tt> 
+    #<strong>deserialize</strong>(values)  &#x21d2; <tt>Object</tt> 
   
 
   
@@ -334,15 +372,53 @@
       <pre class="lines">
 
 
-19
-20
-21</pre>
+33
+34
+35
+36
+37</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/types/array.rb', line 19</span>
+      <pre class="code"><span class="info file"># File 'lib/types/array.rb', line 33</span>
 
-<span class='kw'>def</span> <span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='id identifier rubyid_type'>type</span> <span class='op'>=</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='label'>length:</span> <span class='lbrace'>{</span><span class='rbrace'>}</span><span class='rparen'>)</span>
-  <span class='kw'>super</span><span class='lparen'>(</span><span class='id identifier rubyid_type'>type</span> <span class='op'>||</span> <span class='ivar'>@subclass</span><span class='comma'>,</span> <span class='label'>length:</span> <span class='id identifier rubyid_length'>length</span><span class='rparen'>)</span>
+<span class='kw'>def</span> <span class='id identifier rubyid_deserialize'>deserialize</span><span class='lparen'>(</span><span class='id identifier rubyid_values'>values</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_values'>values</span><span class='period'>.</span><span class='id identifier rubyid_map!'>map!</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_value'>value</span><span class='op'>|</span>
+    <span class='id identifier rubyid_inner_type'>inner_type</span><span class='period'>.</span><span class='id identifier rubyid_deserialize'>deserialize</span><span class='lparen'>(</span><span class='id identifier rubyid_value'>value</span><span class='rparen'>)</span>
+  <span class='kw'>end</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="serialize-instance_method">
+  
+    #<strong>serialize</strong>(values)  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+27
+28
+29
+30
+31</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/types/array.rb', line 27</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_serialize'>serialize</span><span class='lparen'>(</span><span class='id identifier rubyid_values'>values</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_values'>values</span><span class='period'>.</span><span class='id identifier rubyid_map!'>map!</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_value'>value</span><span class='op'>|</span>
+    <span class='id identifier rubyid_inner_type'>inner_type</span><span class='period'>.</span><span class='id identifier rubyid_serialize'>serialize</span><span class='lparen'>(</span><span class='id identifier rubyid_value'>value</span><span class='rparen'>)</span>
+  <span class='kw'>end</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -354,7 +430,7 @@
 </div>
 
       <div id="footer">
-  Generated on Tue Nov  1 18:49:05 2022 by
+  Generated on Tue Nov  1 19:52:28 2022 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.27 (ruby-2.7.3).
 </div>
