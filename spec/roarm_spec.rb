@@ -26,7 +26,7 @@ describe "Roarm" do
     it "should accept only subtype elements" do
       array = [:key1, :key3]
       test_instance.array = array
-      expect { test_instance.save! }.to raise_error(Roarm::Errors::InvalidaValue)
+      expect { test_instance.save! }.to raise_error(Roarm::Errors::InvalidValue)
     end
   end
 end

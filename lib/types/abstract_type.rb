@@ -64,7 +64,7 @@ module Roarm
 
       def set_default_options(*_args, **kwargs)
         self.class.default_options&.each do |option, value|
-          instance_variable_set("@#{option}", kwargs[:option] || value)
+          instance_variable_set("@#{option}", kwargs[option] || value)
         end
       end
     end

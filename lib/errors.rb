@@ -9,12 +9,14 @@ module Roarm
 
     class UnknownType < StandardError; end
 
-    class InvalidaValue < StandardError; end
+    class InvalidValue < StandardError; end
 
     class InvalidTypeArrayOf < StandardError; end
 
     class BaseClassDefinitionError < StandardError; end
 
     class DirectMethodCall < StandardError; end
+
+    class UnexpectedError < StandardError; end
   end
 end

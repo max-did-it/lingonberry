@@ -106,4 +106,5 @@ Roarm.configure do |config|
   config.redis_url = "redis://localhost/0"
   config.redis_conn_timeout = 4
   config.redis_pool_size = 100
+  config.safe_mode = true
 end

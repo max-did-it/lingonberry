@@ -17,13 +17,14 @@ module Roarm
             klass.class_eval do
               class << self
                 def inherited(subclass)
-                  subclass.instance_variable_set(:@default_options, {})
+                  subclass.instance_variable_set(:@default_options, default_options)
                   super
                 end
 
                 attr_accessor :default_options
               end
             end
+            klass.instance_variable_set(:@default_options, {})
 
             if @methods_to_inherit.include?(:length)
               klass.class_eval do
@@ -71,7 +72,7 @@ module Roarm
                     elsif kwargs
                       kwargs.transform_keys!(&:to_sym)
                     else
-                      raise Error::NoArgsGiven, "Need pass Array or Hash as arguments for #{self.class}#keys"
+                      raise Error::NoArgsGiven, "Need pass ::Array or ::Hash as arguments for #{self.class}#keys"
                     end
                   end
                 end
