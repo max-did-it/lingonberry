@@ -29,14 +29,13 @@ module Roarm
       end
 
       def deserialize(value)
-        raise Errors::InvalidValue unless valid? value
         return value.to_sym if store_as_string
 
         case keys
         when ::Hash
           keys.key(value.to_i)
         when ::Array
-          keys.value(value.to_i)
+          keys[value.to_i]
         end
       end
 
