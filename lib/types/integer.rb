@@ -8,6 +8,8 @@ module Lingonberry
       extend Helpers::Types::ArrayOf
 
       def deserialize(value)
+        return deserializer.call(value) if deserializer
+
         value.to_i
       end
     end

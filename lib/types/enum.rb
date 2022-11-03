@@ -17,6 +17,8 @@ module Lingonberry
       end
 
       def serialize(value)
+        return serializer.call(value) if serializer
+
         raise Errors::InvalidValue unless valid? value
         return value.to_s if store_as_string
 
@@ -29,6 +31,7 @@ module Lingonberry
       end
 
       def deserialize(value)
+        return deserializer.call(value) if deserializer
         return value.to_sym if store_as_string
 
         case keys

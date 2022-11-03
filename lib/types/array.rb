@@ -25,12 +25,16 @@ module Lingonberry
       end
 
       def serialize(values)
+        return serializer.call(values) if serializer
+
         values.map! do |value|
           inner_type.serialize(value)
         end
       end
 
       def deserialize(values)
+        return deserializer.call(values) if deserializer
+
         values.map! do |value|
           inner_type.deserialize(value)
         end

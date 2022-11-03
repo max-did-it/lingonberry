@@ -16,10 +16,14 @@ module Lingonberry
       end
 
       def deserialize(values)
+        return deserializer.call(value) if deserializer
+
         values.map(&:to_s)
       end
 
       def serialize(values)
+        return serializer.call(value) if serializer
+
         values.map(&:to_s)
       end
     end

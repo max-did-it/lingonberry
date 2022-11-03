@@ -30,6 +30,8 @@ module Lingonberry
       # @param value [Object] the value which must be serialized
       # @return [String] the result of serialization
       def serialize(value)
+        return serializer.call(value) if serializer
+
         value.to_s
       end
 

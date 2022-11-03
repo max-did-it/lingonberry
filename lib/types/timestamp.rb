@@ -11,6 +11,8 @@ module Lingonberry
       # @param value [String] the value from storage. Redis always return the string.
       # @return [Time] the mapped to Time class
       def deserialize(value)
+        return deserializer.call(value) if deserializer
+
         Time.at super(value)
       end
 
@@ -21,6 +23,8 @@ module Lingonberry
       # @param value [String, Time, Integer] the value from storage. Redis always return the string.
       # @return [Integer] timestamp to store
       def serialize(value)
+        return serializer.call(value) if serializer
+
         case value
         when ::Time
           value.to_i

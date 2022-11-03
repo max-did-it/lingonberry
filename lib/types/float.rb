@@ -14,12 +14,15 @@ module Lingonberry
       end
 
       def serialize(value)
+        return serializer.call(value) if serializer
         return value.to_f.to_s if precision.negative?
 
         value.to_f.truncate(precision).to_s
       end
 
       def deserialize(value)
+        return deserializer.call(value) if deserializer
+
         value.to_f
       end
     end

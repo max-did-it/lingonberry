@@ -12,6 +12,8 @@ module Lingonberry
       end
 
       def serialize(value)
+        return serializer.call(value) if serializer
+
         case value
         when ::Hash
           unknown_keys = []
@@ -26,6 +28,8 @@ module Lingonberry
       end
 
       def deserialize(value)
+        return deserializer.call(value) if deserializer
+
         value
       end
 
@@ -71,6 +75,7 @@ module Lingonberry
 
         private
 
+        # rubocop:disable Lint/RedundantCopDisableDirective
         # rubocop:disable Performance/InefficientHashSearch
         def key_in_type?(key)
           return true unless type.keys
@@ -78,6 +83,7 @@ module Lingonberry
           type.keys.include?(key.to_sym)
         end
         # rubocop:enable Performance/InefficientHashSearch
+        # rubocop:enable Lint/RedundantCopDisableDirective
 
         attr_reader :storage_key, :type
       end
