@@ -17,7 +17,15 @@ module Lingonberry
     # Can't be initialized by itself, must been inherited
     # @return [Class<Lingonberry::AbstractModel>] the instance of descendant class
     def initialize
-      @fields = self.class.fields.map { |f| [f.to_sym, f] }.to_h
+      @context = OpenStruct.new
+      @context.model = self
+      @fields = self.class.fields.map do |name, type, **kwargs|
+        field = make_field(name, type, **kwargs)
+        [field.to_sym, field]
+      end
+      @fields = @fields.to_h
+      @context.feilds = fields
+      @context.namespace = model_namespace
     end
 
     class << self
@@ -27,6 +35,12 @@ module Lingonberry
         raise Errors::AbstractClass if superclass == Object
 
         super
+      end
+
+      def with_connection
+        Lingonberry.connection do |conn|
+          yield conn if block_given?
+        end
       end
 
       # Preload class instance variables for descendants when model inherited from Lingonberry::AbstractModel or from any descendants
@@ -40,26 +54,22 @@ module Lingonberry
         super
       end
 
-      # Defines a meta read/write accessors by the name of field
-      #   for instances
-      # @param args [Array] array of arguments.
-      #   For available arguments look in Lingonberry::Field documentations.
+      # @param name [::String, ::Symbol] the name of the field.
+      # @param type [Lingonberry::Types::AbstractType] class data type of the field
       # @param kwargs [Hash] array of kwargs
       #   For available options look in Lingonberry::Field documentations.
       # @return [nil]
-      def field(*args, **kwargs)
-        field_instance = Field.new(*args, **kwargs)
-        @fields.push(field_instance) if field_instance.valid?
-
-        define_method(field_instance.to_sym) do
-          fields[__method__].fetch field_key(__method__)
+      def field(name, type, **kwargs)
+        f = [name, type, kwargs]
+        @fields.push(f)
+        define_method(name.to_sym) do |*jargs, **jkwargs|
+          get(fields[__method__], *jargs, **jkwargs)
         end
 
-        define_method("#{field_instance}=") do |*jargs, **jkwargs|
+        define_method("#{name}=") do |*jargs, **jkwargs|
           field_name = __method__.to_s.delete("=").to_sym
-          fields[field_name].set(field_key(field_name), *jargs, **jkwargs)
+          set(fields[field_name], *jargs, **jkwargs)
         end
-
         nil
       end
 
@@ -79,26 +89,46 @@ module Lingonberry
     end
 
     def save!
-      save(validate: true)
-    end
-
-    def save(validate: false)
-      fields.each do |_, field|
-        next unless field.unsaved
-
-        field.store_unsaved(validate: validate)
-      end
+      # pass
     end
 
     private
 
     attr_reader :fields
 
+    def with_connection
+      self.class.with_connection do |conn|
+        yield conn if block_given?
+      end
+    end
+
+    def get(field, *args, **kwargs)
+      with_connection do |conn|
+        @context.connection = conn
+        field.fetch *args, **kwargs
+      end
+    ensure
+      @context.connection = nil
+    end
+
+    def set(field, *args, **kwargs)
+      with_connection do |conn|
+        @context.connection = conn
+        field.set(*args, **kwargs)
+      end
+    ensure
+      @context.connection = nil
+    end
+
     # Making a key according to given field in the model
     # @param field [#to_s] the name of the field
     # @return [String] the key on which value is stored
-    def field_key(field)
-      "lingonberry:#{self.class.name.downcase}:#{field}"
+    def model_namespace
+      "lingonberry:#{self.class.name.downcase}"
+    end
+
+    def make_field(name, type, **kwargs)
+      field = Field.new(@context, name, type, **kwargs)
     end
   end
 end

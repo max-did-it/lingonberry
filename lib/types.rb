@@ -1,4 +1,5 @@
 require_relative "helpers/types/"
+require_relative "types/numeric"
 require_relative "types/array"
 require_relative "types/decimal"
 require_relative "types/enum"

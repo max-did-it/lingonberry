@@ -11,9 +11,9 @@ module Lingonberry
       attr_reader :store_as_string
 
       # @param store_as_string [true, false] must field enum stored as string or as number in storage
-      def initialize(*args, store_as_string: false, **kwargs)
+      def initialize(context, *args, store_as_string: false, **kwargs)
         @store_as_string = store_as_string
-        super(*args, **kwargs)
+        super(context, *args, **kwargs)
       end
 
       def serialize(value)

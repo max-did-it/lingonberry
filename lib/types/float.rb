@@ -2,15 +2,15 @@ require_relative "abstract_type"
 
 module Lingonberry
   module Types
-    class Float < AbstractType
+    class Float < Numeric
       extend Helpers::Types::ArrayOf
 
       attr_reader :precision
 
       # @param precision [Integer] define numbers after the decimal point
-      def initialize(*args, precision: -1, **kwargs)
+      def initialize(context, *args, precision: -1, **kwargs)
         @precision = precision
-        super(*args, **kwargs)
+        super(context, *args, **kwargs)
       end
 
       def serialize(value)

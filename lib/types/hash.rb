@@ -6,9 +6,9 @@ module Lingonberry
       # {Helpers::Types::Options#extended}
       extend Helpers::Types::Options[:keys]
 
-      def initialize(*args, **kwargs)
-        super(*args, **kwargs)
+      def initialize(context, *args, **kwargs)
         @interface = Interface.new
+        super(context, *args, **kwargs)
       end
 
       def serialize(value)

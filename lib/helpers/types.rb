@@ -48,6 +48,19 @@ module Lingonberry
 
       module OptionsWriter
         class << self
+          def add_numeric_index(klass)
+            klass.class_eval do
+              attr_reader :numeric_index
+
+              class << self
+                def numeric_index(flag = false)
+                  @default_options[:numeric_index] = flag
+                end
+              end
+              numeric_index false
+            end
+          end
+
           def add_deserializer(klass)
             klass.class_eval do
               attr_reader :deserializer

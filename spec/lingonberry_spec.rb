@@ -29,6 +29,7 @@ describe "Lingonberry" do
         test_instance.array = array
         expect { test_instance.save! }.to raise_error(Lingonberry::Errors::InvalidValue)
       end
+
       it "should store values when all values is correct" do
         array = [:key1, :key2, :key1]
         test_instance.array = array
@@ -108,6 +109,9 @@ describe "Lingonberry" do
         value = 123
         test_instance.integer = value
         expect { test_instance.save! }.not_to raise_error
+        
+        binding.pry
+        
         expect(test_instance.integer).to eq(value)
       end
     end

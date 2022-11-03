@@ -21,7 +21,8 @@ module Lingonberry
         end
       end
 
-      def initialize(*args, **kwargs)
+      def initialize(context, *args, **kwargs)
+        @context = context
       ensure
         set_default_options(*args, **kwargs)
       end
@@ -71,7 +72,7 @@ module Lingonberry
 
       private
 
-      def post_set(conn, key, value, *args, **kwargs)
+      def post_set(conn, key, _value, *_args, **_kwargs)
         set_ttl(conn, key) if expire.positive?
       end
 

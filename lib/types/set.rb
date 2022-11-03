@@ -10,9 +10,9 @@ module Lingonberry
 
       # @param sorted [true, false] should elements in set be sorted or not
       # @return [Lingonberry::Types::Set] the instance of Set type
-      def initialize(*args, sorted: false, **kwargs)
+      def initialize(context, *args, sorted: false, **kwargs)
         @sorted = sorted
-        super(*args, **kwargs)
+        super(context, *args, **kwargs)
       end
 
       def set(conn, key, *values)

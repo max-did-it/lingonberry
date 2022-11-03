@@ -14,7 +14,8 @@ module Lingonberry
     # @param kwargs [Hash] the hash of options
     #   {Lingonberry::Types::AbstractType#initialize For options more look in subclusses of Lingonberry::Types::AbstractType}
     # @return [Lingonberry::Field] the instance of Lingonberry::Field
-    def initialize(name, type, **kwargs)
+    def initialize(context, name, type, **kwargs)
+      @context = context
       @name = name
       @type = construct_type(type, kwargs)
     end
@@ -28,36 +29,20 @@ module Lingonberry
       when ::Array
         raise Errors::InvalidTypeArrayOf if type.count > 1
 
-        Types::Array.new(type.first, **kwargs)
+        Types::Array.new(@context, type.first, **kwargs)
       when Types::Array
         raise Errors::InvalidTypeArrayOf, "Example definition Array Of is: field :array_field_name, [Integer]"
       when Types::AbstractType
-        type.new(**kwargs)
+        type.new(@context, **kwargs)
       else
         raise Errors::UnknownType, "#{type} unknown"
       end
     end
 
-    def set_instance
-      direct_call_protection
-    end
-
-    def set(key, *args, **kwargs)
-      if Lingonberry.config.safe_mode
-        @temp_key = key
-        @temp_args = args
-        @temp_kwargs = kwargs
-        @unsaved = true
-      else
-        store(key, *args, **kwargs)
-      end
-    end
-
-    def store(key, *args, **kwargs)
-      Lingonberry.connection do |conn|
-        type.set(conn, key, *args, **kwargs)
-        @value = nil
-      end
+    def set(*args, _safe: Lingonberry.config.safe_mode, **kwargs)
+      kwargs[:field_name] = name
+      kwargs[:namespace] = @context.namespace
+      type.set(@context.connection, key, *args, **kwargs)
     end
 
     def set_expire_key(key, conn: nil)
@@ -69,25 +54,8 @@ module Lingonberry
       end
     end
 
-    def store_unsaved(validate:)
-      raise Errors::InvalidaValue if validate && !valid?
-
-      store(@temp_key, *@temp_args, **@temp_kwargs)
-      @unsaved = false
-      @temp_key = nil
-      @temp_args = nil
-      @temp_kwargs = nil
-    end
-
-    def fetch(key, *args, **kwargs)
-      Lingonberry.connection do |conn|
-        if Lingonberry.config.safe_mode
-          @value ||= type.get(conn, key, *args, **kwargs)
-          @value
-        else
-          type.get(conn, key, *args, **kwargs)
-        end
-      end
+    def fetch(*args, _safe: Lingonberry.config.safe_mode, **kwargs)
+      type.get(@context.connection, key, *args, **kwargs)
     end
 
     def valid?
@@ -104,6 +72,10 @@ module Lingonberry
 
     def to_sym
       name.to_sym
+    end
+
+    def key
+      @key ||= "#{@context.namespace}:#{name}"
     end
   end
 end

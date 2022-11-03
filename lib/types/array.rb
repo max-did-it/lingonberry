@@ -3,8 +3,8 @@ require_relative "list"
 
 module Lingonberry
   module Types
-    def Array(type)
-      Array.new(type)
+    def Array(context, type)
+      Array.new(context, type)
     end
 
     # Array of elements with specified type
@@ -13,9 +13,9 @@ module Lingonberry
     class Array < List
       # @param type [String, Boolean, Numeric, Symbol] the type of an elements
       # @return [Lingonberry::Types::Array] the instance of Array type
-      def initialize(type, *args, **kwargs)
+      def initialize(context, type, *args, **kwargs)
         @inner_type = type.new || self.class.instance_variable_get(:@subclass).new
-        super(*args, **kwargs)
+        super(context, *args, **kwargs)
       end
 
       class << self
