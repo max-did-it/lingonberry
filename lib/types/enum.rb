@@ -1,7 +1,7 @@
 require_relative "abstract_type"
 require_relative "list"
 
-module Roarm
+module Lingonberry
   module Types
     class Enum < AbstractType
       # {Helpers::Types::DefaultOptions#extended}
@@ -40,6 +40,8 @@ module Roarm
       end
 
       def valid?(value)
+        return false unless value.respond_to?(:to_sym)
+
         case keys
         when ::Hash
           !keys[value.to_sym].nil?
