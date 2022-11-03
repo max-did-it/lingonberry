@@ -15,8 +15,8 @@ module Lingonberry
         case value
         when ::Hash
           unknown_keys = []
-          unknown_keys = (value.keys - keys) if keys
-          raise UnknownKey, unknown_keys if unknown_keys.any?
+          unknown_keys = (value.keys - keys) unless keys.nil? && keys.any?
+          raise Errors::UnknownKey, "#{unknown_keys} must be in #{keys}" if unknown_keys.any?
 
           value.transform_values!(&:to_s)
         else
@@ -89,6 +89,8 @@ module Lingonberry
         conn.del(key)
         @interface.instance_variable_set(:@hash, {})
         conn.hset(key, serialize(values))
+      ensure
+        post_set(conn, key, values, *args, **kwargs)
       end
     end
   end

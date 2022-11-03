@@ -16,18 +16,20 @@ module Lingonberry
           def extended(klass)
             klass.class_eval do
               class << self
+                attr_reader :extra_options, :default_options
+
                 def inherited(subclass)
                   subclass.instance_variable_set(:@default_options, default_options)
                   subclass.instance_variable_set(:@extra_options, extra_options)
                   super
                 end
-
-                attr_reader :extra_options
-                attr_accessor :default_options
               end
             end
-            klass.instance_variable_set(:@default_options, {})
-            klass.instance_variable_set(:@extra_options, @methods_to_inherit)
+
+            existing_default_options = klass.instance_variable_get(:@default_options) || {}
+            klass.instance_variable_set(:@default_options, existing_default_options)
+            existing_extra_options = klass.instance_variable_get(:@extra_options) || []
+            klass.instance_variable_set(:@extra_options, (existing_extra_options + @methods_to_inherit).uniq)
 
             if @methods_to_inherit.include?(:serializer)
               klass.class_eval do
@@ -111,7 +113,7 @@ module Lingonberry
                 attr_reader :expire
 
                 class << self
-                  def expire(ttl: -1)
+                  def expire(ttl = -1)
                     raise Errors::InvalidValue unless ttl.is_a?(::Integer)
 
                     default_options[:expire] = ttl
@@ -125,11 +127,12 @@ module Lingonberry
                 attr_reader :keys
 
                 class << self
-                  def keys(*args, **kwargs)
-                    default_options[:keys] = if args
-                      args.map!(&:to_sym)
-                    elsif kwargs
-                      kwargs.transform_keys!(&:to_sym)
+                  def keys(values)
+                    default_options[:keys] = case values
+                    when Array
+                      values.map(&:to_sym)
+                    when Hash
+                      values.transform_keys(&:to_sym)
                     else
                       raise Error::NoArgsGiven, "Need pass ::Array or ::Hash as arguments for #{self.class}#keys"
                     end

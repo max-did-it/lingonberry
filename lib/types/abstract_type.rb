@@ -9,6 +9,9 @@ module Lingonberry
         :expire
       ]
 
+      null true
+      expire(-1)
+
       class << self
         def new(*args, **kwargs)
           raise Errors::AbstractClass if superclass == Object
@@ -68,6 +71,14 @@ module Lingonberry
       end
 
       private
+
+      def post_set(conn, key, value, *args, **kwargs)
+        set_ttl(conn, key) if expire.positive?
+      end
+
+      def set_ttl(conn, key)
+        conn.expire(key, expire)
+      end
 
       def set_default_options(*_args, **kwargs)
         self.class.extra_options&.each do |option|

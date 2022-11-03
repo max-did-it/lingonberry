@@ -11,23 +11,12 @@ module Lingonberry
 
     # @param name [String] the name of the field
     # @param type [Lingonberry::Types::AbstractType] the type of the field
-    # @param null [true, false] the parameter responded might field accepts nil values
-    # @param uniq [true, false] the parameter used to prevent duplication of the value, all records will have unique values in this field
-    # @param expire [Integer] time to life for a field, in seconds
-    # @param validator [#call] the validator which accepts value as parameter
-    #   should return result as array with 2 elements
-    #   example: [false, ["isn't integer"]]
-    #   where first element is result of validation, second is array of errors
     # @param kwargs [Hash] the hash of options
     #   {Lingonberry::Types::AbstractType#initialize For options more look in subclusses of Lingonberry::Types::AbstractType}
     # @return [Lingonberry::Field] the instance of Lingonberry::Field
-    def initialize(name, type, expire: nil, null: true, validator: nil, uniq: false, **kwargs)
+    def initialize(name, type, **kwargs)
       @name = name
       @type = construct_type(type, kwargs)
-      @expire = expire
-      @validator = validator
-      @uniq = uniq
-      @null = null || @type.null
     end
 
     # Create a instance of given type with the given options

@@ -4,7 +4,7 @@ end
 
 class TestType < Lingonberry::Types::Enum
   null true
-  keys(*%i[key1 key2])
+  keys %i[key1 key2]
 end
 
 class TestModel < Base
