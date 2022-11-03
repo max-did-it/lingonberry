@@ -84,7 +84,7 @@ end
 
 # Based on AbstractType
 class StateType < Lingonberry::Types::AbstractType
-  extend Helpers::Types::DefaultOptions[:length, :keys]
+  extend Helpers::Types::Options[:length, :keys]
 
   null false
   length gt: 18, lt: 120

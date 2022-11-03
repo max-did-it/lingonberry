@@ -11,7 +11,7 @@ module Lingonberry
         end
       end
 
-      module DefaultOptions
+      module Options
         class << self
           def extended(klass)
             klass.class_eval do

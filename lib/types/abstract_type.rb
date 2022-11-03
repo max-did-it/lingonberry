@@ -2,15 +2,12 @@ module Lingonberry
   module Types
     # Abstract class for all Lingonberry Types
     class AbstractType
-      # {Helpers::Types::DefaultOptions#extended}
-      extend Helpers::Types::DefaultOptions[
+      # {Helpers::Types::Options#extended}
+      extend Helpers::Types::Options[
         :null, :serializer,
         :deserializer, :validator,
         :expire
       ]
-
-      null true
-      expire(-1)
 
       class << self
         def new(*args, **kwargs)

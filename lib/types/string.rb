@@ -4,8 +4,8 @@ module Lingonberry
   module Types
     class String < AbstractType
       extend Helpers::Types::ArrayOf
-      # {Helpers::Types::DefaultOptions#extended}
-      extend Helpers::Types::DefaultOptions[:length]
+      # {Helpers::Types::Options#extended}
+      extend Helpers::Types::Options[:length]
     end
   end
 end

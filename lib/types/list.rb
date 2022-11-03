@@ -3,8 +3,8 @@ require_relative "abstract_type"
 module Lingonberry
   module Types
     class List < AbstractType
-      # {Helpers::Types::DefaultOptions#extended}
-      extend Helpers::Types::DefaultOptions[:length]
+      # {Helpers::Types::Options#extended}
+      extend Helpers::Types::Options[:length]
 
       def set(conn, key, values, *_args, **_kwargs)
         conn.del(key)

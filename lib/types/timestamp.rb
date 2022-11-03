@@ -4,8 +4,8 @@ require_relative "abstract_type"
 module Lingonberry
   module Types
     class Timestamp < Integer
-      # {Helpers::Types::DefaultOptions#extended}
-      extend Helpers::Types::DefaultOptions[:length]
+      # {Helpers::Types::Options#extended}
+      extend Helpers::Types::Options[:length]
       extend Helpers::Types::ArrayOf
 
       # @param value [String] the value from storage. Redis always return the string.

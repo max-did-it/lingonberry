@@ -3,8 +3,8 @@ require_relative "abstract_type"
 module Lingonberry
   module Types
     class Hash < AbstractType
-      # {Helpers::Types::DefaultOptions#extended}
-      extend Helpers::Types::DefaultOptions[:keys]
+      # {Helpers::Types::Options#extended}
+      extend Helpers::Types::Options[:keys]
 
       def initialize(*args, **kwargs)
         super(*args, **kwargs)

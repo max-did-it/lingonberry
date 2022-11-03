@@ -3,8 +3,8 @@ require_relative "abstract_type"
 module Lingonberry
   module Types
     class Set < AbstractType
-      # {Helpers::Types::DefaultOptions#extended}
-      extend Helpers::Types::DefaultOptions[:length]
+      # {Helpers::Types::Options#extended}
+      extend Helpers::Types::Options[:length]
 
       attr_reader :sorted
 

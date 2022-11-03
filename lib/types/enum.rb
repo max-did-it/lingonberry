@@ -4,8 +4,8 @@ require_relative "list"
 module Lingonberry
   module Types
     class Enum < AbstractType
-      # {Helpers::Types::DefaultOptions#extended}
-      extend Helpers::Types::DefaultOptions[:keys]
+      # {Helpers::Types::Options#extended}
+      extend Helpers::Types::Options[:keys]
       extend Helpers::Types::ArrayOf
 
       attr_reader :store_as_string
