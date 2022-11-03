@@ -15,7 +15,8 @@ module Lingonberry
         case value
         when ::Hash
           unknown_keys = []
-          unknown_keys = (value.keys - keys) unless keys.nil? && keys.any?
+          unknown_keys = (value.keys - keys) if !keys.nil? && keys.any?
+
           raise Errors::UnknownKey, "#{unknown_keys} must be in #{keys}" if unknown_keys.any?
 
           value.transform_values!(&:to_s)

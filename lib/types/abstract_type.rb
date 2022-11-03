@@ -81,8 +81,10 @@ module Lingonberry
       end
 
       def set_default_options(*_args, **kwargs)
-        self.class.extra_options&.each do |option|
-          instance_variable_set("@#{option}", kwargs[option] || self.class.default_options[option])
+        extra = self.class.instance_variable_get(:@extra_options)
+        default = self.class.instance_variable_get(:@default_options)
+        extra&.each do |option|
+          instance_variable_set("@#{option}", kwargs[option] || default[option])
         end
       end
     end

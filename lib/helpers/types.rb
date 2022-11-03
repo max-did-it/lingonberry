@@ -19,8 +19,8 @@ module Lingonberry
                 attr_reader :extra_options, :default_options
 
                 def inherited(subclass)
-                  subclass.instance_variable_set(:@default_options, default_options)
-                  subclass.instance_variable_set(:@extra_options, extra_options)
+                  subclass.instance_variable_set(:@default_options, @default_options.dup)
+                  subclass.instance_variable_set(:@extra_options, @extra_options.dup)
                   super
                 end
               end
@@ -39,7 +39,7 @@ module Lingonberry
                   def serializer(&block)
                     raise Errors::InvalidValue unless block
 
-                    default_options[:serializer] = block
+                    @default_options[:serializer] = block
                   end
                 end
               end
@@ -53,7 +53,7 @@ module Lingonberry
                   def deserializer(&block)
                     raise Errors::InvalidValue unless block
 
-                    default_options[:deserializer] = block
+                    @default_options[:deserializer] = block
                   end
                 end
               end
@@ -67,7 +67,7 @@ module Lingonberry
                   def validator(&block)
                     raise Errors::InvalidValue unless block
 
-                    default_options[:validator] = block
+                    @default_options[:validator] = block
                   end
                 end
               end
@@ -79,7 +79,7 @@ module Lingonberry
 
                 class << self
                   def length(gt: -1, lt: -1, gteq: -1, lteq: -1, eq: -1)
-                    default_options[:length] = {
+                    @default_options[:length] = {
                       gt: gt,
                       gteq: gteq,
                       lt: lt,
@@ -88,6 +88,7 @@ module Lingonberry
                     }
                   end
                 end
+                length(gt: -1, lt: -1, gteq: -1, lteq: -1, eq: -1)
               end
             end
 
@@ -102,9 +103,11 @@ module Lingonberry
 
                 class << self
                   def null(flag = true)
-                    default_options[:null] = flag
+                    @default_options[:null] = flag
                   end
                 end
+
+                null true
               end
             end
 
@@ -116,9 +119,11 @@ module Lingonberry
                   def expire(ttl = -1)
                     raise Errors::InvalidValue unless ttl.is_a?(::Integer)
 
-                    default_options[:expire] = ttl
+                    @default_options[:expire] = ttl
                   end
                 end
+
+                expire(-1)
               end
             end
 
@@ -128,7 +133,7 @@ module Lingonberry
 
                 class << self
                   def keys(values)
-                    default_options[:keys] = case values
+                    @default_options[:keys] = case values
                     when Array
                       values.map(&:to_sym)
                     when Hash
@@ -138,6 +143,7 @@ module Lingonberry
                     end
                   end
                 end
+                keys []
               end
             end
             @methods_to_inherit = nil
