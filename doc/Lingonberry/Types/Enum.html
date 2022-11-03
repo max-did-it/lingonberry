@@ -405,8 +405,6 @@
       <pre class="lines">
 
 
-31
-32
 33
 34
 35
@@ -414,12 +412,16 @@
 37
 38
 39
-40</pre>
+40
+41
+42
+43</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/types/enum.rb', line 31</span>
+      <pre class="code"><span class="info file"># File 'lib/types/enum.rb', line 33</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_deserialize'>deserialize</span><span class='lparen'>(</span><span class='id identifier rubyid_value'>value</span><span class='rparen'>)</span>
+  <span class='kw'>return</span> <span class='id identifier rubyid_deserializer'>deserializer</span><span class='period'>.</span><span class='id identifier rubyid_call'>call</span><span class='lparen'>(</span><span class='id identifier rubyid_value'>value</span><span class='rparen'>)</span> <span class='kw'>if</span> <span class='id identifier rubyid_deserializer'>deserializer</span>
   <span class='kw'>return</span> <span class='id identifier rubyid_value'>value</span><span class='period'>.</span><span class='id identifier rubyid_to_sym'>to_sym</span> <span class='kw'>if</span> <span class='id identifier rubyid_store_as_string'>store_as_string</span>
 
   <span class='kw'>case</span> <span class='id identifier rubyid_keys'>keys</span>
@@ -481,12 +483,16 @@
 26
 27
 28
-29</pre>
+29
+30
+31</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'lib/types/enum.rb', line 19</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_serialize'>serialize</span><span class='lparen'>(</span><span class='id identifier rubyid_value'>value</span><span class='rparen'>)</span>
+  <span class='kw'>return</span> <span class='id identifier rubyid_serializer'>serializer</span><span class='period'>.</span><span class='id identifier rubyid_call'>call</span><span class='lparen'>(</span><span class='id identifier rubyid_value'>value</span><span class='rparen'>)</span> <span class='kw'>if</span> <span class='id identifier rubyid_serializer'>serializer</span>
+
   <span class='id identifier rubyid_raise'>raise</span> <span class='const'><span class='object_link'><a href="../Errors.html" title="Lingonberry::Errors (module)">Errors</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../Errors/InvalidValue.html" title="Lingonberry::Errors::InvalidValue (class)">InvalidValue</a></span></span> <span class='kw'>unless</span> <span class='id identifier rubyid_valid?'>valid?</span> <span class='id identifier rubyid_value'>value</span>
   <span class='kw'>return</span> <span class='id identifier rubyid_value'>value</span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span> <span class='kw'>if</span> <span class='id identifier rubyid_store_as_string'>store_as_string</span>
 
@@ -539,9 +545,6 @@
       <pre class="lines">
 
 
-42
-43
-44
 45
 46
 47
@@ -550,10 +553,13 @@
 50
 51
 52
-53</pre>
+53
+54
+55
+56</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/types/enum.rb', line 42</span>
+      <pre class="code"><span class="info file"># File 'lib/types/enum.rb', line 45</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_valid?'>valid?</span><span class='lparen'>(</span><span class='id identifier rubyid_value'>value</span><span class='rparen'>)</span>
   <span class='kw'>return</span> <span class='kw'>false</span> <span class='kw'>unless</span> <span class='id identifier rubyid_value'>value</span><span class='period'>.</span><span class='id identifier rubyid_respond_to?'>respond_to?</span><span class='lparen'>(</span><span class='symbol'>:to_sym</span><span class='rparen'>)</span>
@@ -577,7 +583,7 @@
 </div>
 
       <div id="footer">
-  Generated on Thu Nov  3 19:41:23 2022 by
+  Generated on Thu Nov  3 19:52:18 2022 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.27 (ruby-2.7.3).
 </div>

@@ -411,14 +411,18 @@
       <pre class="lines">
 
 
-35
-36
-37</pre>
+37
+38
+39
+40
+41</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/types/set.rb', line 35</span>
+      <pre class="code"><span class="info file"># File 'lib/types/set.rb', line 37</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_deserialize'>deserialize</span><span class='lparen'>(</span><span class='id identifier rubyid_values'>values</span><span class='rparen'>)</span>
+  <span class='kw'>return</span> <span class='id identifier rubyid_deserializer'>deserializer</span><span class='period'>.</span><span class='id identifier rubyid_call'>call</span><span class='lparen'>(</span><span class='id identifier rubyid_value'>value</span><span class='rparen'>)</span> <span class='kw'>if</span> <span class='id identifier rubyid_deserializer'>deserializer</span>
+
   <span class='id identifier rubyid_values'>values</span>
 <span class='kw'>end</span></pre>
     </td>
@@ -477,12 +481,16 @@
 
 31
 32
-33</pre>
+33
+34
+35</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'lib/types/set.rb', line 31</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_serialize'>serialize</span><span class='lparen'>(</span><span class='id identifier rubyid_values'>values</span><span class='rparen'>)</span>
+  <span class='kw'>return</span> <span class='id identifier rubyid_serializer'>serializer</span><span class='period'>.</span><span class='id identifier rubyid_call'>call</span><span class='lparen'>(</span><span class='id identifier rubyid_value'>value</span><span class='rparen'>)</span> <span class='kw'>if</span> <span class='id identifier rubyid_serializer'>serializer</span>
+
   <span class='id identifier rubyid_values'>values</span><span class='period'>.</span><span class='id identifier rubyid_map'>map</span><span class='lparen'>(</span><span class='op'>&amp;</span><span class='symbol'>:to_s</span><span class='rparen'>)</span>
 <span class='kw'>end</span></pre>
     </td>
@@ -531,7 +539,7 @@
 </div>
 
       <div id="footer">
-  Generated on Thu Nov  3 19:41:23 2022 by
+  Generated on Thu Nov  3 19:52:18 2022 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.27 (ruby-2.7.3).
 </div>

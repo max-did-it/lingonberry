@@ -297,12 +297,16 @@
 
 13
 14
-15</pre>
+15
+16
+17</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'lib/types/timestamp.rb', line 13</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_deserialize'>deserialize</span><span class='lparen'>(</span><span class='id identifier rubyid_value'>value</span><span class='rparen'>)</span>
+  <span class='kw'>return</span> <span class='id identifier rubyid_deserializer'>deserializer</span><span class='period'>.</span><span class='id identifier rubyid_call'>call</span><span class='lparen'>(</span><span class='id identifier rubyid_value'>value</span><span class='rparen'>)</span> <span class='kw'>if</span> <span class='id identifier rubyid_deserializer'>deserializer</span>
+
   <span class='const'>Time</span><span class='period'>.</span><span class='id identifier rubyid_at'>at</span> <span class='kw'>super</span><span class='lparen'>(</span><span class='id identifier rubyid_value'>value</span><span class='rparen'>)</span>
 <span class='kw'>end</span></pre>
     </td>
@@ -371,8 +375,6 @@
       <pre class="lines">
 
 
-23
-24
 25
 26
 27
@@ -382,12 +384,18 @@
 31
 32
 33
-34</pre>
+34
+35
+36
+37
+38</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/types/timestamp.rb', line 23</span>
+      <pre class="code"><span class="info file"># File 'lib/types/timestamp.rb', line 25</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_serialize'>serialize</span><span class='lparen'>(</span><span class='id identifier rubyid_value'>value</span><span class='rparen'>)</span>
+  <span class='kw'>return</span> <span class='id identifier rubyid_serializer'>serializer</span><span class='period'>.</span><span class='id identifier rubyid_call'>call</span><span class='lparen'>(</span><span class='id identifier rubyid_value'>value</span><span class='rparen'>)</span> <span class='kw'>if</span> <span class='id identifier rubyid_serializer'>serializer</span>
+
   <span class='kw'>case</span> <span class='id identifier rubyid_value'>value</span>
   <span class='kw'>when</span> <span class='op'>::</span><span class='const'>Time</span>
     <span class='id identifier rubyid_value'>value</span><span class='period'>.</span><span class='id identifier rubyid_to_i'>to_i</span>
@@ -419,12 +427,12 @@
       <pre class="lines">
 
 
-17
-18
-19</pre>
+19
+20
+21</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/types/timestamp.rb', line 17</span>
+      <pre class="code"><span class="info file"># File 'lib/types/timestamp.rb', line 19</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_validate'>validate</span><span class='lparen'>(</span><span class='id identifier rubyid_value'>value</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_serialize'>serialize</span><span class='lparen'>(</span><span class='id identifier rubyid_value'>value</span><span class='rparen'>)</span>
@@ -439,7 +447,7 @@
 </div>
 
       <div id="footer">
-  Generated on Thu Nov  3 19:41:24 2022 by
+  Generated on Thu Nov  3 19:52:18 2022 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.27 (ruby-2.7.3).
 </div>
