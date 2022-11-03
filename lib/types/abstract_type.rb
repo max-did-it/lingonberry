@@ -3,7 +3,12 @@ module Lingonberry
     # Abstract class for all Lingonberry Types
     class AbstractType
       # {Helpers::Types::DefaultOptions#extended}
-      extend Helpers::Types::DefaultOptions[:null, :serializer, :deserializer, :validator]
+      extend Helpers::Types::DefaultOptions[
+        :null, :serializer,
+        :deserializer, :validator,
+        :expire
+      ]
+
       class << self
         def new(*args, **kwargs)
           raise Errors::AbstractClass if superclass == Object

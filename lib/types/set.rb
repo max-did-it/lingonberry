@@ -39,7 +39,12 @@ module Lingonberry
       private
 
       def sorted_set(conn, key, *values)
-        conn.zadd key, serialize(values.flatten!).map.with_index { |value, index| [index.to_f, value] }
+        conn.zadd(
+          key,
+          serialize(values.flatten).map.with_index do |value, index|
+            [index.to_f, value]
+          end
+        )
       end
 
       def sorted_get(conn, key, *args, **kwargs)

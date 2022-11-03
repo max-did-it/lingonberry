@@ -16,7 +16,7 @@ module Lingonberry
         when ::Hash
           unknown_keys = []
           unknown_keys = (value.keys - keys) if keys
-          raise UnknownKey, unknown_keys  if unknown_keys.any?
+          raise UnknownKey, unknown_keys if unknown_keys.any?
 
           value.transform_values!(&:to_s)
         else
@@ -50,6 +50,7 @@ module Lingonberry
           @hash[key.to_sym]
         end
 
+        # rubocop:disable Lint/Void
         def []=(key, value)
           raise Errors::UnknownKey unless key_in_type?(key)
 
@@ -58,6 +59,7 @@ module Lingonberry
           end
           self
         end
+        # rubocop:enable Lint/Void
 
         def to_h
           Lingonberry.connection do |conn|
@@ -68,11 +70,13 @@ module Lingonberry
 
         private
 
+        # rubocop:disable Performance/InefficientHashSearch
         def key_in_type?(key)
           return true unless type.keys
 
           type.keys.include?(key.to_sym)
         end
+        # rubocop:enable Performance/InefficientHashSearch
 
         attr_reader :storage_key, :type
       end

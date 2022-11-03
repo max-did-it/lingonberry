@@ -83,10 +83,14 @@ class TestType < Lingonberry::Types::Enum
 end
 
 # Based on AbstractType
-class AgeType < Lingonberry::Types::AbstractType
-  extend Helpers::Types::DefaultOptions[:length, :null, :serializer, :deserializer]
+class StateType < Lingonberry::Types::AbstractType
+  extend Helpers::Types::DefaultOptions[:length, :keys]
 
+  null false
   length gt: 18, lt: 120
-  deserializer ->(age) { "User age is #{age}"}
+  
+  deserializer do |age| 
+    "User age is #{age}"
+  end
 end
 ```

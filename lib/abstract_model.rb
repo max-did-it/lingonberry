@@ -68,7 +68,7 @@ module Lingonberry
       # @return [nil] nil
       def primary_key(name, type)
         @primary_key = name
-        field(name, type, index: true, uniq: true)
+        field(name, type, uniq: true)
       end
 
       # Find the data which matches the conditions

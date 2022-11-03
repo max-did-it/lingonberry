@@ -7,12 +7,11 @@ module Lingonberry
   # store and fetch values from the storage.
   class Field
     include Helpers
-    attr_reader :name, :type, :unsaved, :expire, :keys, :index, :null
+    attr_reader :name, :type, :unsaved, :expire, :keys, :null
 
     # @param name [String] the name of the field
     # @param type [Lingonberry::Types::AbstractType] the type of the field
     # @param null [true, false] the parameter responded might field accepts nil values
-    # @param index [true, false] the parameter used to create secondary indexes in Redis for your model
     # @param uniq [true, false] the parameter used to prevent duplication of the value, all records will have unique values in this field
     # @param expire [Integer] time to life for a field, in seconds
     # @param validator [#call] the validator which accepts value as parameter
@@ -22,10 +21,9 @@ module Lingonberry
     # @param kwargs [Hash] the hash of options
     #   {Lingonberry::Types::AbstractType#initialize For options more look in subclusses of Lingonberry::Types::AbstractType}
     # @return [Lingonberry::Field] the instance of Lingonberry::Field
-    def initialize(name, type, expire: nil, null: true, index: false, validator: nil, uniq: false, **kwargs)
+    def initialize(name, type, expire: nil, null: true, validator: nil, uniq: false, **kwargs)
       @name = name
       @type = construct_type(type, kwargs)
-      @index = index
       @expire = expire
       @validator = validator
       @uniq = uniq

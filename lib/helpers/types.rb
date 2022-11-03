@@ -35,7 +35,7 @@ module Lingonberry
 
                 class << self
                   def serializer(&block)
-                    raise Errors::InvalidValue unless block_given?
+                    raise Errors::InvalidValue unless block
 
                     default_options[:serializer] = block
                   end
@@ -49,7 +49,7 @@ module Lingonberry
 
                 class << self
                   def deserializer(&block)
-                    raise Errors::InvalidValue unless block_given?
+                    raise Errors::InvalidValue unless block
 
                     default_options[:deserializer] = block
                   end
@@ -63,7 +63,7 @@ module Lingonberry
 
                 class << self
                   def validator(&block)
-                    raise Errors::InvalidValue unless block_given?
+                    raise Errors::InvalidValue unless block
 
                     default_options[:validator] = block
                   end
@@ -101,6 +101,20 @@ module Lingonberry
                 class << self
                   def null(flag = true)
                     default_options[:null] = flag
+                  end
+                end
+              end
+            end
+
+            if @methods_to_inherit.include?(:expire)
+              klass.class_eval do
+                attr_reader :expire
+
+                class << self
+                  def expire(ttl: -1)
+                    raise Errors::InvalidValue unless ttl.is_a?(::Integer)
+
+                    default_options[:expire] = ttl
                   end
                 end
               end
