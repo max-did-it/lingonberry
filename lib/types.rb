@@ -12,8 +12,8 @@ require_relative "types/string"
 require_relative "types/timestamp"
 require_relative "types/uuid"
 
-module Roarm
-  # Namespace includes all Roarm data types
+module Lingonberry
+  # Namespace includes all Lingonberry data types
   #    used for declaring fields in models
   module Types
   end

@@ -1,4 +1,4 @@
-module Roarm
+module Lingonberry
   module Helpers
     module Fields
       def direct_call_protection

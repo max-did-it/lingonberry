@@ -1,4 +1,4 @@
-module Roarm
+module Lingonberry
   module Helpers
     module Types
       # Helper to make a construction like Enum[] which creates a Array type with elements type Enum
@@ -18,13 +18,58 @@ module Roarm
               class << self
                 def inherited(subclass)
                   subclass.instance_variable_set(:@default_options, default_options)
+                  subclass.instance_variable_set(:@extra_options, extra_options)
                   super
                 end
 
+                attr_reader :extra_options
                 attr_accessor :default_options
               end
             end
             klass.instance_variable_set(:@default_options, {})
+            klass.instance_variable_set(:@extra_options, @methods_to_inherit)
+
+            if @methods_to_inherit.include?(:serializer)
+              klass.class_eval do
+                attr_reader :serializer
+
+                class << self
+                  def serializer(&block)
+                    raise Errors::InvalidValue unless block_given?
+
+                    default_options[:serializer] = block
+                  end
+                end
+              end
+            end
+
+            if @methods_to_inherit.include?(:deserializer)
+              klass.class_eval do
+                attr_reader :deserializer
+
+                class << self
+                  def deserializer(&block)
+                    raise Errors::InvalidValue unless block_given?
+
+                    default_options[:deserializer] = block
+                  end
+                end
+              end
+            end
+
+            if @methods_to_inherit.include?(:validator)
+              klass.class_eval do
+                attr_reader :validator
+
+                class << self
+                  def validator(&block)
+                    raise Errors::InvalidValue unless block_given?
+
+                    default_options[:validator] = block
+                  end
+                end
+              end
+            end
 
             if @methods_to_inherit.include?(:length)
               klass.class_eval do
@@ -78,7 +123,6 @@ module Roarm
                 end
               end
             end
-
             @methods_to_inherit = nil
           end
 

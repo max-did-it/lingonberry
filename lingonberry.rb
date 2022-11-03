@@ -7,8 +7,8 @@ require_relative "lib/migration"
 require_relative "lib/configuration"
 require_relative "lib/errors"
 
-Roarm.configure
+Lingonberry.configure
 require_relative "lib/connection"
 
-module Roarm
+module Lingonberry
 end

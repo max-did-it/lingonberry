@@ -1,4 +1,4 @@
-module Roarm
+module Lingonberry
   module Helpers
     class << self
       def descendants(base)

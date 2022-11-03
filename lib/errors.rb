@@ -1,4 +1,4 @@
-module Roarm
+module Lingonberry
   # Namespace for all gem errors
   module Errors
     # Used to raise a error when method called in abstract class
@@ -18,5 +18,7 @@ module Roarm
     class DirectMethodCall < StandardError; end
 
     class UnexpectedError < StandardError; end
+
+    class UnknownKey < StandardError; end
   end
 end

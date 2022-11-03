@@ -1,6 +1,6 @@
 require_relative "abstract_type"
 
-module Roarm
+module Lingonberry
   module Types
     class List < AbstractType
       # {Helpers::Types::DefaultOptions#extended}
@@ -13,6 +13,10 @@ module Roarm
 
       def get(conn, key, *_args, **_kwargs)
         deserialize conn.lrange(key, 0, -1)
+      end
+
+      def deserialize(values)
+        values.map(&:to_s)
       end
 
       def serialize(values)

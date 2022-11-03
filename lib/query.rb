@@ -1,4 +1,4 @@
-module Roarm
+module Lingonberry
   class Query
     # @param sign [Symbol] bashlike sign of comparsion
     # @param value1 [<#==, #>, #>=, #<, #<= >] first value which will compared with the second one

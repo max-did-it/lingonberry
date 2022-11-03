@@ -1,6 +1,6 @@
 require_relative "abstract_type"
 
-module Roarm
+module Lingonberry
   module Types
     class String < AbstractType
       extend Helpers::Types::ArrayOf

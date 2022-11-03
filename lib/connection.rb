@@ -1,6 +1,6 @@
 require "connection_pool"
 require "redis"
-module Roarm
+module Lingonberry
   def self.connection
     CONNECTION_POOL.with do |conn|
       yield conn

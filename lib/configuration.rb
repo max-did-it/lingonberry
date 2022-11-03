@@ -1,4 +1,4 @@
-module Roarm
+module Lingonberry
   class << self
     attr_reader :config
     def configure

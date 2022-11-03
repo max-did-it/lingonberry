@@ -1,8 +1,8 @@
 require_relative "helpers"
 require_relative "types"
 
-module Roarm
-  # Class for fields of {Roarm::AbstractModel models}.
+module Lingonberry
+  # Class for fields of {Lingonberry::AbstractModel models}.
   # Responsible for serialization/deserialization, validation,
   # store and fetch values from the storage.
   class Field
@@ -10,7 +10,7 @@ module Roarm
     attr_reader :name, :type, :unsaved, :expire, :keys, :index, :null
 
     # @param name [String] the name of the field
-    # @param type [Roarm::Types::AbstractType] the type of the field
+    # @param type [Lingonberry::Types::AbstractType] the type of the field
     # @param null [true, false] the parameter responded might field accepts nil values
     # @param index [true, false] the parameter used to create secondary indexes in Redis for your model
     # @param uniq [true, false] the parameter used to prevent duplication of the value, all records will have unique values in this field
@@ -20,8 +20,8 @@ module Roarm
     #   example: [false, ["isn't integer"]]
     #   where first element is result of validation, second is array of errors
     # @param kwargs [Hash] the hash of options
-    #   {Roarm::Types::AbstractType#initialize For options more look in subclusses of Roarm::Types::AbstractType}
-    # @return [Roarm::Field] the instance of Roarm::Field
+    #   {Lingonberry::Types::AbstractType#initialize For options more look in subclusses of Lingonberry::Types::AbstractType}
+    # @return [Lingonberry::Field] the instance of Lingonberry::Field
     def initialize(name, type, expire: nil, null: true, index: false, validator: nil, uniq: false, **kwargs)
       @name = name
       @type = construct_type(type, kwargs)
@@ -33,9 +33,9 @@ module Roarm
     end
 
     # Create a instance of given type with the given options
-    # @param type [Roarm::Types::AbstractType] the type of the field
+    # @param type [Lingonberry::Types::AbstractType] the type of the field
     # @param kwargs [Hash] the hash of options
-    #  {Roarm::Types::AbstractType#initialize For options more look in subclusses of Roarm::Types::AbstractType}
+    #  {Lingonberry::Types::AbstractType#initialize For options more look in subclusses of Lingonberry::Types::AbstractType}
     def construct_type(type, kwargs)
       case type
       when ::Array
@@ -56,7 +56,7 @@ module Roarm
     end
 
     def set(key, *args, **kwargs)
-      if Roarm.config.safe_mode
+      if Lingonberry.config.safe_mode
         @temp_key = key
         @temp_args = args
         @temp_kwargs = kwargs
@@ -67,7 +67,7 @@ module Roarm
     end
 
     def store(key, *args, **kwargs)
-      Roarm.connection do |conn|
+      Lingonberry.connection do |conn|
         type.set(conn, key, *args, **kwargs)
         @value = nil
       end
@@ -77,7 +77,7 @@ module Roarm
       return unless expire
       return conn.expire(key, expire) if conn
 
-      Roarm.connection do |connection|
+      Lingonberry.connection do |connection|
         connection.expire(key, expire)
       end
     end
@@ -93,8 +93,8 @@ module Roarm
     end
 
     def fetch(key, *args, **kwargs)
-      Roarm.connection do |conn|
-        if Roarm.config.safe_mode
+      Lingonberry.connection do |conn|
+        if Lingonberry.config.safe_mode
           @value ||= type.get(conn, key, *args, **kwargs)
           @value
         else

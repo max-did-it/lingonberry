@@ -1,7 +1,7 @@
 require_relative "abstract_type"
 require_relative "list"
 
-module Roarm
+module Lingonberry
   module Types
     def Array(type)
       Array.new(type)
@@ -12,7 +12,7 @@ module Roarm
     # Values will coerced to source Type after extraction
     class Array < List
       # @param type [String, Boolean, Numeric, Symbol] the type of an elements
-      # @return [Roarm::Types::Array] the instance of Array type
+      # @return [Lingonberry::Types::Array] the instance of Array type
       def initialize(type, *args, **kwargs)
         @inner_type = type.new || self.class.instance_variable_get(:@subclass).new
         super(*args, **kwargs)

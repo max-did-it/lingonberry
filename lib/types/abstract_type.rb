@@ -1,9 +1,9 @@
-module Roarm
+module Lingonberry
   module Types
-    # Abstract class for all Roarm Types
+    # Abstract class for all Lingonberry Types
     class AbstractType
       # {Helpers::Types::DefaultOptions#extended}
-      extend Helpers::Types::DefaultOptions[:null]
+      extend Helpers::Types::DefaultOptions[:null, :serializer, :deserializer, :validator]
       class << self
         def new(*args, **kwargs)
           raise Errors::AbstractClass if superclass == Object
@@ -32,6 +32,8 @@ module Roarm
       # @param value [Object] the value which must be deserialized
       # @return [String] the result of deserialization
       def deserialize(value)
+        return deserializer.call(value) if deserializer
+
         value
       end
 
@@ -63,8 +65,8 @@ module Roarm
       private
 
       def set_default_options(*_args, **kwargs)
-        self.class.default_options&.each do |option, value|
-          instance_variable_set("@#{option}", kwargs[option] || value)
+        self.class.extra_options&.each do |option|
+          instance_variable_set("@#{option}", kwargs[option] || self.class.default_options[option])
         end
       end
     end

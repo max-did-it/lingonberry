@@ -1,4 +1,4 @@
-module Roarm
+module Lingonberry
   # Base class to create a Models
   # Usage example:
   # ```ruby
@@ -15,7 +15,7 @@ module Roarm
   # ```
   class AbstractModel
     # Can't be initialized by itself, must been inherited
-    # @return [Class<Roarm::AbstractModel>] the instance of descendant class
+    # @return [Class<Lingonberry::AbstractModel>] the instance of descendant class
     def initialize
       @fields = self.class.fields.map { |f| [f.to_sym, f] }.to_h
     end
@@ -29,8 +29,8 @@ module Roarm
         super
       end
 
-      # Preload class instance variables for descendants when model inherited from Roarm::AbstractModel or from any descendants
-      # @param subclass [Roarm::AbstractModel]
+      # Preload class instance variables for descendants when model inherited from Lingonberry::AbstractModel or from any descendants
+      # @param subclass [Lingonberry::AbstractModel]
       def inherited(subclass)
         subclass.instance_variable_set(:@fields, [])
         subclass.instance_variable_set(:@sub_fields, [])
@@ -43,9 +43,9 @@ module Roarm
       # Defines a meta read/write accessors by the name of field
       #   for instances
       # @param args [Array] array of arguments.
-      #   For available arguments look in Roarm::Field documentations.
+      #   For available arguments look in Lingonberry::Field documentations.
       # @param kwargs [Hash] array of kwargs
-      #   For available options look in Roarm::Field documentations.
+      #   For available options look in Lingonberry::Field documentations.
       # @return [nil]
       def field(*args, **kwargs)
         field_instance = Field.new(*args, **kwargs)
@@ -64,7 +64,7 @@ module Roarm
       end
 
       # @param name [String, Symbol] name of the field
-      # @param type [Roarm::Types::AbstractType] type of field
+      # @param type [Lingonberry::Types::AbstractType] type of field
       # @return [nil] nil
       def primary_key(name, type)
         @primary_key = name
@@ -76,14 +76,6 @@ module Roarm
       # @return [Relation] the instance of relation
       def where(**kwargs)
       end
-
-      # Making a key according to given field in the model
-      # @param field [#to_s] the name of the field
-      # @return [String] the key on which value is stored
-      def field_key(field)
-        "roarm:#{self.class.name.demodulize.downcase}:#{field}"
-      end
-      # end class << self
     end
 
     def save!
@@ -91,7 +83,7 @@ module Roarm
     end
 
     def save(validate: false)
-      fields.each do |field_name, field|
+      fields.each do |_, field|
         next unless field.unsaved
 
         field.store_unsaved(validate: validate)
@@ -102,8 +94,11 @@ module Roarm
 
     attr_reader :fields
 
+    # Making a key according to given field in the model
+    # @param field [#to_s] the name of the field
+    # @return [String] the key on which value is stored
     def field_key(field)
-      "#{self.class.name.downcase}:#{field}"
+      "lingonberry:#{self.class.name.downcase}:#{field}"
     end
   end
 end

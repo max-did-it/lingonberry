@@ -1,6 +1,6 @@
 require_relative "abstract_type"
 
-module Roarm
+module Lingonberry
   module Types
     class Integer < AbstractType
       # {Helpers::Types::DefaultOptions#extended}

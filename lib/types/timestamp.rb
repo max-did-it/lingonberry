@@ -1,7 +1,7 @@
 require "time"
 require_relative "abstract_type"
 
-module Roarm
+module Lingonberry
   module Types
     class Timestamp < Integer
       # {Helpers::Types::DefaultOptions#extended}

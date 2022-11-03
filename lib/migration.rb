@@ -1,4 +1,4 @@
-module Roarm
+module Lingonberry
   class Migration
   end
 end
