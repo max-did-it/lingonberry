@@ -7,17 +7,19 @@ module Lingonberry
   # store and fetch values from the storage.
   class Field
     include Helpers
-    attr_reader :name, :type, :unsaved, :expire, :keys, :null
+    attr_reader :name, :type, :cached_value, :cache_ttl, :unsaved, :expire, :keys, :null
 
     # @param name [String] the name of the field
     # @param type [Lingonberry::Types::AbstractType] the type of the field
     # @param kwargs [Hash] the hash of options
     #   {Lingonberry::Types::AbstractType#initialize For options more look in subclusses of Lingonberry::Types::AbstractType}
     # @return [Lingonberry::Field] the instance of Lingonberry::Field
-    def initialize(name, type, model_name:, context:, **kwargs)
+    def initialize(name, type, model_name:, context:, cache_ttl: -1, **kwargs)
       @name = name
+      @cache_ttl = cache_ttl
       @model_name = model_name
       @context = context
+
       @type = construct_type(type, kwargs)
     end
 
@@ -78,7 +80,14 @@ module Lingonberry
     end
 
     def get(*args, **kwargs)
-      type.get(@context.connection, key, *args, **kwargs)
+      if cache_ttl.positive?
+        return cached_value if cache_valid?
+
+        @cached_at = Time.now
+        @cached_value = type.get(@context.connection, key, *args, **kwargs)
+      else
+        type.get(@context.connection, key, *args, **kwargs)
+      end
     end
 
     def valid?
@@ -95,6 +104,12 @@ module Lingonberry
 
     def to_sym
       name.to_sym
+    end
+
+    def cache_valid?
+      return false unless @cached_at
+
+      (Time.now - @cached_at) < cache_ttl
     end
 
     # Making a key according field name and model name
