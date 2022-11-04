@@ -31,7 +31,13 @@ module Lingonberry
       def serialize(values)
         return serializer.call(value) if serializer
 
-        values.map(&:to_s)
+        if sorted
+          values.map.with_index do |value, index|
+            [index.to_f, value]
+          end
+        else
+          values.map(&:to_s)
+        end
       end
 
       def deserialize(values)
@@ -45,9 +51,7 @@ module Lingonberry
       def sorted_set(conn, key, *values)
         conn.zadd(
           key,
-          serialize(values.flatten).map.with_index do |value, index|
-            [index.to_f, value]
-          end
+          serialize(values.flatten)
         )
       end
 

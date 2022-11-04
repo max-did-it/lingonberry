@@ -8,7 +8,7 @@ class TestType < Lingonberry::Types::Enum
 end
 
 class TestModel < Base
-  primary_key :primary_key, UUID
+  primary_key :id
   field :string, String, uniq: true, null: false
   field :array, [TestType], length: {lt: 5}
   field :set, Set, length: {lt: 5}

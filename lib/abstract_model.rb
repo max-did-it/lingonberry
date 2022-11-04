@@ -63,12 +63,11 @@ module Lingonberry
         nil
       end
 
-      # @param name [String, Symbol] name of the field
-      # @param type [Lingonberry::Types::AbstractType] type of field
+      # @param name [String, Symbol] name of the primary key
       # @return [nil] nil
-      def primary_key(name, type)
+      def primary_key(name)
         @primary_key = name
-        field(name, type, uniq: true)
+        field(name, Types::PrimaryKey, sorted: true)
       end
 
       # Find the data which matches the conditions
