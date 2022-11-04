@@ -79,20 +79,20 @@ describe "Lingonberry" do
     ## TODO develop lazy load for hash
     context "hash" do
       it "should accept a key like instance.hash[key] = value" do
-        test_instance.hash[:key2] = "kek"
+        test_instance.hash1[:key2] = "kek"
         test_instance.save!
-        expect(test_instance.hash[:key2]).to eq("kek")
+        expect(test_instance.hash1[:key2]).to eq("kek")
       end
 
       it "should raise error when key isn't in keys option if keys options is given" do
-        expect { test_instance.hash[:lol] = "kek" }.to raise_error(Lingonberry::Errors::UnknownKey)
+        expect { test_instance.hash1[:lol] = "kek" }.to raise_error(Lingonberry::Errors::UnknownKey)
       end
 
       it "should substitute all hash" do
         hash = {key1: "1", key2: "59"}
-        test_instance.hash = hash
+        test_instance.hash1 = hash
         expect { test_instance.save! }.not_to raise_error
-        expect(test_instance.hash.to_h).to including(hash)
+        expect(test_instance.hash1.to_h).to including(hash)
       end
 
       it "should accept any keys if keys not given as option for field" do

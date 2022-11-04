@@ -14,8 +14,9 @@ module Lingonberry
     # @param kwargs [Hash] the hash of options
     #   {Lingonberry::Types::AbstractType#initialize For options more look in subclusses of Lingonberry::Types::AbstractType}
     # @return [Lingonberry::Field] the instance of Lingonberry::Field
-    def initialize(name, type, **kwargs)
+    def initialize(name, type, model_name:, **kwargs)
       @name = name
+      @model_name = model_name
       @type = construct_type(type, kwargs)
     end
 
@@ -42,7 +43,7 @@ module Lingonberry
       direct_call_protection
     end
 
-    def set(key, *args, **kwargs)
+    def set(*args, **kwargs)
       if Lingonberry.config.safe_mode
         @temp_key = key
         @temp_args = args
@@ -79,7 +80,7 @@ module Lingonberry
       @temp_kwargs = nil
     end
 
-    def fetch(key, *args, **kwargs)
+    def get(*args, **kwargs)
       Lingonberry.connection do |conn|
         if Lingonberry.config.safe_mode
           @value ||= type.get(conn, key, *args, **kwargs)
@@ -104,6 +105,12 @@ module Lingonberry
 
     def to_sym
       name.to_sym
+    end
+
+    # Making a key according field name and model name
+    # @return [String] the key on which value is stored
+    def key
+      "lingonberry:#{@model_name}:#{name}"
     end
   end
 end
