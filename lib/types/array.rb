@@ -27,7 +27,7 @@ module Lingonberry
       def serialize(values)
         return serializer.call(values) if serializer
 
-        values.map! do |value|
+        values.map do |value|
           inner_type.serialize(value)
         end
       end
@@ -35,7 +35,7 @@ module Lingonberry
       def deserialize(values)
         return deserializer.call(values) if deserializer
 
-        values.map! do |value|
+        values.map do |value|
           inner_type.deserialize(value)
         end
       end

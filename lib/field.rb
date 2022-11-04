@@ -14,9 +14,10 @@ module Lingonberry
     # @param kwargs [Hash] the hash of options
     #   {Lingonberry::Types::AbstractType#initialize For options more look in subclusses of Lingonberry::Types::AbstractType}
     # @return [Lingonberry::Field] the instance of Lingonberry::Field
-    def initialize(name, type, model_name:, **kwargs)
+    def initialize(name, type, model_name:, context:, **kwargs)
       @name = name
       @model_name = model_name
+      @context = context
       @type = construct_type(type, kwargs)
     end
 
@@ -43,52 +44,41 @@ module Lingonberry
       direct_call_protection
     end
 
+    # immediately save data to the storage
     def set(*args, **kwargs)
-      if Lingonberry.config.safe_mode
-        @temp_key = key
-        @temp_args = args
-        @temp_kwargs = kwargs
-        @unsaved = true
-      else
-        store(key, *args, **kwargs)
-      end
+      type.set(
+        @context.connection,
+        key,
+        *args,
+        **kwargs
+      )
     end
 
-    def store(key, *args, **kwargs)
-      Lingonberry.connection do |conn|
-        type.set(conn, key, *args, **kwargs)
-        @value = nil
-      end
+    # Write temp data to the storage
+    def save
+      return true unless @unsaved_data
+
+      result = type.set(
+        @context.connection,
+        key,
+        *@unsaved_data.args,
+        **@unsaved_data.kwargs
+      )
+      raise Errors::SavingGoneWrong, "#{@model_name}##{name} saving gone wrong with values #{@unsaved_data.to_h}" unless result
+
+      @unsaved_data = nil
     end
 
-    def set_expire_key(key, conn: nil)
-      return unless expire
-      return conn.expire(key, expire) if conn
-
-      Lingonberry.connection do |connection|
-        connection.expire(key, expire)
-      end
-    end
-
-    def store_unsaved(validate:)
-      raise Errors::InvalidaValue if validate && !valid?
-
-      store(@temp_key, *@temp_args, **@temp_kwargs)
-      @unsaved = false
-      @temp_key = nil
-      @temp_args = nil
-      @temp_kwargs = nil
+    # Temporarily save data
+    def store(*args, **kwargs)
+      @unsaved_data = OpenStruct.new({
+        args: args,
+        kwargs: kwargs
+      })
     end
 
     def get(*args, **kwargs)
-      Lingonberry.connection do |conn|
-        if Lingonberry.config.safe_mode
-          @value ||= type.get(conn, key, *args, **kwargs)
-          @value
-        else
-          type.get(conn, key, *args, **kwargs)
-        end
-      end
+      type.get(@context.connection, key, *args, **kwargs)
     end
 
     def valid?
