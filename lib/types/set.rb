@@ -19,7 +19,8 @@ module Lingonberry
         conn.del(key)
         return sorted_set(conn, key, *values) if sorted
 
-        conn.sadd key, serialize(values.flatten!)
+        values_to_insert = serialize(values.flatten)
+        conn.sadd(key, values_to_insert)
       end
 
       def get(conn, key, *args, **kwargs)
@@ -49,9 +50,10 @@ module Lingonberry
       private
 
       def sorted_set(conn, key, *values)
+        values_to_insert = serialize(values.flatten)
         conn.zadd(
           key,
-          serialize(values.flatten)
+          values_to_insert
         )
       end
 

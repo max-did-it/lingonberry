@@ -8,7 +8,8 @@ module Lingonberry
 
       def set(conn, key, values, *_args, **_kwargs)
         conn.del(key)
-        conn.lpush(key, serialize(values))
+        values_to_insert = serialize(values)
+        conn.lpush(key, values_to_insert) == values_to_insert.count
       end
 
       def get(conn, key, *_args, **_kwargs)

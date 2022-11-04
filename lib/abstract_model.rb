@@ -17,7 +17,14 @@ module Lingonberry
     # Can't be initialized by itself, must been inherited
     # @return [Class<Lingonberry::AbstractModel>] the instance of descendant class
     def initialize
-      @fields = self.class.fields.map { |f| [f.to_sym, f] }.to_h
+      @context = OpenStruct.new
+      @context.model = self
+
+      @fields = self.class.fields.map do |name, type, **kwargs|
+        kwargs[:context] = @context
+        field = Field.new(name.to_sym, type, **kwargs)
+        [name.to_sym, field]
+      end.to_h
     end
 
     class << self
@@ -51,14 +58,14 @@ module Lingonberry
         field_name_valid?(name.to_sym)
 
         kwargs[:model_name] = self.name.demodulize.downcase
-        field_instance = Field.new(name.to_sym, type, **kwargs)
-        @fields.push(field_instance) if field_instance.valid?
+        field_params = [name.to_sym, type, **kwargs]
+        @fields.push(field_params)
 
-        define_method(field_instance.to_sym) do |*jargs, **jkwargs|
+        define_method(name.to_sym) do |*jargs, **jkwargs|
           get fields[__method__], *jargs, **jkwargs
         end
 
-        define_method("#{field_instance}=") do |*jargs, **jkwargs|
+        define_method("#{name.to_sym}=") do |*jargs, **jkwargs|
           field_name = __method__.to_s.delete("=").to_sym
           store fields[field_name], *jargs, **jkwargs
         end
@@ -85,15 +92,18 @@ module Lingonberry
     end
 
     def save!
-      save(validate: true)
+      save
     end
 
-    def save(validate: false)
-      fields.each do |_, field|
-        next unless field.unsaved
-
-        field.store_unsaved(validate: validate)
+    def save
+      with_connection do |connection|
+        @context.connection = connection
+        fields.each do |_, field|
+          field.save
+        end
       end
+    ensure
+      @context.connection = nil
     end
 
     def new_record?
@@ -103,11 +113,38 @@ module Lingonberry
     private
 
     def get(field, *args, **kwargs)
-      field.get(*args, **kwargs)
+      with_connection do |connection|
+        @context.connection = connection
+        field.get(*args, **kwargs)
+      end
+    ensure
+      @context.connection = nil
     end
 
     def store(field, *args, **kwargs)
-      field.set(*args, **kwargs)
+      field.store(*args, **kwargs)
+    ensure
+      @context.connection = nil
+    end
+
+    def with_connection(transaction: false, &block)
+      return unless block
+
+      Lingonberry.connection do |conn|
+        if transaction
+          transaction(conn, &block)
+        else
+          block.call(conn)
+        end
+      end
+    end
+
+    def transaction(connection, &block)
+      return unless block
+
+      connection.multi do |conn|
+        block.call(conn)
+      end
     end
 
     attr_reader :fields
