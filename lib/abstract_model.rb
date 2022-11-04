@@ -17,6 +17,8 @@ module Lingonberry
     # Can't be initialized by itself, must been inherited
     # @return [Class<Lingonberry::AbstractModel>] the instance of descendant class
     def initialize
+      @context = OpenStruct.new
+      @context.model = self
       @fields = self.class.fields.map { |f| [f.to_sym, f] }.to_h
     end
 
@@ -82,16 +84,41 @@ module Lingonberry
     end
 
     def save(validate: false)
-      fields.each do |_, field|
-        next unless field.unsaved
+      with_connection do |connection|
+        @context.connection = connection
+        fields.each do |_, field|
+          next unless field.unsaved
 
-        field.store_unsaved(validate: validate)
+          field.store_unsaved(validate: validate)
+        end
       end
+    ensure
+      @context.connection = nil
     end
 
     private
 
     attr_reader :fields
+
+    def with_connection(transaction: false, &block)
+      return unless block_given?
+
+      Lingonberry.connection do |conn|
+        if transaction
+          transaction(conn, &block)
+        else
+          block.call(conn)
+        end
+      end
+    end
+
+    def transaction(connection, &block)
+      return unless block_given?
+
+      connection.multi do |conn|
+        block.call(conn)
+      end
+    end
 
     # Making a key according to given field in the model
     # @param field [#to_s] the name of the field
