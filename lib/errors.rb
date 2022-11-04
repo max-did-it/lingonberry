@@ -20,5 +20,7 @@ module Lingonberry
     class UnexpectedError < StandardError; end
 
     class UnknownKey < StandardError; end
+
+    class InvalidFieldName < StandardError; end
   end
 end

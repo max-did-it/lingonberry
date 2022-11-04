@@ -47,20 +47,27 @@ module Lingonberry
       # @param kwargs [Hash] array of kwargs
       #   For available options look in Lingonberry::Field documentations.
       # @return [nil]
-      def field(*args, **kwargs)
-        field_instance = Field.new(*args, **kwargs)
+      def field(name, type, **kwargs)
+        field_name_valid?(name.to_sym)
+
+        kwargs[:model_name] = self.name.demodulize.downcase
+        field_instance = Field.new(name.to_sym, type, **kwargs)
         @fields.push(field_instance) if field_instance.valid?
 
-        define_method(field_instance.to_sym) do
-          fields[__method__].fetch field_key(__method__)
+        define_method(field_instance.to_sym) do |*jargs, **jkwargs|
+          get fields[__method__], *jargs, **jkwargs
         end
 
         define_method("#{field_instance}=") do |*jargs, **jkwargs|
           field_name = __method__.to_s.delete("=").to_sym
-          fields[field_name].set(field_key(field_name), *jargs, **jkwargs)
+          store fields[field_name], *jargs, **jkwargs
         end
 
         nil
+      end
+
+      def field_name_valid?(name)
+        raise Errors::InvalidFieldName, "Name \"#{name}\" is forbidden because intersects with model method name" if methods.include?(name) || instance_methods.include?(name)
       end
 
       # @param name [String, Symbol] name of the primary key
@@ -89,15 +96,20 @@ module Lingonberry
       end
     end
 
+    def new_record?
+      true
+    end
+
     private
 
-    attr_reader :fields
-
-    # Making a key according to given field in the model
-    # @param field [#to_s] the name of the field
-    # @return [String] the key on which value is stored
-    def field_key(field)
-      "lingonberry:#{self.class.name.downcase}:#{field}"
+    def get(field, *args, **kwargs)
+      field.get(*args, **kwargs)
     end
+
+    def store(field, *args, **kwargs)
+      field.set(*args, **kwargs)
+    end
+
+    attr_reader :fields
   end
 end
