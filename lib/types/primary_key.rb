@@ -1,21 +1,15 @@
-require_relative "abstract_type"
+require_relative "string"
 
 module Lingonberry
   module Types
     class PrimaryKey < Set
-      def initialize(*args, **kwargs)
-        kwargs[:sorted] = true
-        super(*args, **kwargs)
+      generator do |_instance|
+        SecureRandom.uuid
       end
 
-      def serialize(_values)
-        generate_id
-      end
-
-      private
-
-      def generate_id
-        Time.now.to_f
+      def set(conn, key, value, **kwargs)
+        conn.srem key, kwargs[:old_value] if kwargs[:old_value]
+        push(conn, key, value, **kwargs)
       end
     end
   end

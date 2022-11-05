@@ -6,7 +6,8 @@ module Lingonberry
       extend Helpers::Types::Options[
         :null, :serializer,
         :deserializer, :validator,
-        :expire
+        :expire,
+        :generator
       ]
 
       class << self
@@ -22,6 +23,7 @@ module Lingonberry
       end
 
       def initialize(*args, **kwargs)
+        @context = kwargs[:context]
       ensure
         set_default_options(*args, **kwargs)
       end
@@ -57,7 +59,7 @@ module Lingonberry
       # @param key [String] the key for store the value
       # @param value [String] the value must be stored
       # @return [true, false] true if result set is successfully and false if something goes wrong
-      def set(conn, key, value)
+      def set(conn, key, value, *_args, **_kwargs)
         conn.set(key, serialize(value)) == "OK"
       end
 

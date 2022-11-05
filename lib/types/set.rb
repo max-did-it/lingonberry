@@ -15,11 +15,11 @@ module Lingonberry
         super(*args, **kwargs)
       end
 
-      def set(conn, key, *values)
+      def set(conn, key, values)
         conn.del(key)
-        return sorted_set(conn, key, *values) if sorted
+        return sorted_set(conn, key, values) if sorted
 
-        values_to_insert = serialize(values.flatten)
+        values_to_insert = serialize(values)
         conn.sadd(key, values_to_insert)
       end
 
@@ -29,8 +29,14 @@ module Lingonberry
         deserialize conn.smembers(key)
       end
 
-      def serialize(values)
-        return serializer.call(value) if serializer
+      def push(conn, key, values, **kwargs)
+        values_to_insert = serialize(values)
+        conn.sadd(key, values_to_insert)
+      end
+
+      def serialize(*values)
+        values.flatten!
+        return serializer.call(values) if serializer
 
         if sorted
           values.map.with_index do |value, index|

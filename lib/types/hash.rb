@@ -88,16 +88,18 @@ module Lingonberry
         attr_reader :storage_key, :type
       end
 
-      def get(_conn, key, *args, **kwargs)
+      def get(_conn, key, values, *args, **kwargs)
         @interface.chain(self, key)
       end
 
       def set(conn, key, values, *args, **kwargs)
-        conn.del(key)
-        @interface.instance_variable_set(:@hash, {})
+        conn.multi do |c|
+          c.del(key)
+          @interface.instance_variable_set(:@hash, {})
 
-        values_to_insert = serialize(values)
-        conn.hset(key, values_to_insert) == values_to_insert.count
+          values_to_insert = serialize(values)
+          c.hset(key, values_to_insert) == values_to_insert.count
+        end
       ensure
         post_set(conn, key, values, *args, **kwargs)
       end

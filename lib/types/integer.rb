@@ -1,8 +1,8 @@
-require_relative "abstract_type"
+require_relative "numeric"
 
 module Lingonberry
   module Types
-    class Integer < AbstractType
+    class Integer < Numeric
       # {Helpers::Types::Options#extended}
       extend Helpers::Types::Options[:length]
       extend Helpers::Types::ArrayOf

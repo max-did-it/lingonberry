@@ -14,10 +14,9 @@ module Lingonberry
     # @param kwargs [Hash] the hash of options
     #   {Lingonberry::Types::AbstractType#initialize For options more look in subclusses of Lingonberry::Types::AbstractType}
     # @return [Lingonberry::Field] the instance of Lingonberry::Field
-    def initialize(name, type, model_name:, context:, cache_ttl: -1, **kwargs)
+    def initialize(name, type, context:, cache_ttl: -1, **kwargs)
       @name = name
       @cache_ttl = cache_ttl
-      @model_name = model_name
       @context = context
 
       @type = construct_type(type, kwargs)
@@ -28,6 +27,7 @@ module Lingonberry
     # @param kwargs [Hash] the hash of options
     #  {Lingonberry::Types::AbstractType#initialize For options more look in subclusses of Lingonberry::Types::AbstractType}
     def construct_type(type, kwargs)
+      kwargs[:context] = @context
       case type
       when ::Array
         raise Errors::InvalidTypeArrayOf if type.count > 1
@@ -40,10 +40,6 @@ module Lingonberry
       else
         raise Errors::UnknownType, "#{type} unknown"
       end
-    end
-
-    def set_instance
-      direct_call_protection
     end
 
     # immediately save data to the storage
@@ -66,9 +62,14 @@ module Lingonberry
         *@unsaved_data.args,
         **@unsaved_data.kwargs
       )
-      raise Errors::SavingGoneWrong, "#{@model_name}##{name} saving gone wrong with values #{@unsaved_data.to_h}" unless result
+      raise Errors::SavingGoneWrong, "#{@context.model_name}##{name} saving gone wrong with values #{@unsaved_data.to_h}" unless result
 
       @unsaved_data = nil
+      true
+    end
+
+    def unsaved?
+      !@unsaved_data.nil?
     end
 
     # Temporarily save data
@@ -112,10 +113,12 @@ module Lingonberry
       (Time.now - @cached_at) < cache_ttl
     end
 
+    private
+
     # Making a key according field name and model name
     # @return [String] the key on which value is stored
-    def key
-      "lingonberry:#{@model_name}:#{name}"
+    def key(primary_key: @context.instance.primary_key)
+      "lingonberry:#{@context.model_name}:#{name}:#{primary_key}"
     end
   end
 end
