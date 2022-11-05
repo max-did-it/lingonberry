@@ -5,6 +5,35 @@ describe "Lingonberry" do
     expect { create :test_model }.not_to raise_error
   end
 
+  describe "storage namespace" do
+    let(:redis_conn) { Redis.new }
+
+    subject { create :test_model }
+
+    before do
+    end
+
+    context "primary keys" do
+      it "should store primary keys in common model set for primary keys" do
+        instance = subject
+        redis_key = "lingonberry:test_model:id"
+        expect(redis_conn.exists?(redis_key)).to be_truthy
+        expect(redis_conn.smembers(redis_key)).to include(instance.id)
+      end
+
+      it "should rename other fields keys if pk changed" do
+        redis_key = ->(id) { "lingonberry:test_model:#{id}:string" }
+        instance = subject
+        expect(redis_conn.exists?(redis_key.call(instance.id))).to be_truthy
+      end
+    end
+
+    context "field keys" do
+      it "should be composed from model name and primary key" do
+      end
+    end
+  end
+
   describe "Types" do
     context "timestamp" do
       it "should return Time class when set Time" do
