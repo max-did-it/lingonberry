@@ -42,7 +42,6 @@ class TestModel < Base
   field :list, List
   field :timestamp, Timestamp
   field :timestamp_with_index, Timestamp, numeric_index: true
-  field :uuid, UUID
 end
 ```
 
