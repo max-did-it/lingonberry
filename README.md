@@ -48,7 +48,7 @@ end
 
 ## DataTypes
 
-  - [AbstractType](#abstract_type)
+  - [AbstractType](#abstracttype)
   - [Numeric](#numeric)
   - [Integer](#integer)
   - [String](#string)
