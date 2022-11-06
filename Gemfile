@@ -1,5 +1,6 @@
 source "https://rubygems.org"
 
+ruby '>= 2.6.0'
 gem "connection_pool", "~> 2.3"
 gem "redis"
 gem "hiredis-client"
@@ -16,6 +17,7 @@ end
 
 group :test do
   gem "mock_redis"
+  gem "activesupport", "~> 5.0"
   gem "factory_bot", "~> 6.0"
   gem "rspec", "~> 3.11"
 end
