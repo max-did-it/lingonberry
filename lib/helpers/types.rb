@@ -29,6 +29,7 @@ module Lingonberry
 
             existing_default_options = klass.instance_variable_get(:@default_options) || {}
             klass.instance_variable_set(:@default_options, existing_default_options)
+
             existing_extra_options = klass.instance_variable_get(:@extra_options) || []
             klass.instance_variable_set(:@extra_options, (existing_extra_options + @methods_to_inherit).uniq)
 
@@ -99,11 +100,27 @@ module Lingonberry
             klass.class_eval do
               attr_reader :uniq
 
-              def uniq(flag = false)
-                @default_options[:uniq] = flag
+              class << self
+                def uniq(flag = false)
+                  @default_options[:uniq] = flag
+                end
               end
 
               uniq false
+            end
+          end
+
+          def add_numeric_index(klass)
+            klass.class_eval do
+              attr_reader :numeric_index
+
+              class << self
+                def numeric_index(flag = false)
+                  @default_options[:numeric_index] = flag
+                end
+              end
+
+              numeric_index false
             end
           end
 
@@ -166,6 +183,20 @@ module Lingonberry
                   raise Errors::InvalidValue unless block
 
                   @default_options[:serializer] = block
+                end
+              end
+            end
+          end
+
+          def add_generator(klass)
+            klass.class_eval do
+              attr_reader :generator
+
+              class << self
+                def generator(&block)
+                  raise Errors::InvalidValue unless block
+
+                  @default_options[:generator] = block
                 end
               end
             end

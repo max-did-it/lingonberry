@@ -2,6 +2,8 @@ require "connection_pool"
 require "redis"
 module Lingonberry
   def self.connection
+    require "hiredis-client" if @config.driver == :hiredis
+
     CONNECTION_POOL.with do |conn|
       yield conn
     end
@@ -9,5 +11,10 @@ module Lingonberry
 
   private
 
-  CONNECTION_POOL = ::ConnectionPool.new(size: @config.redis_pool_size, timeout: @config.redis_conn_timeout) { ::Redis.new(url: @config.redis_url) }
+  CONNECTION_POOL = ::ConnectionPool.new(size: @config.redis_pool_size, timeout: @config.redis_conn_timeout) do
+    ::Redis.new(
+      url: @config.redis_url,
+      driver: @config.driver
+    )
+  end
 end

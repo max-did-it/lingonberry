@@ -293,12 +293,12 @@
       <pre class="lines">
 
 
-39
 40
-41</pre>
+41
+42</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/types/hash.rb', line 39</span>
+      <pre class="code"><span class="info file"># File 'lib/types/hash.rb', line 40</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_initialize'>initialize</span>
   <span class='ivar'>@hash</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='rbrace'>}</span>
@@ -340,12 +340,12 @@
       <pre class="lines">
 
 
-37
 38
-39</pre>
+39
+40</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/types/hash.rb', line 37</span>
+      <pre class="code"><span class="info file"># File 'lib/types/hash.rb', line 38</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_hash'>hash</span>
   <span class='ivar'>@hash</span>
@@ -399,17 +399,17 @@
       <pre class="lines">
 
 
-49
 50
 51
 52
 53
 54
 55
-56</pre>
+56
+57</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/types/hash.rb', line 49</span>
+      <pre class="code"><span class="info file"># File 'lib/types/hash.rb', line 50</span>
 
 <span class='kw'>def</span> <span class='op'>[]</span><span class='lparen'>(</span><span class='id identifier rubyid_key'>key</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_raise'>raise</span> <span class='const'><span class='object_link'><a href="../../Errors.html" title="Lingonberry::Errors (module)">Errors</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../../Errors/UnknownKey.html" title="Lingonberry::Errors::UnknownKey (class)">UnknownKey</a></span></span> <span class='kw'>unless</span> <span class='id identifier rubyid_key_in_type?'>key_in_type?</span><span class='lparen'>(</span><span class='id identifier rubyid_key'>key</span><span class='rparen'>)</span>
@@ -462,17 +462,17 @@
       <pre class="lines">
 
 
-59
 60
 61
 62
 63
 64
 65
-66</pre>
+66
+67</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/types/hash.rb', line 59</span>
+      <pre class="code"><span class="info file"># File 'lib/types/hash.rb', line 60</span>
 
 <span class='kw'>def</span> <span class='op'>[]=</span><span class='lparen'>(</span><span class='id identifier rubyid_key'>key</span><span class='comma'>,</span> <span class='id identifier rubyid_value'>value</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_raise'>raise</span> <span class='const'><span class='object_link'><a href="../../Errors.html" title="Lingonberry::Errors (module)">Errors</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../../Errors/UnknownKey.html" title="Lingonberry::Errors::UnknownKey (class)">UnknownKey</a></span></span> <span class='kw'>unless</span> <span class='id identifier rubyid_key_in_type?'>key_in_type?</span><span class='lparen'>(</span><span class='id identifier rubyid_key'>key</span><span class='rparen'>)</span>
@@ -502,14 +502,14 @@
       <pre class="lines">
 
 
-43
 44
 45
 46
-47</pre>
+47
+48</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/types/hash.rb', line 43</span>
+      <pre class="code"><span class="info file"># File 'lib/types/hash.rb', line 44</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_chain'>chain</span><span class='lparen'>(</span><span class='id identifier rubyid_type'>type</span><span class='comma'>,</span> <span class='id identifier rubyid_storage_key'>storage_key</span><span class='rparen'>)</span>
   <span class='ivar'>@storage_key</span> <span class='op'>=</span> <span class='id identifier rubyid_storage_key'>storage_key</span>
@@ -546,15 +546,15 @@
       <pre class="lines">
 
 
-69
 70
 71
 72
 73
-74</pre>
+74
+75</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/types/hash.rb', line 69</span>
+      <pre class="code"><span class="info file"># File 'lib/types/hash.rb', line 70</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_to_h'>to_h</span>
   <span class='const'><span class='object_link'><a href="../../../Lingonberry.html" title="Lingonberry (module)">Lingonberry</a></span></span><span class='period'>.</span><span class='id identifier rubyid_connection'><span class='object_link'><a href="../../../Lingonberry.html#connection-class_method" title="Lingonberry.connection (method)">connection</a></span></span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_conn'>conn</span><span class='op'>|</span>
@@ -572,7 +572,7 @@
 </div>
 
       <div id="footer">
-  Generated on Thu Nov  3 19:52:18 2022 by
+  Generated on Sun Nov  6 18:04:16 2022 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.27 (ruby-2.7.3).
 </div>

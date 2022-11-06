@@ -107,4 +107,5 @@ Lingonberry.configure do |config|
   config.redis_conn_timeout = 4
   config.redis_pool_size = 100
   config.safe_mode = true
+  config.driver = :hiredis
 end

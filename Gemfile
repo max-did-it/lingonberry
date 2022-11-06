@@ -1,5 +1,8 @@
+source "https://rubygems.org"
+
 gem "connection_pool", "~> 2.3"
 gem "redis"
+gem "hiredis-client"
 
 group :development do
   gem "yard", "~> 0.9.27"

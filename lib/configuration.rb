@@ -7,7 +7,7 @@ module Lingonberry
       @config.redis_conn_timeout = 4
       @config.redis_pool_size = 100
       @config.safe_mode = false
-
+      @config.driver = :ruby
       yield @config if block_given?
     end
   end

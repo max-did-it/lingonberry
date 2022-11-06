@@ -3,7 +3,7 @@ require_relative "abstract_type"
 
 module Lingonberry
   module Types
-    class Timestamp < Integer
+    class Timestamp < Float
       # {Helpers::Types::Options#extended}
       extend Helpers::Types::Options[:length]
       extend Helpers::Types::ArrayOf
@@ -11,6 +11,7 @@ module Lingonberry
       # @param value [String] the value from storage. Redis always return the string.
       # @return [Time] the mapped to Time class
       def deserialize(value)
+        return patch_future_object(value) if value.is_a?(Redis::Future)
         return deserializer.call(value) if deserializer
 
         Time.at super(value)
@@ -27,10 +28,12 @@ module Lingonberry
 
         case value
         when ::Time
-          value.to_i
+          value.to_f
         when ::String
-          Time.parse(value).to_i
+          Time.parse(value).to_f
         when ::Integer
+          value.to_f
+        when ::Float
           value
         else
           raise InvalidValueType

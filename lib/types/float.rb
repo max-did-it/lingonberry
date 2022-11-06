@@ -2,7 +2,7 @@ require_relative "abstract_type"
 
 module Lingonberry
   module Types
-    class Float < AbstractType
+    class Float < Numeric
       extend Helpers::Types::ArrayOf
 
       attr_reader :precision
@@ -21,6 +21,7 @@ module Lingonberry
       end
 
       def deserialize(value)
+        return patch_future_object(value) if value.is_a?(Redis::Future)
         return deserializer.call(value) if deserializer
 
         value.to_f
