@@ -101,8 +101,6 @@ module Lingonberry
             store_block(conn, key, values, *args, **kwargs)
           end
         end
-      ensure
-        post_set(key, values, *args, **kwargs)
       end
 
       private

@@ -74,10 +74,6 @@ module Lingonberry
 
       private
 
-      def post_set(key, value, *args, **kwargs)
-        set_ttl(key) if expire.positive?
-      end
-
       def set_ttl(key)
         connection.expire(key, expire)
       end

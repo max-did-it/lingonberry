@@ -29,6 +29,7 @@ module Lingonberry
 
             existing_default_options = klass.instance_variable_get(:@default_options) || {}
             klass.instance_variable_set(:@default_options, existing_default_options)
+
             existing_extra_options = klass.instance_variable_get(:@extra_options) || []
             klass.instance_variable_set(:@extra_options, (existing_extra_options + @methods_to_inherit).uniq)
 

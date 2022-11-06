@@ -1,26 +1,17 @@
 require_relative "abstract_type"
 require_relative "list"
+require_relative 'numeric'
 
 module Lingonberry
   module Types
-    class Enum < AbstractType
+    class Enum < Numeric
       # {Helpers::Types::Options#extended}
-      extend Helpers::Types::Options[:keys]
+      extend Helpers::Types::Options[:keys, :null]
       extend Helpers::Types::ArrayOf
-
-      attr_reader :store_as_string
-
-      # @param store_as_string [true, false] must field enum stored as string or as number in storage
-      def initialize(*args, store_as_string: false, **kwargs)
-        @store_as_string = store_as_string
-        super(*args, **kwargs)
-      end
 
       def serialize(value)
         return serializer.call(value) if serializer
-
         raise Errors::InvalidValue unless valid? value
-        return value.to_s if store_as_string
 
         case keys
         when ::Hash
@@ -33,7 +24,6 @@ module Lingonberry
       def deserialize(value)
         return patch_future_object(value) if value.is_a?(Redis::Future)
         return deserializer.call(value) if deserializer
-        return value.to_sym if store_as_string
 
         case keys
         when ::Hash
