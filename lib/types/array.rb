@@ -33,6 +33,7 @@ module Lingonberry
       end
 
       def deserialize(values)
+        return patch_future_object(values) if values.is_a?(Redis::Future)
         return deserializer.call(values) if deserializer
 
         values.map do |value|

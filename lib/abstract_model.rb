@@ -21,8 +21,6 @@ module Lingonberry
     # Can't be initialized by itself, must been inherited
     # @return [Class<Lingonberry::AbstractModel>] the instance of descendant class
     def initialize(**kwargs)
-      @new_record = kwargs.delete(:new_record) || true
-
       @context = OpenStruct.new
       @context.model_name = self.class.name.demodulize.downcase
       @context.instance = self
@@ -49,10 +47,10 @@ module Lingonberry
     class << self
       attr_accessor :fields, :associations
 
-      def new
+      def new(*args, **kwargs)
         raise Errors::AbstractClass if superclass == Object
 
-        super
+        super(*args, **kwargs)
       end
 
       # Preload class instance variables for descendants when model inherited from Lingonberry::AbstractModel or from any descendants
@@ -117,23 +115,19 @@ module Lingonberry
     end
 
     def save
-      with_connection do |connection|
-        @context.connection = connection
-
-        set_primary_key if new_record?
-
-        fields.each do |_, field|
-          field.save
-        end
+      return with_connection &method(__method__) unless context_connection
+      
+      set_primary_key if new_record?
+      fields.each do |_, field|
+        field.save
       end
-      @new_record = false if new_record?
       self
-    ensure
-      @context.connection = nil
     end
 
     def new_record?
-      @new_record
+      return with_connection &method(__method__) unless context_connection
+
+      !primary_key.exists?
     end
 
     def unsaved?
@@ -144,43 +138,45 @@ module Lingonberry
 
     def set_primary_key
       primary_key.set(
-        primary_key.type.generator.call(self)
+        primary_key.get || primary_key.type.generator.call(self)
       )
     end
 
     def get(field, *args, **kwargs)
-      with_connection do |connection|
-        @context.connection = connection
-        field.get(*args, **kwargs)
+      unless context_connection
+        return with_connection [field, args, kwargs], &method(__method__) 
       end
-    ensure
-      @context.connection = nil
+      field.get(*args, **kwargs)
     end
 
     def store(field, *args, **kwargs)
       field.store(*args, **kwargs)
-    ensure
-      @context.connection = nil
     end
 
-    def with_connection(transaction: false, &block)
+    def with_connection(args = [], transaction: false, &block)
       return unless block
 
       Lingonberry.connection do |conn|
-        if transaction
-          transaction(conn, &block)
-        else
-          block.call(conn)
-        end
+        @context.connection = conn
+        return transaction(*args, &block) if transaction
+
+        block.call(*args)
+      end
+    ensure
+      @context.connection = @context.transaction = nil
+    end
+
+    def transaction(args = [], &block)
+      return unless block
+
+      @context.connection.multi do |transaction|
+        @context.transaction = transaction
+        block.call(*args)
       end
     end
 
-    def transaction(connection, &block)
-      return unless block
-
-      connection.multi do |conn|
-        block.call(conn)
-      end
+    def context_connection
+      @context.transaction || @context.connection
     end
   end
 end

@@ -15,23 +15,18 @@ module Lingonberry
         super(*args, **kwargs)
       end
 
-      def set(conn, key, values)
-        conn.del(key)
-        return sorted_set(conn, key, values) if sorted
+      def set(key, values)
+        connection.del(key)
+        return sorted_set(key, values) if sorted
 
         values_to_insert = serialize(values)
-        conn.sadd(key, values_to_insert)
+        connection.sadd(key, values_to_insert)
       end
 
-      def get(conn, key, *args, **kwargs)
-        return sorted_get(conn, key, *args, **kwargs) if sorted
+      def get(key, *args, **kwargs)
+        return sorted_get(key, *args, **kwargs) if sorted
 
-        deserialize conn.smembers(key)
-      end
-
-      def push(conn, key, values, **kwargs)
-        values_to_insert = serialize(values)
-        conn.sadd(key, values_to_insert)
+        deserialize connection.smembers(key)
       end
 
       def serialize(*values)
@@ -48,23 +43,27 @@ module Lingonberry
       end
 
       def deserialize(values)
+        return patch_future_object(values) if values.is_a?(Redis::Future)
         return deserializer.call(value) if deserializer
 
         values
       end
 
+      def exists?(values = nil)
+      end
+
       private
 
-      def sorted_set(conn, key, *values)
+      def sorted_set(key, *values)
         values_to_insert = serialize(values.flatten)
-        conn.zadd(
+        connection.zadd(
           key,
           values_to_insert
         )
       end
 
-      def sorted_get(conn, key, *args, **kwargs)
-        deserialize conn.zrange(key, 0, -1)
+      def sorted_get(key, *args, **kwargs)
+        deserialize connection.zrange(key, 0, -1)
       end
     end
   end

@@ -28,6 +28,7 @@ module Lingonberry
       end
 
       def deserialize(value)
+        return patch_future_object(value) if value.is_a?(Redis::Future)
         return deserializer.call(value) if deserializer
 
         value
@@ -88,20 +89,30 @@ module Lingonberry
         attr_reader :storage_key, :type
       end
 
-      def get(_conn, key, values, *args, **kwargs)
+      def get(key, values, *args, **kwargs)
         @interface.chain(self, key)
       end
 
-      def set(conn, key, values, *args, **kwargs)
-        conn.multi do |c|
-          c.del(key)
-          @interface.instance_variable_set(:@hash, {})
-
-          values_to_insert = serialize(values)
-          c.hset(key, values_to_insert) == values_to_insert.count
+      def set(key, values, *args, **kwargs)
+        if connection.is_a? Redis::MultiConnection
+          store_block(connection, key, values, *args, **kwargs)
+        else
+          connection.multi do |conn|
+            store_block(conn, key, values, *args, **kwargs)
+          end
         end
       ensure
-        post_set(conn, key, values, *args, **kwargs)
+        post_set(key, values, *args, **kwargs)
+      end
+
+      private
+
+      def store_block(conn, key, values, *args, **kwargs)
+        conn.del(key)
+        @interface.instance_variable_set(:@hash, {})
+
+        values_to_insert = serialize(values)
+        conn.hset(key, values_to_insert) == values_to_insert.count
       end
     end
   end

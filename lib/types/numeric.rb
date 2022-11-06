@@ -5,8 +5,8 @@ module Lingonberry
     class Numeric < AbstractType
       extend Helpers::Types::Options[:numeric_index]
 
-      def set_index(conn, key, value, context:)
-        conn.zadd(
+      def set_index(key, value, context:)
+        connection.zadd(
           key,
           value.to_f,
           primary_key

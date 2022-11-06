@@ -14,21 +14,35 @@ module Lingonberry
     end
 
     def set(value, *args, **kwargs)
-      @context.connection.multi do
-        @context.instance.send(:fields).each_value do |field|
+      keys = @context.instance.fields.values.map { |field| field.send(:key) }
+
+      @context.connection.watch(key, *keys)
+      transaction_result = @context.connection.multi do |transaction|
+        @context.transaction = transaction
+        @context.instance.fields.each_value do |field|
           old_key = field.send(:key)
           new_key = field.send(:key, primary_key: value)
           next unless @context.connection.exists?(old_key)
 
-          @context.connection.rename(old_key, new_key)
+          transaction.rename(old_key, new_key)
         end
         super(value, *args, **kwargs)
-        @cached_value = value
       end
+      @context.connection.unwatch
+
+      raise SavingGoneWrong if transaction_result.empty?
+
+      @cached_value = value
+    ensure
+      @context.transaction = nil
     end
 
     def get(*_args, **_kwargs)
       @cached_value
+    end
+
+    def exists?
+      type.exists?(@cached_value)
     end
   end
 end

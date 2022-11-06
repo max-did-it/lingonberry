@@ -11,6 +11,7 @@ module Lingonberry
       # @param value [String] the value from storage. Redis always return the string.
       # @return [Time] the mapped to Time class
       def deserialize(value)
+        return patch_future_object(value) if value.is_a?(Redis::Future)
         return deserializer.call(value) if deserializer
 
         Time.at super(value)

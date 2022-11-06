@@ -21,6 +21,7 @@ module Lingonberry
       end
 
       def deserialize(value)
+        return patch_future_object(value) if value.is_a?(Redis::Future)
         return deserializer.call(value) if deserializer
 
         value.to_f

@@ -41,6 +41,7 @@ module Lingonberry
       # @param value [Object] the value which must be deserialized
       # @return [String] the result of deserialization
       def deserialize(value)
+        return patch_future_object(value) if value.is_a?(Redis::Future)
         return deserializer.call(value) if deserializer
 
         value
@@ -59,26 +60,26 @@ module Lingonberry
       # @param key [String] the key for store the value
       # @param value [String] the value must be stored
       # @return [true, false] true if result set is successfully and false if something goes wrong
-      def set(conn, key, value, *_args, **_kwargs)
-        conn.set(key, serialize(value)) == "OK"
+      def set(key, value, *_args, **_kwargs)
+        connection.set(key, serialize(value)) == "OK"
       end
 
       # get the value from Redis by the given key
       # @param conn [Redis] the connection to the redis
       # @param key [String] the key for store the value
       # @return [String] value coerced to string
-      def get(conn, key, *_args, **_kwargs)
-        deserialize conn.get(key)
+      def get(key, *_args, **_kwargs)
+        deserialize connection.get(key)
       end
 
       private
 
-      def post_set(conn, key, value, *args, **kwargs)
-        set_ttl(conn, key) if expire.positive?
+      def post_set(key, value, *args, **kwargs)
+        set_ttl(key) if expire.positive?
       end
 
-      def set_ttl(conn, key)
-        conn.expire(key, expire)
+      def set_ttl(key)
+        connection.expire(key, expire)
       end
 
       def set_default_options(*_args, **kwargs)
@@ -87,6 +88,16 @@ module Lingonberry
         extra&.each do |option|
           instance_variable_set("@#{option}", kwargs[option] || default[option])
         end
+      end
+
+      def patch_future_object(future_object)
+        deserialize_func = method(:deserialize)
+        future_object.instance_exec(deserialize_func) { |func| @coerce = func }
+        future_object
+      end
+
+      def connection
+        @context.transaction || @context.connection
       end
     end
   end

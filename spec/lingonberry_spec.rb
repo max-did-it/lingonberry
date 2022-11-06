@@ -16,14 +16,15 @@ describe "Lingonberry" do
     context "primary keys" do
       it "should store primary keys in common model set for primary keys" do
         instance = subject
-        redis_key = "lingonberry:test_model:id"
+        redis_key = "lingonberry:testmodel:id"
         expect(redis_conn.exists?(redis_key)).to be_truthy
         expect(redis_conn.smembers(redis_key)).to include(instance.id)
       end
 
       it "should rename other fields keys if pk changed" do
-        redis_key = ->(id) { "lingonberry:test_model:#{id}:string" }
+        redis_key = ->(id) { "lingonberry:testmodel:string:#{id}" }
         instance = subject
+
         expect(redis_conn.exists?(redis_key.call(instance.id))).to be_truthy
       end
     end

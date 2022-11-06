@@ -45,7 +45,6 @@ module Lingonberry
     # immediately save data to the storage
     def set(*args, **kwargs)
       type.set(
-        @context.connection,
         key,
         *args,
         **kwargs
@@ -56,14 +55,11 @@ module Lingonberry
     def save
       return true unless @unsaved_data
 
-      result = type.set(
-        @context.connection,
+      type.set(
         key,
         *@unsaved_data.args,
         **@unsaved_data.kwargs
       )
-      raise Errors::SavingGoneWrong, "#{@context.model_name}##{name} saving gone wrong with values #{@unsaved_data.to_h}" unless result
-
       @unsaved_data = nil
       true
     end
@@ -85,10 +81,14 @@ module Lingonberry
         return cached_value if cache_valid?
 
         @cached_at = Time.now
-        @cached_value = type.get(@context.connection, key, *args, **kwargs)
+        @cached_value = type.get(key, *args, **kwargs)
       else
-        type.get(@context.connection, key, *args, **kwargs)
+        type.get(key, *args, **kwargs)
       end
+    end
+
+    def exists?
+      connection.exists?(key)
     end
 
     def valid?
@@ -115,9 +115,13 @@ module Lingonberry
 
     private
 
+    def connection
+      @context.transaction || @context.connection
+    end
+
     # Making a key according field name and model name
     # @return [String] the key on which value is stored
-    def key(primary_key: @context.instance.primary_key)
+    def key(primary_key: @context.instance.primary_key.get)
       "lingonberry:#{@context.model_name}:#{name}:#{primary_key}"
     end
   end

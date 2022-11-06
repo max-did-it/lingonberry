@@ -6,17 +6,18 @@ module Lingonberry
       # {Helpers::Types::Options#extended}
       extend Helpers::Types::Options[:length]
 
-      def set(conn, key, values, *_args, **_kwargs)
-        conn.del(key)
+      def set(key, values, *_args, **_kwargs)
+        connection.del(key)
         values_to_insert = serialize(values)
-        conn.lpush(key, values_to_insert) == values_to_insert.count
+        connection.lpush(key, values_to_insert)
       end
 
-      def get(conn, key, *_args, **_kwargs)
-        deserialize conn.lrange(key, 0, -1)
+      def get(key, *_args, **_kwargs)
+        deserialize connection.lrange(key, 0, -1)
       end
 
       def deserialize(values)
+        return patch_future_object(values) if values.is_a?(Redis::Future)
         return deserializer.call(value) if deserializer
 
         values.map(&:to_s)
