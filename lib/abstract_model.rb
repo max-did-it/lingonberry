@@ -28,7 +28,7 @@ module Lingonberry
 
       primary_key_name = self.class.instance_variable_get(:@primary_key)
 
-      @fields = self.class.fields.map do |name, type, **jkwargs|
+      @fields = self.class.fields.map do |name, type, jkwargs|
         jkwargs[:context] = @context
         field = if primary_key_name == name
           @primary_key = PrimaryKey.new(name.to_sym, **jkwargs)

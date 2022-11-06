@@ -18,7 +18,6 @@ module Lingonberry
       @name = name
       @cache_ttl = cache_ttl
       @context = context
-
       @type = construct_type(type, kwargs)
     end
 

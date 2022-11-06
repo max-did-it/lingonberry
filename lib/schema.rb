@@ -15,7 +15,8 @@ module Lingonberry
         def define_field_setter(method_name, type)
           define_method(method_name) do |name, **kwargs|
             @fields ||= []
-            @fields << [name, type, **kwargs]
+            
+            @fields << [name, type, kwargs]
           end
         end
       end
@@ -47,31 +48,33 @@ module Lingonberry
         end
       end
 
+      def call_field(klass, name, type, array: false, **kwargs)
+        if type == Types::PrimaryKey
+          klass.send(:primary_key, name, **kwargs)
+        else
+          if array
+            type = [type]
+          end
+          klass.send(:field, name, type, **kwargs)
+        end
+      end
+
       # create metaklasses for models if models isn't defined as the class
       # implement for the model fields
       def define
         @models.each do |model|
-          if Object.const_defined? model.name
-            klass = Object.const_get(model.name)
-            raise Errors::UnknownBaseClass unless Helpers.descendant? AbstractModel, klass
+          klass = if Object.const_defined? model.name
+            new_model = Object.const_get(model.name)
+            raise Errors::UnknownBaseClass, "#{model}" unless Helpers.descendant? AbstractModel, new_model
 
-            klass.class_eval do
-              model.fields.each do |name, type, array: false, **kwargs|
-                if type == Types::PrimaryKey
-                  send(:primary_key, name, **kwargs)
-                else
-                  type = [type] if array
-                  send(:field, name, type, **kwargs)
-                end
-              end
-            end
+            new_model
           else
-            new_model = Class.new(AbstractModel) do
-              model.fields.each do |name, type, **kwargs|
-                send(:field, name, type, **kwargs)
-              end
-            end
+            new_model = Class.new(AbstractModel)
             Helpers::Strings.constantize_with_set!(model.name, new_model)
+            new_model
+          end
+          model.fields.each do |name, type, kwargs|
+            call_field(klass, name, type, **kwargs)
           end
         end
       end
