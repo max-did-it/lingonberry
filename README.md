@@ -74,9 +74,9 @@ Primitive data type. Accepts any value which respond on #to_i.
 Primitive data type. Accepts any value which respond on #to_s. 
 Stored value won't coerced to original data type if it wasn't something other than a string
 ### Float
-Primitive data type. Accepts any value which respond on #to_i.
+Primitive data type. Accepts any value which respond on #to_f.
 ### Timestamp
-Accepts string which can being parsed by `Time.parse string`, Time class, or integer.
+Accepts string which can being parsed by `Time.parse string`, ::Time class, ::Float or ::Integer.
 Return instance of Time class.
 ### Enum
 ### Hash
