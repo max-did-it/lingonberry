@@ -6,7 +6,7 @@
 <title>
   Class: Lingonberry::Types::Timestamp
   
-    &mdash; Documentation by YARD 0.9.27
+    &mdash; Documentation by YARD 0.9.28
   
 </title>
 
@@ -69,7 +69,7 @@
   <dl>
     <dt>Inherits:</dt>
     <dd>
-      <span class="inheritName"><span class='object_link'><a href="Integer.html" title="Lingonberry::Types::Integer (class)">Integer</a></span></span>
+      <span class="inheritName"><span class='object_link'><a href="Float.html" title="Lingonberry::Types::Float (class)">Float</a></span></span>
       
         <ul class="fullTree">
           <li>Object</li>
@@ -78,7 +78,7 @@
           
             <li class="next"><span class='object_link'><a href="Numeric.html" title="Lingonberry::Types::Numeric (class)">Numeric</a></span></li>
           
-            <li class="next"><span class='object_link'><a href="Integer.html" title="Lingonberry::Types::Integer (class)">Integer</a></span></li>
+            <li class="next"><span class='object_link'><a href="Float.html" title="Lingonberry::Types::Float (class)">Float</a></span></li>
           
             <li class="next">Lingonberry::Types::Timestamp</li>
           
@@ -115,6 +115,11 @@
 
 
 
+
+  <h2>Instance Attribute Summary</h2>
+  
+  <h3 class="inherited">Attributes inherited from <span class='object_link'><a href="Float.html" title="Lingonberry::Types::Float (class)">Float</a></span></h3>
+  <p class="inherited"><span class='object_link'><a href="Float.html#precision-instance_method" title="Lingonberry::Types::Float#precision (method)">#precision</a></span></p>
 
 
   
@@ -216,6 +221,11 @@
   
   
   
+  <h3 class="inherited">Methods inherited from <span class='object_link'><a href="Float.html" title="Lingonberry::Types::Float (class)">Float</a></span></h3>
+  <p class="inherited"><span class='object_link'><a href="Float.html#initialize-instance_method" title="Lingonberry::Types::Float#initialize (method)">#initialize</a></span></p>
+
+  
+  
   
   
   
@@ -223,7 +233,7 @@
   
   
   <h3 class="inherited">Methods inherited from <span class='object_link'><a href="Numeric.html" title="Lingonberry::Types::Numeric (class)">Numeric</a></span></h3>
-  <p class="inherited"><span class='object_link'><a href="Numeric.html#set_index-instance_method" title="Lingonberry::Types::Numeric#set_index (method)">#set_index</a></span></p>
+  <p class="inherited"><span class='object_link'><a href="Numeric.html#post_set-instance_method" title="Lingonberry::Types::Numeric#post_set (method)">#post_set</a></span>, <span class='object_link'><a href="Numeric.html#set_index-instance_method" title="Lingonberry::Types::Numeric#set_index (method)">#set_index</a></span></p>
 
   
   
@@ -234,11 +244,11 @@
   
   
   <h3 class="inherited">Methods inherited from <span class='object_link'><a href="AbstractType.html" title="Lingonberry::Types::AbstractType (class)">AbstractType</a></span></h3>
-  <p class="inherited"><span class='object_link'><a href="AbstractType.html#===-class_method" title="Lingonberry::Types::AbstractType.=== (method)">===</a></span>, <span class='object_link'><a href="AbstractType.html#get-instance_method" title="Lingonberry::Types::AbstractType#get (method)">#get</a></span>, <span class='object_link'><a href="AbstractType.html#initialize-instance_method" title="Lingonberry::Types::AbstractType#initialize (method)">#initialize</a></span>, <span class='object_link'><a href="AbstractType.html#new-class_method" title="Lingonberry::Types::AbstractType.new (method)">new</a></span>, <span class='object_link'><a href="AbstractType.html#set-instance_method" title="Lingonberry::Types::AbstractType#set (method)">#set</a></span></p>
+  <p class="inherited"><span class='object_link'><a href="AbstractType.html#===-class_method" title="Lingonberry::Types::AbstractType.=== (method)">===</a></span>, <span class='object_link'><a href="AbstractType.html#get-instance_method" title="Lingonberry::Types::AbstractType#get (method)">#get</a></span>, <span class='object_link'><a href="AbstractType.html#initialize-instance_method" title="Lingonberry::Types::AbstractType#initialize (method)">#initialize</a></span>, <span class='object_link'><a href="AbstractType.html#new-class_method" title="Lingonberry::Types::AbstractType.new (method)">new</a></span>, <span class='object_link'><a href="AbstractType.html#post_set-instance_method" title="Lingonberry::Types::AbstractType#post_set (method)">#post_set</a></span>, <span class='object_link'><a href="AbstractType.html#set-instance_method" title="Lingonberry::Types::AbstractType#set (method)">#set</a></span></p>
 <div id="constructor_details" class="method_details_list">
   <h2>Constructor Details</h2>
   
-    <p class="notice">This class inherits a constructor from <span class='object_link'><a href="AbstractType.html#initialize-instance_method" title="Lingonberry::Types::AbstractType#initialize (method)">Lingonberry::Types::AbstractType</a></span></p>
+    <p class="notice">This class inherits a constructor from <span class='object_link'><a href="Float.html#initialize-instance_method" title="Lingonberry::Types::Float#initialize (method)">Lingonberry::Types::Float</a></span></p>
   
 </div>
 
@@ -403,7 +413,9 @@
 36
 37
 38
-39</pre>
+39
+40
+41</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'lib/types/timestamp.rb', line 26</span>
@@ -413,10 +425,12 @@
 
   <span class='kw'>case</span> <span class='id identifier rubyid_value'>value</span>
   <span class='kw'>when</span> <span class='op'>::</span><span class='const'>Time</span>
-    <span class='id identifier rubyid_value'>value</span><span class='period'>.</span><span class='id identifier rubyid_to_i'>to_i</span>
+    <span class='id identifier rubyid_value'>value</span><span class='period'>.</span><span class='id identifier rubyid_to_f'>to_f</span>
   <span class='kw'>when</span> <span class='op'>::</span><span class='const'>String</span>
-    <span class='const'>Time</span><span class='period'>.</span><span class='id identifier rubyid_parse'>parse</span><span class='lparen'>(</span><span class='id identifier rubyid_value'>value</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_to_i'>to_i</span>
+    <span class='const'>Time</span><span class='period'>.</span><span class='id identifier rubyid_parse'>parse</span><span class='lparen'>(</span><span class='id identifier rubyid_value'>value</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_to_f'>to_f</span>
   <span class='kw'>when</span> <span class='op'>::</span><span class='const'>Integer</span>
+    <span class='id identifier rubyid_value'>value</span><span class='period'>.</span><span class='id identifier rubyid_to_f'>to_f</span>
+  <span class='kw'>when</span> <span class='op'>::</span><span class='const'>Float</span>
     <span class='id identifier rubyid_value'>value</span>
   <span class='kw'>else</span>
     <span class='id identifier rubyid_raise'>raise</span> <span class='const'>InvalidValueType</span>
@@ -462,9 +476,9 @@
 </div>
 
       <div id="footer">
-  Generated on Sun Nov  6 18:04:16 2022 by
-  <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.27 (ruby-2.7.3).
+  Generated on Sun Nov  6 21:20:58 2022 by
+  <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
+  0.9.28 (ruby-2.7.3).
 </div>
 
     </div>

@@ -19,6 +19,7 @@ module Lingonberry
   class AbstractModel
     attr_reader :fields, :primary_key
     # Can't be initialized by itself, must been inherited
+    # @param kwargs [Hash] hash of values that would be assigned to the fields. to save that values call {#save!} or {#save}
     # @return [Class<Lingonberry::AbstractModel>] the instance of descendant class
     def initialize(**kwargs)
       @context = OpenStruct.new

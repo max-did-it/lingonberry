@@ -6,7 +6,7 @@
 <title>
   Module: Lingonberry
   
-    &mdash; Documentation by YARD 0.9.27
+    &mdash; Documentation by YARD 0.9.28
   
 </title>
 
@@ -301,7 +301,7 @@
   <span class='ivar'>@config</span><span class='period'>.</span><span class='id identifier rubyid_redis_conn_timeout'>redis_conn_timeout</span> <span class='op'>=</span> <span class='int'>4</span>
   <span class='ivar'>@config</span><span class='period'>.</span><span class='id identifier rubyid_redis_pool_size'>redis_pool_size</span> <span class='op'>=</span> <span class='int'>100</span>
   <span class='ivar'>@config</span><span class='period'>.</span><span class='id identifier rubyid_safe_mode'>safe_mode</span> <span class='op'>=</span> <span class='kw'>false</span>
-
+  <span class='ivar'>@config</span><span class='period'>.</span><span class='id identifier rubyid_driver'>driver</span> <span class='op'>=</span> <span class='symbol'>:ruby</span>
   <span class='kw'>yield</span> <span class='ivar'>@config</span> <span class='kw'>if</span> <span class='id identifier rubyid_block_given?'>block_given?</span>
 <span class='kw'>end</span></pre>
     </td>
@@ -328,12 +328,16 @@
 5
 6
 7
-8</pre>
+8
+9
+10</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'lib/connection.rb', line 4</span>
 
 <span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_connection'>connection</span>
+  <span class='id identifier rubyid_require'>require</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>hiredis-client</span><span class='tstring_end'>&quot;</span></span> <span class='kw'>if</span> <span class='ivar'>@config</span><span class='period'>.</span><span class='id identifier rubyid_driver'>driver</span> <span class='op'>==</span> <span class='symbol'>:hiredis</span>
+
   <span class='const'>CONNECTION_POOL</span><span class='period'>.</span><span class='id identifier rubyid_with'>with</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_conn'>conn</span><span class='op'>|</span>
     <span class='kw'>yield</span> <span class='id identifier rubyid_conn'>conn</span>
   <span class='kw'>end</span>
@@ -348,9 +352,9 @@
 </div>
 
       <div id="footer">
-  Generated on Sun Nov  6 18:04:15 2022 by
-  <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.27 (ruby-2.7.3).
+  Generated on Sun Nov  6 21:20:57 2022 by
+  <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
+  0.9.28 (ruby-2.7.3).
 </div>
 
     </div>

@@ -6,7 +6,7 @@
 <title>
   Class: Lingonberry::AbstractModel
   
-    &mdash; Documentation by YARD 0.9.27
+    &mdash; Documentation by YARD 0.9.28
   
 </title>
 
@@ -536,7 +536,26 @@ Usage example:</p>
   </div>
 </div>
 <div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
   
+    <li>
+      
+        <span class='name'>kwargs</span>
+      
+      
+        <span class='type'>(<tt>Hash</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>hash of values that would be assigned to the fields. to save that values call <span class='object_link'><a href="#save!-instance_method" title="Lingonberry::AbstractModel#save! (method)">#save!</a></span> or <span class='object_link'><a href="#save-instance_method" title="Lingonberry::AbstractModel#save (method)">#save</a></span></p>
+</div>
+      
+    </li>
+  
+</ul>
+
 
 </div><table class="source_code">
   <tr>
@@ -544,7 +563,6 @@ Usage example:</p>
       <pre class="lines">
 
 
-23
 24
 25
 26
@@ -566,10 +584,11 @@ Usage example:</p>
 42
 43
 44
-45</pre>
+45
+46</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/abstract_model.rb', line 23</span>
+      <pre class="code"><span class="info file"># File 'lib/abstract_model.rb', line 24</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_initialize'>initialize</span><span class='lparen'>(</span><span class='op'>**</span><span class='id identifier rubyid_kwargs'>kwargs</span><span class='rparen'>)</span>
   <span class='ivar'>@context</span> <span class='op'>=</span> <span class='const'>OpenStruct</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span>
@@ -631,12 +650,12 @@ Usage example:</p>
       <pre class="lines">
 
 
-48
 49
-50</pre>
+50
+51</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/abstract_model.rb', line 48</span>
+      <pre class="code"><span class="info file"># File 'lib/abstract_model.rb', line 49</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_associations'>associations</span>
   <span class='ivar'>@associations</span>
@@ -673,12 +692,12 @@ Usage example:</p>
       <pre class="lines">
 
 
-48
 49
-50</pre>
+50
+51</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/abstract_model.rb', line 48</span>
+      <pre class="code"><span class="info file"># File 'lib/abstract_model.rb', line 49</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_fields'>fields</span>
   <span class='ivar'>@fields</span>
@@ -859,7 +878,6 @@ For available options look in Lingonberry::Field documentations.</p>
       <pre class="lines">
 
 
-71
 72
 73
 74
@@ -875,10 +893,11 @@ For available options look in Lingonberry::Field documentations.</p>
 84
 85
 86
-87</pre>
+87
+88</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/abstract_model.rb', line 71</span>
+      <pre class="code"><span class="info file"># File 'lib/abstract_model.rb', line 72</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_field'>field</span><span class='lparen'>(</span><span class='id identifier rubyid_name'>name</span><span class='comma'>,</span> <span class='id identifier rubyid_type'>type</span><span class='comma'>,</span> <span class='op'>**</span><span class='id identifier rubyid_kwargs'>kwargs</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_field_name_valid?'>field_name_valid?</span><span class='lparen'>(</span><span class='id identifier rubyid_name'>name</span><span class='period'>.</span><span class='id identifier rubyid_to_sym'>to_sym</span><span class='rparen'>)</span>
@@ -952,7 +971,6 @@ For available options look in Lingonberry::Field documentations.</p>
       <pre class="lines">
 
 
-89
 90
 91
 92
@@ -960,10 +978,11 @@ For available options look in Lingonberry::Field documentations.</p>
 94
 95
 96
-97</pre>
+97
+98</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/abstract_model.rb', line 89</span>
+      <pre class="code"><span class="info file"># File 'lib/abstract_model.rb', line 90</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_field_name_valid?'>field_name_valid?</span><span class='lparen'>(</span><span class='id identifier rubyid_name'>name</span><span class='rparen'>)</span>
   <span class='kw'>if</span> <span class='id identifier rubyid_methods'>methods</span><span class='period'>.</span><span class='id identifier rubyid_include?'>include?</span><span class='lparen'>(</span><span class='id identifier rubyid_name'>name</span><span class='rparen'>)</span> <span class='op'>||</span> <span class='id identifier rubyid_instance_methods'>instance_methods</span><span class='period'>.</span><span class='id identifier rubyid_include?'>include?</span><span class='lparen'>(</span><span class='id identifier rubyid_name'>name</span><span class='rparen'>)</span>
@@ -1019,14 +1038,14 @@ For available options look in Lingonberry::Field documentations.</p>
       <pre class="lines">
 
 
-58
 59
 60
 61
-62</pre>
+62
+63</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/abstract_model.rb', line 58</span>
+      <pre class="code"><span class="info file"># File 'lib/abstract_model.rb', line 59</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_inherited'>inherited</span><span class='lparen'>(</span><span class='id identifier rubyid_subclass'>subclass</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_subclass'>subclass</span><span class='period'>.</span><span class='id identifier rubyid_instance_variable_set'>instance_variable_set</span><span class='lparen'>(</span><span class='symbol'>:@fields</span><span class='comma'>,</span> <span class='lbracket'>[</span><span class='rbracket'>]</span><span class='rparen'>)</span>
@@ -1075,14 +1094,14 @@ For available options look in Lingonberry::Field documentations.</p>
       <pre class="lines">
 
 
-50
 51
 52
 53
-54</pre>
+54
+55</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/abstract_model.rb', line 50</span>
+      <pre class="code"><span class="info file"># File 'lib/abstract_model.rb', line 51</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='op'>*</span><span class='id identifier rubyid_args'>args</span><span class='comma'>,</span> <span class='op'>**</span><span class='id identifier rubyid_kwargs'>kwargs</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_raise'>raise</span> <span class='const'><span class='object_link'><a href="Errors.html" title="Lingonberry::Errors (module)">Errors</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Errors/AbstractClass.html" title="Lingonberry::Errors::AbstractClass (class)">AbstractClass</a></span></span> <span class='kw'>if</span> <span class='id identifier rubyid_superclass'>superclass</span> <span class='op'>==</span> <span class='const'>Object</span>
@@ -1155,13 +1174,13 @@ For available options look in Lingonberry::Field documentations.</p>
       <pre class="lines">
 
 
-101
 102
 103
-104</pre>
+104
+105</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/abstract_model.rb', line 101</span>
+      <pre class="code"><span class="info file"># File 'lib/abstract_model.rb', line 102</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_primary_key'>primary_key</span><span class='lparen'>(</span><span class='id identifier rubyid_name'>name</span><span class='rparen'>)</span>
   <span class='ivar'>@primary_key</span> <span class='op'>=</span> <span class='id identifier rubyid_name'>name</span><span class='period'>.</span><span class='id identifier rubyid_to_sym'>to_sym</span>
@@ -1233,11 +1252,11 @@ For available options look in Lingonberry::Field documentations.</p>
       <pre class="lines">
 
 
-109
-110</pre>
+110
+111</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/abstract_model.rb', line 109</span>
+      <pre class="code"><span class="info file"># File 'lib/abstract_model.rb', line 110</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_where'>where</span><span class='lparen'>(</span><span class='op'>**</span><span class='id identifier rubyid_kwargs'>kwargs</span><span class='rparen'>)</span>
 <span class='kw'>end</span></pre>
@@ -1289,17 +1308,17 @@ For available options look in Lingonberry::Field documentations.</p>
       <pre class="lines">
 
 
-127
 128
 129
 130
-131</pre>
+131
+132</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/abstract_model.rb', line 127</span>
+      <pre class="code"><span class="info file"># File 'lib/abstract_model.rb', line 128</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_new_record?'>new_record?</span>
-  <span class='kw'>return</span> <span class='id identifier rubyid_with_connection'>with_connection</span> <span class='op'>&amp;</span><span class='id identifier rubyid_method'>method</span><span class='lparen'>(</span><span class='id identifier rubyid___method__'>__method__</span><span class='rparen'>)</span> <span class='kw'>unless</span> <span class='id identifier rubyid_context_connection'>context_connection</span>
+  <span class='kw'>return</span> <span class='id identifier rubyid_with_connection'>with_connection</span><span class='lparen'>(</span><span class='op'>&amp;</span><span class='id identifier rubyid_method'>method</span><span class='lparen'>(</span><span class='id identifier rubyid___method__'>__method__</span><span class='rparen'>)</span><span class='rparen'>)</span> <span class='kw'>unless</span> <span class='id identifier rubyid_context_connection'>context_connection</span>
 
   <span class='op'>!</span><span class='id identifier rubyid_primary_key'>primary_key</span><span class='period'>.</span><span class='id identifier rubyid_exists?'>exists?</span>
 <span class='kw'>end</span></pre>
@@ -1323,7 +1342,6 @@ For available options look in Lingonberry::Field documentations.</p>
       <pre class="lines">
 
 
-117
 118
 119
 120
@@ -1331,14 +1349,15 @@ For available options look in Lingonberry::Field documentations.</p>
 122
 123
 124
-125</pre>
+125
+126</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/abstract_model.rb', line 117</span>
+      <pre class="code"><span class="info file"># File 'lib/abstract_model.rb', line 118</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_save'>save</span>
-  <span class='kw'>return</span> <span class='id identifier rubyid_with_connection'>with_connection</span> <span class='op'>&amp;</span><span class='id identifier rubyid_method'>method</span><span class='lparen'>(</span><span class='id identifier rubyid___method__'>__method__</span><span class='rparen'>)</span> <span class='kw'>unless</span> <span class='id identifier rubyid_context_connection'>context_connection</span>
-  
+  <span class='kw'>return</span> <span class='id identifier rubyid_with_connection'>with_connection</span><span class='lparen'>(</span><span class='op'>&amp;</span><span class='id identifier rubyid_method'>method</span><span class='lparen'>(</span><span class='id identifier rubyid___method__'>__method__</span><span class='rparen'>)</span><span class='rparen'>)</span> <span class='kw'>unless</span> <span class='id identifier rubyid_context_connection'>context_connection</span>
+
   <span class='id identifier rubyid_set_primary_key'>set_primary_key</span> <span class='kw'>if</span> <span class='id identifier rubyid_new_record?'>new_record?</span>
   <span class='id identifier rubyid_fields'>fields</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid__'>_</span><span class='comma'>,</span> <span class='id identifier rubyid_field'>field</span><span class='op'>|</span>
     <span class='id identifier rubyid_field'>field</span><span class='period'>.</span><span class='id identifier rubyid_save'>save</span>
@@ -1365,12 +1384,12 @@ For available options look in Lingonberry::Field documentations.</p>
       <pre class="lines">
 
 
-113
 114
-115</pre>
+115
+116</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/abstract_model.rb', line 113</span>
+      <pre class="code"><span class="info file"># File 'lib/abstract_model.rb', line 114</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_save!'>save!</span>
   <span class='id identifier rubyid_save'>save</span>
@@ -1417,12 +1436,12 @@ For available options look in Lingonberry::Field documentations.</p>
       <pre class="lines">
 
 
-133
 134
-135</pre>
+135
+136</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/abstract_model.rb', line 133</span>
+      <pre class="code"><span class="info file"># File 'lib/abstract_model.rb', line 134</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_unsaved?'>unsaved?</span>
   <span class='id identifier rubyid_fields'>fields</span><span class='period'>.</span><span class='id identifier rubyid_any?'>any?</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid__'>_</span><span class='comma'>,</span> <span class='id identifier rubyid_f'>f</span><span class='op'>|</span> <span class='id identifier rubyid_f'>f</span><span class='period'>.</span><span class='id identifier rubyid_unsaved?'>unsaved?</span> <span class='rbrace'>}</span>
@@ -1437,9 +1456,9 @@ For available options look in Lingonberry::Field documentations.</p>
 </div>
 
       <div id="footer">
-  Generated on Sun Nov  6 18:04:16 2022 by
-  <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.27 (ruby-2.7.3).
+  Generated on Sun Nov  6 21:20:58 2022 by
+  <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
+  0.9.28 (ruby-2.7.3).
 </div>
 
     </div>

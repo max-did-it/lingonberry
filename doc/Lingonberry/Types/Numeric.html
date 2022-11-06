@@ -6,7 +6,7 @@
 <title>
   Class: Lingonberry::Types::Numeric
   
-    &mdash; Documentation by YARD 0.9.27
+    &mdash; Documentation by YARD 0.9.28
   
 </title>
 
@@ -103,7 +103,7 @@
 
 <div id="subclasses">
   <h2>Direct Known Subclasses</h2>
-  <p class="children"><span class='object_link'><a href="Integer.html" title="Lingonberry::Types::Integer (class)">Integer</a></span></p>
+  <p class="children"><span class='object_link'><a href="Enum.html" title="Lingonberry::Types::Enum (class)">Enum</a></span>, <span class='object_link'><a href="Float.html" title="Lingonberry::Types::Float (class)">Float</a></span>, <span class='object_link'><a href="Integer.html" title="Lingonberry::Types::Integer (class)">Integer</a></span></p>
 </div>
 
 
@@ -123,7 +123,29 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#set_index-instance_method" title="#set_index (instance method)">#<strong>set_index</strong>(key, value, context:)  &#x21d2; Object </a>
+      <a href="#post_set-instance_method" title="#post_set (instance method)">#<strong>post_set</strong>(key, value, *args, index_key: nil, **kwargs)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#set_index-instance_method" title="#set_index (instance method)">#<strong>set_index</strong>(primary_key, index_key, value)  &#x21d2; Object </a>
     
 
     
@@ -169,9 +191,9 @@
 
     
       <div class="method_details first">
-  <h3 class="signature first" id="set_index-instance_method">
+  <h3 class="signature first" id="post_set-instance_method">
   
-    #<strong>set_index</strong>(key, value, context:)  &#x21d2; <tt>Object</tt> 
+    #<strong>post_set</strong>(key, value, *args, index_key: nil, **kwargs)  &#x21d2; <tt>Object</tt> 
   
 
   
@@ -187,19 +209,45 @@
 9
 10
 11
-12
-13
-14</pre>
+12</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'lib/types/numeric.rb', line 8</span>
 
-<span class='kw'>def</span> <span class='id identifier rubyid_set_index'>set_index</span><span class='lparen'>(</span><span class='id identifier rubyid_key'>key</span><span class='comma'>,</span> <span class='id identifier rubyid_value'>value</span><span class='comma'>,</span> <span class='label'>context:</span><span class='rparen'>)</span>
-  <span class='id identifier rubyid_connection'>connection</span><span class='period'>.</span><span class='id identifier rubyid_zadd'>zadd</span><span class='lparen'>(</span>
-    <span class='id identifier rubyid_key'>key</span><span class='comma'>,</span>
-    <span class='id identifier rubyid_value'>value</span><span class='period'>.</span><span class='id identifier rubyid_to_f'>to_f</span><span class='comma'>,</span>
-    <span class='id identifier rubyid_primary_key'>primary_key</span>
-  <span class='rparen'>)</span>
+<span class='kw'>def</span> <span class='id identifier rubyid_post_set'>post_set</span><span class='lparen'>(</span><span class='id identifier rubyid_key'>key</span><span class='comma'>,</span> <span class='id identifier rubyid_value'>value</span><span class='comma'>,</span> <span class='op'>*</span><span class='id identifier rubyid_args'>args</span><span class='comma'>,</span> <span class='label'>index_key:</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='op'>**</span><span class='id identifier rubyid_kwargs'>kwargs</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_set_index'>set_index</span><span class='lparen'>(</span><span class='ivar'>@context</span><span class='period'>.</span><span class='id identifier rubyid_instance'>instance</span><span class='period'>.</span><span class='id identifier rubyid_primary_key'>primary_key</span><span class='period'>.</span><span class='id identifier rubyid_get'>get</span><span class='comma'>,</span> <span class='id identifier rubyid_index_key'>index_key</span><span class='comma'>,</span> <span class='id identifier rubyid_value'>value</span><span class='rparen'>)</span>
+<span class='kw'>ensure</span>
+  <span class='kw'>super</span><span class='lparen'>(</span><span class='id identifier rubyid_key'>key</span><span class='comma'>,</span> <span class='id identifier rubyid_value'>value</span><span class='comma'>,</span> <span class='op'>*</span><span class='id identifier rubyid_args'>args</span><span class='comma'>,</span> <span class='op'>**</span><span class='id identifier rubyid_kwargs'>kwargs</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="set_index-instance_method">
+  
+    #<strong>set_index</strong>(primary_key, index_key, value)  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+14
+15
+16</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/types/numeric.rb', line 14</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_set_index'>set_index</span><span class='lparen'>(</span><span class='id identifier rubyid_primary_key'>primary_key</span><span class='comma'>,</span> <span class='id identifier rubyid_index_key'>index_key</span><span class='comma'>,</span> <span class='id identifier rubyid_value'>value</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_connection'>connection</span><span class='period'>.</span><span class='id identifier rubyid_zadd'>zadd</span><span class='lparen'>(</span><span class='id identifier rubyid_index_key'>index_key</span><span class='comma'>,</span> <span class='id identifier rubyid_serialize'>serialize</span><span class='lparen'>(</span><span class='id identifier rubyid_value'>value</span><span class='rparen'>)</span><span class='comma'>,</span> <span class='id identifier rubyid_primary_key'>primary_key</span><span class='rparen'>)</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -211,9 +259,9 @@
 </div>
 
       <div id="footer">
-  Generated on Sun Nov  6 18:04:16 2022 by
-  <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.27 (ruby-2.7.3).
+  Generated on Sun Nov  6 21:20:58 2022 by
+  <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
+  0.9.28 (ruby-2.7.3).
 </div>
 
     </div>

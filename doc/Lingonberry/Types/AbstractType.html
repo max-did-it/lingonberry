@@ -6,7 +6,7 @@
 <title>
   Class: Lingonberry::Types::AbstractType
   
-    &mdash; Documentation by YARD 0.9.27
+    &mdash; Documentation by YARD 0.9.28
   
 </title>
 
@@ -111,7 +111,7 @@
 
 </div><div id="subclasses">
   <h2>Direct Known Subclasses</h2>
-  <p class="children"><span class='object_link'><a href="Decimal.html" title="Lingonberry::Types::Decimal (class)">Decimal</a></span>, <span class='object_link'><a href="Enum.html" title="Lingonberry::Types::Enum (class)">Enum</a></span>, <span class='object_link'><a href="Float.html" title="Lingonberry::Types::Float (class)">Float</a></span>, <span class='object_link'><a href="Hash.html" title="Lingonberry::Types::Hash (class)">Hash</a></span>, <span class='object_link'><a href="List.html" title="Lingonberry::Types::List (class)">List</a></span>, <span class='object_link'><a href="Numeric.html" title="Lingonberry::Types::Numeric (class)">Numeric</a></span>, <span class='object_link'><a href="Set.html" title="Lingonberry::Types::Set (class)">Set</a></span>, <span class='object_link'><a href="Stream.html" title="Lingonberry::Types::Stream (class)">Stream</a></span>, <span class='object_link'><a href="String.html" title="Lingonberry::Types::String (class)">String</a></span></p>
+  <p class="children"><span class='object_link'><a href="Decimal.html" title="Lingonberry::Types::Decimal (class)">Decimal</a></span>, <span class='object_link'><a href="Hash.html" title="Lingonberry::Types::Hash (class)">Hash</a></span>, <span class='object_link'><a href="List.html" title="Lingonberry::Types::List (class)">List</a></span>, <span class='object_link'><a href="Numeric.html" title="Lingonberry::Types::Numeric (class)">Numeric</a></span>, <span class='object_link'><a href="Set.html" title="Lingonberry::Types::Set (class)">Set</a></span>, <span class='object_link'><a href="Stream.html" title="Lingonberry::Types::Stream (class)">Stream</a></span>, <span class='object_link'><a href="String.html" title="Lingonberry::Types::String (class)">String</a></span></p>
 </div>
 
 
@@ -248,6 +248,28 @@
   
     <span class="summary_desc"><div class='inline'><p>A new instance of AbstractType.</p>
 </div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#post_set-instance_method" title="#post_set (instance method)">#<strong>post_set</strong>(key, value, *args, **kwargs)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
   
 </li>
 
@@ -644,6 +666,36 @@
 </div>
     
       <div class="method_details ">
+  <h3 class="signature " id="post_set-instance_method">
+  
+    #<strong>post_set</strong>(key, value, *args, **kwargs)  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+75
+76
+77</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/types/abstract_type.rb', line 75</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_post_set'>post_set</span><span class='lparen'>(</span><span class='id identifier rubyid_key'>key</span><span class='comma'>,</span> <span class='id identifier rubyid_value'>value</span><span class='comma'>,</span> <span class='op'>*</span><span class='id identifier rubyid_args'>args</span><span class='comma'>,</span> <span class='op'>**</span><span class='id identifier rubyid_kwargs'>kwargs</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_set_ttl'>set_ttl</span><span class='lparen'>(</span><span class='id identifier rubyid_key'>key</span><span class='rparen'>)</span> <span class='kw'>if</span> <span class='id identifier rubyid_expire'>expire</span><span class='period'>.</span><span class='id identifier rubyid_positive?'>positive?</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
   <h3 class="signature " id="serialize-instance_method">
   
     #<strong>serialize</strong>(value)  &#x21d2; <tt><span class='object_link'><a href="String.html" title="Lingonberry::Types::String (class)">String</a></span></tt> 
@@ -908,9 +960,9 @@
 </div>
 
       <div id="footer">
-  Generated on Sun Nov  6 18:04:16 2022 by
-  <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.27 (ruby-2.7.3).
+  Generated on Sun Nov  6 21:20:58 2022 by
+  <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
+  0.9.28 (ruby-2.7.3).
 </div>
 
     </div>

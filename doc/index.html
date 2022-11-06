@@ -6,7 +6,7 @@
 <title>
   File: README
   
-    &mdash; Documentation by YARD 0.9.27
+    &mdash; Documentation by YARD 0.9.28
   
 </title>
 
@@ -79,23 +79,24 @@
 
 <span class='kw'>class</span> <span class='const'>TestType</span> <span class='op'>&lt;</span> <span class='const'><span class='object_link'><a href="Lingonberry.html" title="Lingonberry (module)">Lingonberry</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Lingonberry/Types.html" title="Lingonberry::Types (module)">Types</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Lingonberry/Types/Enum.html" title="Lingonberry::Types::Enum (class)">Enum</a></span></span>
   <span class='id identifier rubyid_null'>null</span> <span class='kw'>true</span>
-  <span class='id identifier rubyid_keys'>keys</span><span class='lparen'>(</span><span class='op'>*</span><span class='qsymbols_beg'>%i[</span><span class='tstring_content'>key1</span><span class='words_sep'> </span><span class='tstring_content'>key2</span><span class='tstring_end'>]</span></span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_keys'>keys</span> <span class='qsymbols_beg'>%i[</span><span class='tstring_content'>key1</span><span class='words_sep'> </span><span class='tstring_content'>key2</span><span class='tstring_end'>]</span></span>
 <span class='kw'>end</span>
 
-<span class='kw'>class</span> <span class='const'>TestModel</span> <span class='op'>&lt;</span> <span class='const'>BaseModel</span>
-  <span class='id identifier rubyid_primary_key'>primary_key</span> <span class='symbol'>:primary_key</span><span class='comma'>,</span> <span class='const'>UUID</span>
+<span class='kw'>class</span> <span class='const'>TestModel</span> <span class='op'>&lt;</span> <span class='const'>Base</span>
+  <span class='id identifier rubyid_primary_key'>primary_key</span> <span class='symbol'>:id</span>
   <span class='id identifier rubyid_field'>field</span> <span class='symbol'>:string</span><span class='comma'>,</span> <span class='const'>String</span><span class='comma'>,</span> <span class='label'>uniq:</span> <span class='kw'>true</span><span class='comma'>,</span> <span class='label'>null:</span> <span class='kw'>false</span>
   <span class='id identifier rubyid_field'>field</span> <span class='symbol'>:array</span><span class='comma'>,</span> <span class='lbracket'>[</span><span class='const'>TestType</span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='label'>length:</span> <span class='lbrace'>{</span><span class='label'>lt:</span> <span class='int'>5</span><span class='rbrace'>}</span>
   <span class='id identifier rubyid_field'>field</span> <span class='symbol'>:set</span><span class='comma'>,</span> <span class='const'>Set</span><span class='comma'>,</span> <span class='label'>length:</span> <span class='lbrace'>{</span><span class='label'>lt:</span> <span class='int'>5</span><span class='rbrace'>}</span>
   <span class='id identifier rubyid_field'>field</span> <span class='symbol'>:ordered_set</span><span class='comma'>,</span> <span class='const'>Set</span><span class='comma'>,</span> <span class='label'>length:</span> <span class='lbrace'>{</span><span class='label'>lt:</span> <span class='int'>5</span><span class='rbrace'>}</span><span class='comma'>,</span> <span class='label'>sorted:</span> <span class='kw'>true</span>
-  <span class='id identifier rubyid_field'>field</span> <span class='symbol'>:enum1</span><span class='comma'>,</span> <span class='const'>Enum</span><span class='comma'>,</span> <span class='label'>keys:</span> <span class='qsymbols_beg'>%i[</span><span class='tstring_content'>key1</span><span class='words_sep'> </span><span class='tstring_content'>key2</span><span class='words_sep'> </span><span class='tstring_content'>key3</span><span class='tstring_end'>]</span></span><span class='comma'>,</span> <span class='label'>store_as_string:</span> <span class='kw'>true</span><span class='comma'>,</span> <span class='label'>null:</span> <span class='kw'>true</span>
+  <span class='id identifier rubyid_field'>field</span> <span class='symbol'>:enum1</span><span class='comma'>,</span> <span class='const'>Enum</span><span class='comma'>,</span> <span class='label'>keys:</span> <span class='qsymbols_beg'>%i[</span><span class='tstring_content'>key1</span><span class='words_sep'> </span><span class='tstring_content'>key2</span><span class='words_sep'> </span><span class='tstring_content'>key3</span><span class='tstring_end'>]</span></span><span class='comma'>,</span> <span class='label'>null:</span> <span class='kw'>true</span><span class='comma'>,</span> <span class='label'>numeric_index:</span> <span class='kw'>true</span>
   <span class='id identifier rubyid_field'>field</span> <span class='symbol'>:enum2</span><span class='comma'>,</span> <span class='const'>Enum</span><span class='comma'>,</span> <span class='label'>keys:</span> <span class='lbrace'>{</span><span class='label'>key1:</span> <span class='int'>1</span><span class='comma'>,</span> <span class='label'>key2:</span> <span class='int'>2</span><span class='comma'>,</span> <span class='label'>key3:</span> <span class='int'>5</span><span class='comma'>,</span> <span class='label'>defualt:</span> <span class='int'>0</span><span class='rbrace'>}</span><span class='comma'>,</span> <span class='label'>null:</span> <span class='kw'>false</span>
   <span class='id identifier rubyid_field'>field</span> <span class='symbol'>:float</span><span class='comma'>,</span> <span class='const'>Float</span><span class='comma'>,</span> <span class='label'>precision:</span> <span class='int'>2</span><span class='comma'>,</span> <span class='label'>null:</span> <span class='kw'>true</span>
-  <span class='id identifier rubyid_field'>field</span> <span class='symbol'>:hash</span><span class='comma'>,</span> <span class='const'>Hash</span><span class='comma'>,</span> <span class='label'>keys:</span> <span class='qsymbols_beg'>%i[</span><span class='tstring_content'>key1</span><span class='words_sep'> </span><span class='tstring_content'>key2</span><span class='words_sep'> </span><span class='tstring_content'>key3</span><span class='words_sep'> </span><span class='tstring_content'>key4</span><span class='tstring_end'>]</span></span>
+  <span class='id identifier rubyid_field'>field</span> <span class='symbol'>:hash1</span><span class='comma'>,</span> <span class='const'>Hash</span><span class='comma'>,</span> <span class='label'>keys:</span> <span class='qsymbols_beg'>%i[</span><span class='tstring_content'>key1</span><span class='words_sep'> </span><span class='tstring_content'>key2</span><span class='words_sep'> </span><span class='tstring_content'>key3</span><span class='words_sep'> </span><span class='tstring_content'>key4</span><span class='tstring_end'>]</span></span>
   <span class='id identifier rubyid_field'>field</span> <span class='symbol'>:hash2</span><span class='comma'>,</span> <span class='const'>Hash</span>
   <span class='id identifier rubyid_field'>field</span> <span class='symbol'>:integer</span><span class='comma'>,</span> <span class='const'>Integer</span>
   <span class='id identifier rubyid_field'>field</span> <span class='symbol'>:list</span><span class='comma'>,</span> <span class='const'>List</span>
   <span class='id identifier rubyid_field'>field</span> <span class='symbol'>:timestamp</span><span class='comma'>,</span> <span class='const'>Timestamp</span>
+  <span class='id identifier rubyid_field'>field</span> <span class='symbol'>:timestamp_with_index</span><span class='comma'>,</span> <span class='const'>Timestamp</span><span class='comma'>,</span> <span class='label'>numeric_index:</span> <span class='kw'>true</span>
   <span class='id identifier rubyid_field'>field</span> <span class='symbol'>:uuid</span><span class='comma'>,</span> <span class='const'>UUID</span>
 <span class='kw'>end</span>
 </code></pre>
@@ -103,6 +104,8 @@
 <h2 id="datatypes">DataTypes</h2>
 
 <ul>
+<li><a href="#abstracttype">AbstractType</a></li>
+<li><a href="#numeric">Numeric</a></li>
 <li><a href="#integer">Integer</a></li>
 <li><a href="#string">String</a></li>
 <li><a href="#float">Float</a></li>
@@ -113,6 +116,15 @@
 <li><a href="#set">Set</a></li>
 <li><a href="#stream">Stream</a></li>
 </ul>
+
+<h3 id="abstracttype">AbstractType</h3>
+
+<p>Base Interface for Lingonberry Data Types
+Implements options <code>null, serizelier, deserializer, validator, expire, generator</code>. These options might be given as options for the field.</p>
+
+<h3 id="numeric">Numeric</h3>
+
+<p>Primitve for all numeric types. Implements numeric indexing.</p>
 
 <h3 id="integer">Integer</h3>
 
@@ -125,11 +137,11 @@ Stored value won&#39;t coerced to original data type if it wasn&#39;t something 
 
 <h3 id="float">Float</h3>
 
-<p>Primitive data type. Accepts any value which respond on #to_i.</p>
+<p>Primitive data type. Accepts any value which respond on #to_f.</p>
 
 <h3 id="timestamp">Timestamp</h3>
 
-<p>Accepts string which can being parsed by <code>Time.parse string</code>, Time class, or integer.
+<p>Accepts string which can being parsed by <code>Time.parse string</code>, ::Time class, ::Float or ::Integer.
 Return instance of Time class.</p>
 
 <h3 id="enum">Enum</h3>
@@ -165,9 +177,9 @@ Return instance of Time class.</p>
 </div></div>
 
       <div id="footer">
-  Generated on Sun Nov  6 18:04:15 2022 by
-  <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.27 (ruby-2.7.3).
+  Generated on Sun Nov  6 21:20:57 2022 by
+  <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
+  0.9.28 (ruby-2.7.3).
 </div>
 
     </div>
