@@ -64,14 +64,14 @@ describe "Lingonberry" do
         time = Time.now
         day = 86400
         instance1.timestamp_with_index = time - day
-        instance2.timestamp_with_index = time + 3*day
+        instance2.timestamp_with_index = time + 3 * day
         instance1.save!
         instance2.save!
 
         expect(redis_conn.exists?(index_key)).to be_truthy
         expect(redis_conn.type(index_key)).to match("zset")
         expect(
-          redis_conn.zrangebyscore(index_key, (time - day).to_f, (time + 3*day).to_f)
+          redis_conn.zrangebyscore(index_key, (time - day).to_f, (time + 3 * day).to_f)
         ).to match_array([instance1.id, instance2.id])
       end
     end

@@ -11,7 +11,6 @@ require_relative "types/primary_key"
 require_relative "types/stream"
 require_relative "types/string"
 require_relative "types/timestamp"
-require_relative "types/uuid"
 
 module Lingonberry
   # Namespace includes all Lingonberry data types

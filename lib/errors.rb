@@ -30,5 +30,7 @@ module Lingonberry
     class DuplicatedFieldName < BaseError; end
 
     class PrimaryKeyImmutable < BaseError; end
+
+    class UnknownBaseClass < BaseError; end
   end
 end

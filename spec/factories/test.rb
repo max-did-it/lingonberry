@@ -2,28 +2,43 @@ class Base < Lingonberry::AbstractModel
   include Lingonberry::Types
 end
 
-class TestType < Lingonberry::Types::Enum
-  null true
-  keys %i[key1 key2]
+module Test
+  class MyType < Lingonberry::Types::Enum
+    null true
+    keys %i[key1 key2]
+  end
+end
+
+class TestSchema < Lingonberry::Schema
+  custom_types ::Test
+  model :test_model do |m|
+    m.primary_key :id
+    m.string :string, uniq: true, null: false
+    m.test__my_type :array, length: {lt: 5}, array: true
+    m.set :set, length: {lt: 5}
+    m.set :ordered_set, length: {lt: 5}, sorted: true
+    m.enum :enum1, keys: %i[key1 key2 key3], null: true, numeric_index: true
+    m.enum :enum2, keys: {key1: 1, key2: 2, key3: 5, defualt: 0}, null: false
+    m.float :float, precision: 2, null: true
+    m.hash :hash1, keys: %i[key1 key2 key3 key4]
+    m.hash :hash2
+    m.integer :integer
+    m.list :list
+    m.timestamp :timestamp
+    m.timestamp :timestamp_with_index, numeric_index: true
+  end
+
+  model :api__user do |m|
+    m.primary_key :id
+    m.string :full_name
+    m.string :email, uniq: true
+  end
 end
 
 class TestModel < Base
-  primary_key :id
-  field :string, String, uniq: true, null: false
-  field :array, [TestType], length: {lt: 5}
-  field :set, Set, length: {lt: 5}
-  field :ordered_set, Set, length: {lt: 5}, sorted: true
-  field :enum1, Enum, keys: %i[key1 key2 key3], null: true, numeric_index: true
-  field :enum2, Enum, keys: {key1: 1, key2: 2, key3: 5, defualt: 0}, null: false
-  field :float, Float, precision: 2, null: true
-  field :hash1, Hash, keys: %i[key1 key2 key3 key4]
-  field :hash2, Hash
-  field :integer, Integer
-  field :list, List
-  field :timestamp, Timestamp
-  field :timestamp_with_index, Timestamp, numeric_index: true
-  field :uuid, UUID
 end
+
+TestSchema.define
 
 FactoryBot.define do
   factory :test_model, class: TestModel do
@@ -37,6 +52,5 @@ FactoryBot.define do
     list { [1, 2, "asd", "0.3"] }
     timestamp { Time.now }
     timestamp_with_index { Time.now }
-    uuid { SecureRandom.uuid }
   end
 end
