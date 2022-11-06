@@ -48,6 +48,8 @@ end
 
 ## DataTypes
 
+  - [AbstractType](#abstract_type)
+  - [Numeric](#numeric)
   - [Integer](#integer)
   - [String](#string)
   - [Float](#float)
@@ -57,6 +59,14 @@ end
   - [Array](#array)
   - [Set](#set)
   - [Stream](#stream)
+
+### AbstractType
+Base Interface for Lingonberry Data Types
+Implements options `null, serizelier, deserializer, validator, expire, generator`. These options might be given as options for the field.
+
+
+### Numeric
+Primitve for all numeric types. Implements numeric indexing.
 
 ### Integer
 Primitive data type. Accepts any value which respond on #to_i.
