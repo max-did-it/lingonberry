@@ -135,6 +135,10 @@ module Lingonberry
       fields.any? { |_, f| f.unsaved? }
     end
 
+    def inspect
+      "#{self} #{fields.keys.map(&:to_s).join(", ")}"
+    end
+
     private
 
     def set_primary_key

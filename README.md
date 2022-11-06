@@ -20,17 +20,63 @@ gem 'lingonberry'
 
 Short example:
 
-```ruby
-class BaseModel < Lingonberry::AbstractModel
-  include Lingonberry::Types
-end
 
+Custom data types
+```ruby
 class TestType < Lingonberry::Types::Enum
   null true
   keys %i[key1 key2]
 end
+```
+
+Model definition
+```ruby
+class TestSchema < Lingonberry::Schema
+  custom_types ::Test
+  model :test_model do |m|
+    m.primary_key :id
+    m.string :string, uniq: true, null: false
+    m.test__my_type :array, length: {lt: 5}, array: true
+    m.set :set, length: {lt: 5}
+    m.set :ordered_set, length: {lt: 5}, sorted: true
+    m.enum :enum1, keys: %i[key1 key2 key3], null: true, numeric_index: true
+    m.enum :enum2, keys: {key1: 1, key2: 2, key3: 5, defualt: 0}, null: false
+    m.float :float, precision: 2, null: true
+    m.hash :hash1, keys: %i[key1 key2 key3 key4]
+    m.hash :hash2
+    m.integer :integer
+    m.list :list
+    m.timestamp :timestamp
+    m.timestamp :timestamp_with_index, numeric_index: true
+  end
+
+  # Double underscore defines namespace
+  # If modules isn't defined schema'll create them itself
+  # Example: 
+  # model :api__v1__users__client <=> Api::V1::Users::Client
+  model :api__user do |m|
+    m.primary_key :id
+    m.string :full_name
+    m.string :email, uniq: true
+  end
+end
 
 class TestModel < Base
+end
+
+TestSchema.define
+Api::User.new
+#=> #<Api::User:0x000055ba233febd8> id, full_name, email
+TestModel.new
+#=> #<TestModel:0x000055ba2303a8a8> id, string, array, set, ordered_set, enum1, enum2, float, hash1, hash2, integer, list, timestamp, timestamp_with_index
+```
+
+Or direct way
+
+```ruby
+class TestModel < Lingonberry::AbstractModel
+  include Lingonberry::Types
+
   primary_key :id
   field :string, String, uniq: true, null: false
   field :array, [TestType], length: {lt: 5}

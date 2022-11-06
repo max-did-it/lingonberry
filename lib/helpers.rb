@@ -17,7 +17,7 @@ module Lingonberry
         end
 
         def snake_case(string)
-          string.gsub(/(([A-Z]{1}[a-z]+)+)(:{2})?/, '\1__').delete_suffix("__").split("__").map { |m| m.gsub(/(.)([A-Z])/, '\1_\2').downcase }.join("__")
+          string.gsub(/(([A-Z]{1}[a-z0-9]+)+)(:{2})?/, '\1__').delete_suffix("__").split("__").map { |m| m.gsub(/(.)([A-Z])/, '\1_\2').downcase }.join("__")
         end
 
         def constantize(string)
