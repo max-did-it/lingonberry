@@ -35,6 +35,23 @@ describe "Lingonberry" do
     end
   end
 
+  describe "type options" do
+    let(:redis_conn) { Redis.new }
+    subject { create :test_model }
+
+    context "numeric-index" do
+      it "should add member to the sorted set if numeric index enabled" do
+        instance = subject
+        index_key = "lingonberry:testmodel:enum1"
+        expect(redis_conn.exists?(index_key)).to be_truthy
+        expect(redis_conn.type(index_key)).to match("zset")
+
+        score = instance.fields[:enum1].type[instance.enum1]
+        expect(redis_conn.zrangebyscore(index_key, score, score)).to include(instance.id)
+      end
+    end
+  end
+
   describe "Types" do
     context "timestamp" do
       it "should return Time class when set Time" do

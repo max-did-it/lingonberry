@@ -42,24 +42,11 @@ module Lingonberry
       end
     end
 
-    # immediately save data to the storage
-    def set(*args, **kwargs)
-      type.set(
-        key,
-        *args,
-        **kwargs
-      )
-    end
-
     # Write temp data to the storage
     def save
       return true unless @unsaved_data
 
-      type.set(
-        key,
-        *@unsaved_data.args,
-        **@unsaved_data.kwargs
-      )
+      set(*@unsaved_data.args, **@unsaved_data.kwargs)
       @unsaved_data = nil
       true
     end
@@ -113,6 +100,13 @@ module Lingonberry
       (Time.now - @cached_at) < cache_ttl
     end
 
+    # immediately save data to the storage
+    def set(*args, **kwargs)
+      type.set(key, *args, **kwargs)
+      kwargs[:index_key] = index_key
+      type.post_set(key, *args, **kwargs)
+    end
+
     private
 
     def connection
@@ -123,6 +117,10 @@ module Lingonberry
     # @return [String] the key on which value is stored
     def key(primary_key: @context.instance.primary_key.get)
       "lingonberry:#{@context.model_name}:#{name}:#{primary_key}"
+    end
+
+    def index_key
+      "lingonberry:#{@context.model_name}:#{name}"
     end
   end
 end

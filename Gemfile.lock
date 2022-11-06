@@ -1,4 +1,5 @@
 GEM
+  remote: https://rubygems.org/
   specs:
     activesupport (7.0.4)
       concurrent-ruby (~> 1.0, >= 1.0.2)
@@ -10,43 +11,45 @@ GEM
     concurrent-ruby (1.1.10)
     connection_pool (2.3.0)
     diff-lcs (1.5.0)
-    factory_bot (6.0.2)
+    factory_bot (6.2.1)
       activesupport (>= 5.0.0)
+    hiredis-client (0.11.1)
+      redis-client (= 0.11.1)
     i18n (1.12.0)
       concurrent-ruby (~> 1.0)
     method_source (1.0.0)
     minitest (5.16.3)
     mock_redis (0.34.0)
       ruby2_keywords
-    pry (0.13.1)
+    pry (0.14.1)
       coderay (~> 1.1)
       method_source (~> 1.0)
-    pry-byebug (3.9.0)
+    pry-byebug (3.10.1)
       byebug (~> 11.0)
-      pry (~> 0.13.0)
+      pry (>= 0.13, < 0.15)
     redcarpet (3.5.1)
     redis (5.0.5)
       redis-client (>= 0.9.0)
-    redis-client (0.9.0)
+    redis-client (0.11.1)
       connection_pool
-    rspec (3.11.0)
-      rspec-core (~> 3.11.0)
-      rspec-expectations (~> 3.11.0)
-      rspec-mocks (~> 3.11.0)
-    rspec-core (3.11.0)
-      rspec-support (~> 3.11.0)
-    rspec-expectations (3.11.0)
+    rspec (3.12.0)
+      rspec-core (~> 3.12.0)
+      rspec-expectations (~> 3.12.0)
+      rspec-mocks (~> 3.12.0)
+    rspec-core (3.12.0)
+      rspec-support (~> 3.12.0)
+    rspec-expectations (3.12.0)
       diff-lcs (>= 1.2.0, < 2.0)
-      rspec-support (~> 3.11.0)
-    rspec-mocks (3.11.0)
+      rspec-support (~> 3.12.0)
+    rspec-mocks (3.12.0)
       diff-lcs (>= 1.2.0, < 2.0)
-      rspec-support (~> 3.11.0)
-    rspec-support (3.11.0)
+      rspec-support (~> 3.12.0)
+    rspec-support (3.12.0)
     ruby2_keywords (0.0.5)
     tzinfo (2.0.5)
       concurrent-ruby (~> 1.0)
     webrick (1.7.0)
-    yard (0.9.27)
+    yard (0.9.28)
       webrick (~> 1.7.0)
 
 PLATFORMS
@@ -56,6 +59,7 @@ DEPENDENCIES
   byebug
   connection_pool (~> 2.3)
   factory_bot (~> 6.0)
+  hiredis-client
   mock_redis
   pry
   pry-byebug

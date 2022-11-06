@@ -72,6 +72,10 @@ module Lingonberry
         deserialize connection.get(key)
       end
 
+      def post_set(key, value, *args, **kwargs)
+        set_ttl(key) if expire.positive?
+      end
+
       private
 
       def set_ttl(key)

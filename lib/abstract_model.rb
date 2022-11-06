@@ -115,8 +115,8 @@ module Lingonberry
     end
 
     def save
-      return with_connection &method(__method__) unless context_connection
-      
+      return with_connection(&method(__method__)) unless context_connection
+
       set_primary_key if new_record?
       fields.each do |_, field|
         field.save
@@ -125,7 +125,7 @@ module Lingonberry
     end
 
     def new_record?
-      return with_connection &method(__method__) unless context_connection
+      return with_connection(&method(__method__)) unless context_connection
 
       !primary_key.exists?
     end
@@ -144,7 +144,7 @@ module Lingonberry
 
     def get(field, *args, **kwargs)
       unless context_connection
-        return with_connection [field, args, kwargs], &method(__method__) 
+        return with_connection [field, args, kwargs], &method(__method__)
       end
       field.get(*args, **kwargs)
     end

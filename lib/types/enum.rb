@@ -1,6 +1,6 @@
 require_relative "abstract_type"
 require_relative "list"
-require_relative 'numeric'
+require_relative "numeric"
 
 module Lingonberry
   module Types
@@ -8,6 +8,15 @@ module Lingonberry
       # {Helpers::Types::Options#extended}
       extend Helpers::Types::Options[:keys, :null]
       extend Helpers::Types::ArrayOf
+
+      def [](key)
+        case keys
+        when ::Hash
+          keys[key.to_sym]
+        when ::Array
+          keys.index(key.to_sym)
+        end
+      end
 
       def serialize(value)
         return serializer.call(value) if serializer
