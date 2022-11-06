@@ -145,6 +145,28 @@
         <li class="public ">
   <span class="summary_signature">
     
+      <a href="#add_generator-class_method" title="add_generator (class method)">.<strong>add_generator</strong>(klass)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
       <a href="#add_keys-class_method" title="add_keys (class method)">.<strong>add_keys</strong>(klass)  &#x21d2; Object </a>
     
 
@@ -190,6 +212,28 @@
   <span class="summary_signature">
     
       <a href="#add_null-class_method" title="add_null (class method)">.<strong>add_null</strong>(klass)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#add_numeric_index-class_method" title="add_numeric_index (class method)">.<strong>add_numeric_index</strong>(klass)  &#x21d2; Object </a>
     
 
     
@@ -348,24 +392,24 @@
       <pre class="lines">
 
 
-110
-111
-112
-113
-114
-115
-116
-117
-118
-119
-120
-121
-122
-123
-124</pre>
+126
+127
+128
+129
+130
+131
+132
+133
+134
+135
+136
+137
+138
+139
+140</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/helpers/types.rb', line 110</span>
+      <pre class="code"><span class="info file"># File 'lib/helpers/types.rb', line 126</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_add_expire'>add_expire</span><span class='lparen'>(</span><span class='id identifier rubyid_klass'>klass</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_klass'>klass</span><span class='period'>.</span><span class='id identifier rubyid_class_eval'>class_eval</span> <span class='kw'>do</span>
@@ -388,6 +432,56 @@
 </div>
     
       <div class="method_details ">
+  <h3 class="signature " id="add_generator-class_method">
+  
+    .<strong>add_generator</strong>(klass)  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+190
+191
+192
+193
+194
+195
+196
+197
+198
+199
+200
+201
+202</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/helpers/types.rb', line 190</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_add_generator'>add_generator</span><span class='lparen'>(</span><span class='id identifier rubyid_klass'>klass</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_klass'>klass</span><span class='period'>.</span><span class='id identifier rubyid_class_eval'>class_eval</span> <span class='kw'>do</span>
+    <span class='id identifier rubyid_attr_reader'>attr_reader</span> <span class='symbol'>:generator</span>
+
+    <span class='kw'>class</span> <span class='op'>&lt;&lt;</span> <span class='kw'>self</span>
+      <span class='kw'>def</span> <span class='id identifier rubyid_generator'>generator</span><span class='lparen'>(</span><span class='op'>&amp;</span><span class='id identifier rubyid_block'>block</span><span class='rparen'>)</span>
+        <span class='id identifier rubyid_raise'>raise</span> <span class='const'><span class='object_link'><a href="../../Errors.html" title="Lingonberry::Errors (module)">Errors</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../../Errors/InvalidValue.html" title="Lingonberry::Errors::InvalidValue (class)">InvalidValue</a></span></span> <span class='kw'>unless</span> <span class='id identifier rubyid_block'>block</span>
+
+        <span class='ivar'>@default_options</span><span class='lbracket'>[</span><span class='symbol'>:generator</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='id identifier rubyid_block'>block</span>
+      <span class='kw'>end</span>
+    <span class='kw'>end</span>
+  <span class='kw'>end</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
   <h3 class="signature " id="add_keys-class_method">
   
     .<strong>add_keys</strong>(klass)  &#x21d2; <tt>Object</tt> 
@@ -402,28 +496,28 @@
       <pre class="lines">
 
 
-126
-127
-128
-129
-130
-131
-132
-133
-134
-135
-136
-137
-138
-139
-140
-141
 142
 143
-144</pre>
+144
+145
+146
+147
+148
+149
+150
+151
+152
+153
+154
+155
+156
+157
+158
+159
+160</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/helpers/types.rb', line 126</span>
+      <pre class="code"><span class="info file"># File 'lib/helpers/types.rb', line 142</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_add_keys'>add_keys</span><span class='lparen'>(</span><span class='id identifier rubyid_klass'>klass</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_klass'>klass</span><span class='period'>.</span><span class='id identifier rubyid_class_eval'>class_eval</span> <span class='kw'>do</span>
@@ -524,22 +618,22 @@
       <pre class="lines">
 
 
-146
-147
-148
-149
-150
-151
-152
-153
-154
-155
-156
-157
-158</pre>
+162
+163
+164
+165
+166
+167
+168
+169
+170
+171
+172
+173
+174</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/helpers/types.rb', line 146</span>
+      <pre class="code"><span class="info file"># File 'lib/helpers/types.rb', line 162</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_add_null'>add_null</span><span class='lparen'>(</span><span class='id identifier rubyid_klass'>klass</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_klass'>klass</span><span class='period'>.</span><span class='id identifier rubyid_class_eval'>class_eval</span> <span class='kw'>do</span>
@@ -552,6 +646,56 @@
     <span class='kw'>end</span>
 
     <span class='id identifier rubyid_null'>null</span> <span class='kw'>true</span>
+  <span class='kw'>end</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="add_numeric_index-class_method">
+  
+    .<strong>add_numeric_index</strong>(klass)  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+112
+113
+114
+115
+116
+117
+118
+119
+120
+121
+122
+123
+124</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/helpers/types.rb', line 112</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_add_numeric_index'>add_numeric_index</span><span class='lparen'>(</span><span class='id identifier rubyid_klass'>klass</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_klass'>klass</span><span class='period'>.</span><span class='id identifier rubyid_class_eval'>class_eval</span> <span class='kw'>do</span>
+    <span class='id identifier rubyid_attr_reader'>attr_reader</span> <span class='symbol'>:numeric_index</span>
+
+    <span class='kw'>class</span> <span class='op'>&lt;&lt;</span> <span class='kw'>self</span>
+      <span class='kw'>def</span> <span class='id identifier rubyid_numeric_index'>numeric_index</span><span class='lparen'>(</span><span class='id identifier rubyid_flag'>flag</span> <span class='op'>=</span> <span class='kw'>false</span><span class='rparen'>)</span>
+        <span class='ivar'>@default_options</span><span class='lbracket'>[</span><span class='symbol'>:numeric_index</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='id identifier rubyid_flag'>flag</span>
+      <span class='kw'>end</span>
+    <span class='kw'>end</span>
+
+    <span class='id identifier rubyid_numeric_index'>numeric_index</span> <span class='kw'>false</span>
   <span class='kw'>end</span>
 <span class='kw'>end</span></pre>
     </td>
@@ -574,22 +718,22 @@
       <pre class="lines">
 
 
-160
-161
-162
-163
-164
-165
-166
-167
-168
-169
-170
-171
-172</pre>
+176
+177
+178
+179
+180
+181
+182
+183
+184
+185
+186
+187
+188</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/helpers/types.rb', line 160</span>
+      <pre class="code"><span class="info file"># File 'lib/helpers/types.rb', line 176</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_add_serializer'>add_serializer</span><span class='lparen'>(</span><span class='id identifier rubyid_klass'>klass</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_klass'>klass</span><span class='period'>.</span><span class='id identifier rubyid_class_eval'>class_eval</span> <span class='kw'>do</span>
@@ -634,7 +778,9 @@
 105
 106
 107
-108</pre>
+108
+109
+110</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'lib/helpers/types.rb', line 98</span>
@@ -643,8 +789,10 @@
   <span class='id identifier rubyid_klass'>klass</span><span class='period'>.</span><span class='id identifier rubyid_class_eval'>class_eval</span> <span class='kw'>do</span>
     <span class='id identifier rubyid_attr_reader'>attr_reader</span> <span class='symbol'>:uniq</span>
 
-    <span class='kw'>def</span> <span class='id identifier rubyid_uniq'>uniq</span><span class='lparen'>(</span><span class='id identifier rubyid_flag'>flag</span> <span class='op'>=</span> <span class='kw'>false</span><span class='rparen'>)</span>
-      <span class='ivar'>@default_options</span><span class='lbracket'>[</span><span class='symbol'>:uniq</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='id identifier rubyid_flag'>flag</span>
+    <span class='kw'>class</span> <span class='op'>&lt;&lt;</span> <span class='kw'>self</span>
+      <span class='kw'>def</span> <span class='id identifier rubyid_uniq'>uniq</span><span class='lparen'>(</span><span class='id identifier rubyid_flag'>flag</span> <span class='op'>=</span> <span class='kw'>false</span><span class='rparen'>)</span>
+        <span class='ivar'>@default_options</span><span class='lbracket'>[</span><span class='symbol'>:uniq</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='id identifier rubyid_flag'>flag</span>
+      <span class='kw'>end</span>
     <span class='kw'>end</span>
 
     <span class='id identifier rubyid_uniq'>uniq</span> <span class='kw'>false</span>
@@ -710,7 +858,7 @@
 </div>
 
       <div id="footer">
-  Generated on Thu Nov  3 19:52:18 2022 by
+  Generated on Sun Nov  6 18:04:15 2022 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.27 (ruby-2.7.3).
 </div>

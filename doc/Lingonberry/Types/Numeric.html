@@ -4,7 +4,7 @@
     <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>
-  Class: Lingonberry::Types::UUID
+  Class: Lingonberry::Types::Numeric
   
     &mdash; Documentation by YARD 0.9.27
   
@@ -15,7 +15,7 @@
   <link rel="stylesheet" href="../../css/common.css" type="text/css" />
 
 <script type="text/javascript">
-  pathId = "Lingonberry::Types::UUID";
+  pathId = "Lingonberry::Types::Numeric";
   relpath = '../../';
 </script>
 
@@ -36,10 +36,10 @@
       <div id="header">
         <div id="menu">
   
-    <a href="../../_index.html">Index (U)</a> &raquo;
+    <a href="../../_index.html">Index (N)</a> &raquo;
     <span class='title'><span class='object_link'><a href="../../Lingonberry.html" title="Lingonberry (module)">Lingonberry</a></span></span> &raquo; <span class='title'><span class='object_link'><a href="../Types.html" title="Lingonberry::Types (module)">Types</a></span></span>
      &raquo; 
-    <span class="title">UUID</span>
+    <span class="title">Numeric</span>
   
 </div>
 
@@ -59,7 +59,7 @@
         <div class="clear"></div>
       </div>
 
-      <div id="content"><h1>Class: Lingonberry::Types::UUID
+      <div id="content"><h1>Class: Lingonberry::Types::Numeric
   
   
   
@@ -69,16 +69,14 @@
   <dl>
     <dt>Inherits:</dt>
     <dd>
-      <span class="inheritName"><span class='object_link'><a href="String.html" title="Lingonberry::Types::String (class)">String</a></span></span>
+      <span class="inheritName"><span class='object_link'><a href="AbstractType.html" title="Lingonberry::Types::AbstractType (class)">AbstractType</a></span></span>
       
         <ul class="fullTree">
           <li>Object</li>
           
             <li class="next"><span class='object_link'><a href="AbstractType.html" title="Lingonberry::Types::AbstractType (class)">AbstractType</a></span></li>
           
-            <li class="next"><span class='object_link'><a href="String.html" title="Lingonberry::Types::String (class)">String</a></span></li>
-          
-            <li class="next">Lingonberry::Types::UUID</li>
+            <li class="next">Lingonberry::Types::Numeric</li>
           
         </ul>
         <a href="#" class="inheritanceTree">show all</a>
@@ -89,11 +87,6 @@
 
   
   
-  <dl>
-      <dt>Extended by:</dt>
-      <dd><span class='object_link'><a href="../Helpers/Types/ArrayOf.html" title="Lingonberry::Helpers::Types::ArrayOf (module)">Helpers::Types::ArrayOf</a></span></dd>
-  </dl>
-  
   
   
   
@@ -103,9 +96,14 @@
   
   <dl>
     <dt>Defined in:</dt>
-    <dd>lib/types/uuid.rb</dd>
+    <dd>lib/types/numeric.rb</dd>
   </dl>
   
+</div>
+
+<div id="subclasses">
+  <h2>Direct Known Subclasses</h2>
+  <p class="children"><span class='object_link'><a href="Integer.html" title="Lingonberry::Types::Integer (class)">Integer</a></span></p>
 </div>
 
 
@@ -114,25 +112,40 @@
 
 
 
+  
+    <h2>
+      Instance Method Summary
+      <small><a href="#" class="summary_toggle">collapse</a></small>
+    </h2>
+
+    <ul class="summary">
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#set_index-instance_method" title="#set_index (instance method)">#<strong>set_index</strong>(key, value, context:)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+    </ul>
+  
 
 
-  
-  
-  
-  
-  
-  
-  <h2>Method Summary</h2>
-  
-  <h3 class="inherited">Methods included from <span class='object_link'><a href="../Helpers/Types/ArrayOf.html" title="Lingonberry::Helpers::Types::ArrayOf (module)">Helpers::Types::ArrayOf</a></span></h3>
-  <p class="inherited"><span class='object_link'><a href="../Helpers/Types/ArrayOf.html#[]-class_method" title="Lingonberry::Helpers::Types::ArrayOf.[] (method)">[]</a></span></p>
-
-  
-  
-  
-  
-  
-  
   
   
   
@@ -150,6 +163,50 @@
   
 </div>
 
+
+  <div id="instance_method_details" class="method_details_list">
+    <h2>Instance Method Details</h2>
+
+    
+      <div class="method_details first">
+  <h3 class="signature first" id="set_index-instance_method">
+  
+    #<strong>set_index</strong>(key, value, context:)  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+8
+9
+10
+11
+12
+13
+14</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/types/numeric.rb', line 8</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_set_index'>set_index</span><span class='lparen'>(</span><span class='id identifier rubyid_key'>key</span><span class='comma'>,</span> <span class='id identifier rubyid_value'>value</span><span class='comma'>,</span> <span class='label'>context:</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_connection'>connection</span><span class='period'>.</span><span class='id identifier rubyid_zadd'>zadd</span><span class='lparen'>(</span>
+    <span class='id identifier rubyid_key'>key</span><span class='comma'>,</span>
+    <span class='id identifier rubyid_value'>value</span><span class='period'>.</span><span class='id identifier rubyid_to_f'>to_f</span><span class='comma'>,</span>
+    <span class='id identifier rubyid_primary_key'>primary_key</span>
+  <span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
 
 </div>
 

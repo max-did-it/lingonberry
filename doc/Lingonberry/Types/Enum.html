@@ -415,12 +415,14 @@
 40
 41
 42
-43</pre>
+43
+44</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'lib/types/enum.rb', line 33</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_deserialize'>deserialize</span><span class='lparen'>(</span><span class='id identifier rubyid_value'>value</span><span class='rparen'>)</span>
+  <span class='kw'>return</span> <span class='id identifier rubyid_patch_future_object'>patch_future_object</span><span class='lparen'>(</span><span class='id identifier rubyid_value'>value</span><span class='rparen'>)</span> <span class='kw'>if</span> <span class='id identifier rubyid_value'>value</span><span class='period'>.</span><span class='id identifier rubyid_is_a?'>is_a?</span><span class='lparen'>(</span><span class='const'>Redis</span><span class='op'>::</span><span class='const'>Future</span><span class='rparen'>)</span>
   <span class='kw'>return</span> <span class='id identifier rubyid_deserializer'>deserializer</span><span class='period'>.</span><span class='id identifier rubyid_call'>call</span><span class='lparen'>(</span><span class='id identifier rubyid_value'>value</span><span class='rparen'>)</span> <span class='kw'>if</span> <span class='id identifier rubyid_deserializer'>deserializer</span>
   <span class='kw'>return</span> <span class='id identifier rubyid_value'>value</span><span class='period'>.</span><span class='id identifier rubyid_to_sym'>to_sym</span> <span class='kw'>if</span> <span class='id identifier rubyid_store_as_string'>store_as_string</span>
 
@@ -545,7 +547,6 @@
       <pre class="lines">
 
 
-45
 46
 47
 48
@@ -556,10 +557,11 @@
 53
 54
 55
-56</pre>
+56
+57</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/types/enum.rb', line 45</span>
+      <pre class="code"><span class="info file"># File 'lib/types/enum.rb', line 46</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_valid?'>valid?</span><span class='lparen'>(</span><span class='id identifier rubyid_value'>value</span><span class='rparen'>)</span>
   <span class='kw'>return</span> <span class='kw'>false</span> <span class='kw'>unless</span> <span class='id identifier rubyid_value'>value</span><span class='period'>.</span><span class='id identifier rubyid_respond_to?'>respond_to?</span><span class='lparen'>(</span><span class='symbol'>:to_sym</span><span class='rparen'>)</span>
@@ -583,7 +585,7 @@
 </div>
 
       <div id="footer">
-  Generated on Thu Nov  3 19:52:18 2022 by
+  Generated on Sun Nov  6 18:04:16 2022 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.27 (ruby-2.7.3).
 </div>
