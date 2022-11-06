@@ -3,7 +3,7 @@ require_relative "abstract_type"
 
 module Lingonberry
   module Types
-    class Timestamp < Integer
+    class Timestamp < Float
       # {Helpers::Types::Options#extended}
       extend Helpers::Types::Options[:length]
       extend Helpers::Types::ArrayOf
@@ -28,10 +28,12 @@ module Lingonberry
 
         case value
         when ::Time
-          value.to_i
+          value.to_f
         when ::String
-          Time.parse(value).to_i
+          Time.parse(value).to_f
         when ::Integer
+          value.to_f
+        when ::Float
           value
         else
           raise InvalidValueType
