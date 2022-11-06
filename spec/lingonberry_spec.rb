@@ -1,4 +1,10 @@
 describe "Lingonberry" do
+  before do
+    c = Redis.new
+    c.keys.each do |k|
+      c.del k
+    end
+  end
   let(:test_instance) { create :test_model }
 
   it "should create the model" do
@@ -48,6 +54,25 @@ describe "Lingonberry" do
 
         score = instance.fields[:enum1].type[instance.enum1]
         expect(redis_conn.zrangebyscore(index_key, score, score)).to include(instance.id)
+      end
+
+      it do
+        instance1 = create :test_model
+        instance2 = create :test_model
+        index_key = "lingonberry:testmodel:timestamp_with_index"
+
+        time = Time.now
+        day = 86400
+        instance1.timestamp_with_index = time - day
+        instance2.timestamp_with_index = time + 3*day
+        instance1.save!
+        instance2.save!
+
+        expect(redis_conn.exists?(index_key)).to be_truthy
+        expect(redis_conn.type(index_key)).to match("zset")
+        expect(
+          redis_conn.zrangebyscore(index_key, (time - day).to_f, (time + 3*day).to_f)
+        ).to match_array([instance1.id, instance2.id])
       end
     end
   end
