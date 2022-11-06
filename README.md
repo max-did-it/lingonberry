@@ -1,5 +1,8 @@
 # Lingonberry - Object-relational mapper for Redis in Ruby
 
+[![specs](https://github.com/max-did-it/lingonberry/actions/workflows/spec.yml/badge.svg?branch=master)](https://github.com/max-did-it/lingonberry/actions/workflows/spec.yml)
+
+
 ## Install
 
 
