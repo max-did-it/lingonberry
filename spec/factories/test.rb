@@ -40,10 +40,6 @@ end
 
 TestSchema.define
 
-
-binding.pry
-
-
 FactoryBot.define do
   factory :test_model, class: TestModel do
     string { "John" }

@@ -46,6 +46,7 @@ module Lingonberry
           end
         end
       end
+
       # create metaklasses for models if models isn't defined as the class
       # implement for the model fields
       def define
@@ -79,7 +80,7 @@ module Lingonberry
         model = TempModel.new model_name
         yield model
         @models ||= []
-        @models << model 
+        @models << model
       end
     end
   end
