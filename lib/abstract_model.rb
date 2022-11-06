@@ -99,7 +99,7 @@ module Lingonberry
 
       # @param name [String, Symbol] name of the primary key
       # @return [nil] nil
-      def primary_key(name)
+      def primary_key(name, *_args, **_kwargs)
         @primary_key = name.to_sym
         field(name, nil, sorted: false)
       end
