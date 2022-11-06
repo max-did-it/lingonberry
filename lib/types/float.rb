@@ -2,7 +2,7 @@ require_relative "abstract_type"
 
 module Lingonberry
   module Types
-    class Float < AbstractType
+    class Float < Numeric
       extend Helpers::Types::ArrayOf
 
       attr_reader :precision
