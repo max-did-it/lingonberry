@@ -87,7 +87,8 @@ end
 $lua = $ruby = nil
 seed
 $sha = $conn.script(:load, script)
-sleep(1)
+
+
 Benchmark.bmbm do |x|
   x.report("lua") { $lua = $conn.evalsha $sha, argv: [$pattern, $text_pattern] }
   x.report("hiredis-lua") { $lua = $hiredis_conn.evalsha $sha, argv: [$pattern, $text_pattern] }
