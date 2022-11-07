@@ -1,4 +1,5 @@
 require 'redis'
+require 'hiredis-client'
 require 'ffaker'
 require 'benchmark'
 require 'securerandom'
@@ -15,7 +16,8 @@ end
 return matches_keys
 LUA
 
-$conn = Redis.new
+$conn = Redis.new driver: :ruby
+$hiredis_conn = Redis.new driver: :hiredis
 
 def seed
   $conn.keys("test:*").each { |k| $conn.del k }
@@ -75,24 +77,35 @@ def string_search
   end.compact
 end
 
+def hiredis_string_search
+  keys = $hiredis_conn.keys($pattern)
+  keys.map do |key|
+    $hiredis_conn.get(key).match($text_pattern_ruby) ? key : nil
+  end.compact
+end
+
 $lua = $ruby = nil
 seed
 $sha = $conn.script(:load, script)
 sleep(1)
 Benchmark.bmbm do |x|
   x.report("lua") { $lua = $conn.evalsha $sha, argv: [$pattern, $text_pattern] }
+  x.report("hiredis-lua") { $lua = $hiredis_conn.evalsha $sha, argv: [$pattern, $text_pattern] }
   x.report("ruby") { $ruby = string_search }
+  x.report("hiredis-ruby") { $ruby = hiredis_string_search }
 end
-puts "result is equel? #{$lua == $ruby}"
 
 $conn.flushall
 
-# Rehearsal ----------------------------------------
-# lua    0.000170   0.000016   0.000186 (  0.000375)
-# ruby   0.000656   0.009852   0.010508 (  0.011786)
-# ------------------------------- total: 0.010694sec
+# Rehearsal ------------------------------------------------
+# lua            0.000202   0.000067   0.000269 (  0.000602)
+# hiredis-lua    0.000298   0.000100   0.000398 (  0.000740)
+# ruby           0.009984   0.000000   0.009984 (  0.011447)
+# hiredis-ruby   0.007236   0.000000   0.007236 (  0.008746)
+# --------------------------------------- total: 0.017887sec
 
-#            user     system      total        real
-# lua    0.000186   0.000000   0.000186 (  0.000383)
-# ruby   0.008793   0.000000   0.008793 (  0.009774)
-# result is equel? true
+#                    user     system      total        real
+# lua            0.000177   0.000048   0.000225 (  0.000452)
+# hiredis-lua    0.000136   0.000037   0.000173 (  0.000474)
+# ruby           0.009345   0.000000   0.009345 (  0.010284)
+# hiredis-ruby   0.000000   0.007226   0.007226 (  0.008485)
