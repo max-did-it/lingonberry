@@ -27,6 +27,7 @@ GEM
     pry-byebug (3.8.0)
       byebug (~> 11.0)
       pry (~> 0.10)
+    rake (13.0.6)
     redcarpet (3.5.1)
     redis (5.0.5)
       redis-client (>= 0.9.0)
@@ -65,6 +66,7 @@ DEPENDENCIES
   mock_redis
   pry
   pry-byebug
+  rake
   redcarpet (~> 3.5)
   redis
   rspec (~> 3.11)
@@ -74,4 +76,4 @@ RUBY VERSION
    ruby 2.6.5p114
 
 BUNDLED WITH
-   2.2.20
+   2.3.18
