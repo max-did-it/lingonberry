@@ -13,7 +13,9 @@ namespace :redis do
 
           script_sha = connection.script(:load, script)
           scripts_sha.push([script_name.to_sym, script_sha])
-          File.write("lib/redis/scripts_sha.json", scripts_sha.to_h.to_json)
+          scripts_sha = scripts_sha.to_h.to_json
+          File.write("lib/redis/scripts_sha.json", scripts_sha)
+          puts script_sha
         end
       end
     end
@@ -28,6 +30,9 @@ namespace :redis do
 
     desc "Remove all loaded scripts"
     task :flush do
+      Lingonberry.connection do |connection|
+        connection.scripts(:flush)
+      end
     end
   end
 end

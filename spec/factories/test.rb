@@ -16,7 +16,7 @@ class TestSchema < Lingonberry::Schema
     m.string :string, uniq: true, null: false
     m.test__my_type :array, length: {lt: 5}, array: true
     m.set :set, length: {lt: 5}
-    m.set :ordered_set, length: {lt: 5}, sorted: true
+    m.sorted_set :sorted_set, length: {lt: 5}
     m.enum :enum1, keys: %i[key1 key2 key3], null: true, numeric_index: true
     m.enum :enum2, keys: {key1: 1, key2: 2, key3: 5, defualt: 0}, null: false
     m.float :float, precision: 2, null: true
@@ -39,6 +39,7 @@ class TestModel < Base
 end
 
 TestSchema.define
+
 
 FactoryBot.define do
   factory :test_model, class: TestModel do

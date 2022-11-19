@@ -5,12 +5,18 @@ module Lingonberry
   # Responsible for serialization/deserialization, validation,
   # store and fetch values from the storage.
   class PrimaryKey < Field
+    TYPE = Types::PrimaryKey
+
     def initialize(name, **kwargs)
-      super(name, Types::PrimaryKey, **kwargs)
+      super(name, TYPE, **kwargs)
     end
 
     def key(*_args, **_kwargs)
       "lingonberry:#{@context.model_name}:#{name}"
+    end
+
+    def self.key(model_name, field_name)
+      "lingonberry:#{model_name}:#{field_name}"
     end
 
     def set(value, *args, **kwargs)

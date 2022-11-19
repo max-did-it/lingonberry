@@ -32,5 +32,9 @@ module Lingonberry
     class PrimaryKeyImmutable < BaseError; end
 
     class UnknownBaseClass < BaseError; end
+
+    class RecordNotFound < BaseError; end
+
+    class ScriptExtensionIsNotLua < BaseError; end
   end
 end

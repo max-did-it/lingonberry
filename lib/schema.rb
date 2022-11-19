@@ -66,11 +66,12 @@ module Lingonberry
           klass = if Object.const_defined? model.name
             new_model = Object.const_get(model.name)
             raise Errors::UnknownBaseClass, model.to_s unless Helpers.descendant? AbstractModel, new_model
-
+            new_model
           else
             new_model = Class.new(AbstractModel)
             Helpers::Strings.constantize_with_set!(model.name, new_model)
           end
+
           model.fields.each do |name, type, kwargs|
             call_field(klass, name, type, **kwargs)
           end
