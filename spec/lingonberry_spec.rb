@@ -118,12 +118,12 @@ describe "Lingonberry" do
       end
     end
 
-    context "ordered set" do
+    context "sorted set" do
       it "should store an uniq values as set" do
         set = %w[kek lol kek lol]
-        test_instance.ordered_set = set
+        test_instance.sorted_set = set
         test_instance.save!
-        expect(test_instance.ordered_set).to eq(%w[kek lol])
+        expect(test_instance.sorted_set).to eq(%w[kek lol])
       end
     end
 

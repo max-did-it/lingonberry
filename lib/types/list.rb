@@ -3,6 +3,7 @@ require_relative "abstract_type"
 module Lingonberry
   module Types
     class List < AbstractType
+      DEFAULT_MATCHERS = %i[include exclude]
       # {Helpers::Types::Options#extended}
       extend Helpers::Types::Options[:length]
 

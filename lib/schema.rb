@@ -15,7 +15,7 @@ module Lingonberry
         def define_field_setter(method_name, type)
           define_method(method_name) do |name, **kwargs|
             @fields ||= []
-            
+
             @fields << [name, type, kwargs]
           end
         end
@@ -65,14 +65,13 @@ module Lingonberry
         @models.each do |model|
           klass = if Object.const_defined? model.name
             new_model = Object.const_get(model.name)
-            raise Errors::UnknownBaseClass, "#{model}" unless Helpers.descendant? AbstractModel, new_model
-
+            raise Errors::UnknownBaseClass, model.to_s unless Helpers.descendant? AbstractModel, new_model
             new_model
           else
             new_model = Class.new(AbstractModel)
             Helpers::Strings.constantize_with_set!(model.name, new_model)
-            new_model
           end
+
           model.fields.each do |name, type, kwargs|
             call_field(klass, name, type, **kwargs)
           end

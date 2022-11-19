@@ -23,7 +23,7 @@ module Lingonberry
     # @return [Class<Lingonberry::AbstractModel>] the instance of descendant class
     def initialize(**kwargs)
       @context = OpenStruct.new
-      @context.model_name = self.class.name.demodulize.downcase
+      @context.model_name = model_name
       @context.instance = self
 
       primary_key_name = self.class.instance_variable_get(:@primary_key)
@@ -108,6 +108,28 @@ module Lingonberry
       # @param kwargs [Hash] conditions to filter the data
       # @return [Relation] the instance of relation
       def where(**kwargs)
+        Query.new(self).where(**kwargs)
+      end
+
+      def find(pk)
+        Query.new(self).by_primary_key(pk).one
+      end
+
+      def find!(pk)
+        Query.new(self).by_primary_key(pk).one!
+      end
+
+      private
+
+      def primary_key_exists?(connection = nil)
+        func = ->(conn) { conn.exists? primary_key_storage_key }
+        return with_connection(&func) unless connection
+
+        func.call(connection)
+      end
+
+      def primary_key_storage_key
+        PrimaryKey.key(model_name, @primary_key)
       end
     end
 
@@ -137,6 +159,14 @@ module Lingonberry
 
     def inspect
       "#{self} #{fields.keys.map(&:to_s).join(", ")}"
+    end
+
+    def model_name
+      self.class.name.demodulize.downcase
+    end
+
+    def self.model_name
+      name.demodulize.downcase
     end
 
     private

@@ -3,6 +3,7 @@ require_relative "abstract_type"
 module Lingonberry
   module Types
     class Numeric < AbstractType
+      DEFAULT_MATCHERS = %i[gt gteq lt lteq eq]
       extend Helpers::Types::Options[:numeric_index]
 
       def post_set(key, value, *args, index_key: nil, **kwargs)

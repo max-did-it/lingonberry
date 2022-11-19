@@ -1,0 +1,17 @@
+module Lingonberry
+  module Redis
+    module Scripts
+      SCRIPTS_SHA = {
+        <% scripts_sha.each do |name, sha| %>
+          <%= name %>: "<%= sha %>",
+        <% end %>
+      }.freeze
+
+      def method_missing(method_name, **kwargs)
+        raise Errors::UnknownScriptName unless SCRIPTS_SHA.key? method_name.to_sym
+        connection = kwargs.delete(:connection)
+        connection.evalsha(SCRIPTS_SHA[method_name.to_sym], argv: kwargs.values keys: kwargs.keys)
+      end
+    end
+  end
+end
