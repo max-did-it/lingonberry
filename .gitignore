@@ -1,2 +1,3 @@
 lib/redis/scripts_lib.rb
 lib/redis/scripts_sha.json
+__*
